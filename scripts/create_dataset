@@ -8,6 +8,9 @@ def main(args):
     if args.tr_data == None or args.te_data == None:
         print("ERROR: Training or test data not provided", file=sys.stderr)
 
+    with open(args.te_data) as te_data_csv:
+        get_coordinates(te_data_csv)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -15,12 +18,12 @@ if __name__ == "__main__":
     parser.add_argument(
         "--tr-data",
         type=str,
-        help="Directory path where raw training data reside in tif format",
+        help="Directory path where raw training datasets reside in as tif images",
     )
     parser.add_argument(
         "--te-data",
         type=str,
-        help="Directory path where raw test data reside in csv format",
+        help="File path where raw test data reside in csv format",
     )
 
     args = parser.parse_args()

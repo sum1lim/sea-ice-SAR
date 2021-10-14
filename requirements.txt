@@ -1,1 +1,1 @@
-georaster==1.25
+gdal
