@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+
+
+def main(args):
+    None
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--tr-data",
+        type=str,
+        help="Directory path where raw training data reside in tif format",
+    )
+    parser.add_argument(
+        "--te-data",
+        type=str,
+        help="Directory path where raw test data reside in csv format",
+    )
+
+    args = parser.parse_args()
+    main(args)

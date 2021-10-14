@@ -11,6 +11,6 @@ setup(
     packages=["sea_ice_SAR"],
     include_package_data=True,
     scripts="""
-        ./scripts/
+        ./scripts/create_dataset
     """.split(),
 )
