@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import sys
+from utils.data_processing import get_coordinates
 
 
 def main(args):
