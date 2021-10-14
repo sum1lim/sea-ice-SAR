@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
+import argparse
+import sys
 
 
 def main(args):
-    None
+    if args.tr_data == None or args.te_data == None:
+        print("ERROR: Training or test data not provided", file=sys.stderr)
 
 
 if __name__ == "__main__":
