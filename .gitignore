@@ -1,5 +1,5 @@
 .DS_Store
-sea-ice-SAR.egg-info
+sea_ice_SAR.egg-info
 __pycache__
 venv
 data
