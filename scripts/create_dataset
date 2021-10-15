@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import sys
-from utils.data_processing import get_coordinates
+from sea_ice_SAR.data_processing import create_dataset
 
 
 def main(args):
@@ -9,7 +9,7 @@ def main(args):
         print("ERROR: Training or test data not provided", file=sys.stderr)
 
     with open(args.te_data) as te_data_csv:
-        get_coordinates(te_data_csv)
+        create_dataset(te_data_csv)
 
 
 if __name__ == "__main__":

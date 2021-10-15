@@ -14,17 +14,18 @@ GEOGCS["WGS 84",
 """
 
 def get_pixel(ds, lat, lon):
+    # Dataset CRS
     dataset_cs= osr.SpatialReference()
     dataset_cs.ImportFromWkt(ds.GetProjectionRef())
 
-    # create the new coordinate system
+    # WGS84 new coordinate system
     wgs84 = osr.SpatialReference()
     wgs84.ImportFromWkt(wgs84_wkt)
 
     # create a transform object to convert between coordinate systems
     transform = osr.CoordinateTransformation(wgs84,dataset_cs) 
 
-    #get the coordinates in lat long
+    # convert lat lon to dataset CRS
     ds_coord = transform.TransformPoint(float(lat), float(lon)) 
 
     xOrigin, xResolution, xRotation, yOrigin, yRotation, yResolution = ds.GetGeoTransform()
