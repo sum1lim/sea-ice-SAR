@@ -13,9 +13,10 @@ GEOGCS["WGS 84",
     AUTHORITY["EPSG","4326"]]
 """
 
+
 def get_pixel(ds, lat, lon):
     # Dataset CRS
-    dataset_cs= osr.SpatialReference()
+    dataset_cs = osr.SpatialReference()
     dataset_cs.ImportFromWkt(ds.GetProjectionRef())
 
     # WGS84 new coordinate system
@@ -23,15 +24,22 @@ def get_pixel(ds, lat, lon):
     wgs84.ImportFromWkt(wgs84_wkt)
 
     # create a transform object to convert between coordinate systems
-    transform = osr.CoordinateTransformation(wgs84,dataset_cs) 
+    transform = osr.CoordinateTransformation(wgs84, dataset_cs)
 
     # convert lat lon to dataset CRS
-    ds_coord = transform.TransformPoint(float(lat), float(lon)) 
+    ds_coord = transform.TransformPoint(float(lat), float(lon))
 
-    xOrigin, xResolution, xRotation, yOrigin, yRotation, yResolution = ds.GetGeoTransform()
-    
-    # Note that the pixel/line coordinates in the above are from (0.0,0.0) at the top left corner of the top left pixel 
-    # to (width_in_pixels,height_in_pixels) at the bottom right corner of the bottom right pixel. 
+    (
+        xOrigin,
+        xResolution,
+        xRotation,
+        yOrigin,
+        yRotation,
+        yResolution,
+    ) = ds.GetGeoTransform()
+
+    # Note that the pixel/line coordinates in the above are from (0.0,0.0) at the top left corner of the top left pixel
+    # to (width_in_pixels,height_in_pixels) at the bottom right corner of the bottom right pixel.
     # The pixel/line location of the center of the top left pixel would therefore be (0.5,0.5).
     # https://gdal.org/user/raster_data_model.html#affine-geotransform
     col = int((ds_coord[0] - xOrigin) / xResolution)
