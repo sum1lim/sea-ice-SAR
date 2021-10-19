@@ -1,4 +1,5 @@
 numpy
 matplotlib
 gdal
+rasterio
 tqdm

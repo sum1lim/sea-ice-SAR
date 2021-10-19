@@ -1,21 +1,34 @@
-import csv
+import os
+import rasterio
+import statistics
 from osgeo import gdal
-from .utils import get_coord
+from .utils import get_pixel
 
 
-def create_dataset(te_data):
-    ds = gdal.Open("./data/SAR/2016_c5.tif")
+def create_dataset(expert_data, features_dir):
+    features_files = os.listdir(features_dir)
+    for iteration, ff in enumerate(features_files):
+        print(f"Reading {features_dir}/{ff}")
+        ds = gdal.Open(f"{features_dir}/{ff}")
+        raster = rasterio.open(f"{features_dir}/{ff}")
+        band_arr = raster.read(1)
 
-    csv_reader = csv.reader(te_data)
-    coordinates = [(row[3], row[2]) for row in csv_reader]
+        if iteration == 0:
+            pixels = {}
+            for datum in expert_data:
+                row, col = get_pixel(ds, datum[0], datum[1])
+                if (row, col) not in pixels.keys():
+                    pixels[(row, col)] = [[float(datum[2])], band_arr[row, col]]
+                else:
+                    pixels[(row, col)][0].append(float(datum[2]))
+        else:
+            for k in pixels.keys():
+                row = k[0]
+                col = k[1]
+                pixels[k].append(band_arr[row, col])
 
-    header = True
-    pixels = set()
-    for latlon in coordinates:
-        if header:
-            header = False
-            continue
-        pixels.add(get_coord(ds, latlon[0], latlon[1]))
 
-    print(pixels)
-    print(len(pixels))
+    for k in pixels.keys():
+        pixels[k][0] = statistics.mean(pixels[k][0])
+
+    return pixels

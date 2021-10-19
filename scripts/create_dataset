@@ -1,29 +1,51 @@
 #!/usr/bin/env python3
 import argparse
 import sys
+import csv
 from sea_ice_SAR.data_processing import create_dataset
 
 
 def main(args):
-    if args.tr_data == None or args.te_data == None:
-        print("ERROR: Training or test data not provided", file=sys.stderr)
+    if args.features == None or args.expert == None:
+        print("ERROR: Input file not provided", file=sys.stderr)
 
-    with open(args.te_data) as te_data_csv:
-        create_dataset(te_data_csv)
+    lat_idx = args.lat-1
+    lon_idx = args.lon-1
+    label_idx = args.label-1
+
+    with open(args.expert) as expert_csv:
+        csv_reader = csv.reader(expert_csv)
+        expert_data = [(row[lat_idx], row[lon_idx], row[label_idx]) for idx, row in enumerate(csv_reader) if idx>0]
+        create_dataset(expert_data, args.features)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--tr-data",
+        "--features",
         type=str,
-        help="Directory path where raw training datasets reside in as tif images",
+        help="Directory path containing SAR data tif images",
     )
     parser.add_argument(
-        "--te-data",
+        "--expert",
         type=str,
-        help="File path where raw test data reside in csv format",
+        help="CSV file with expert data",
+    )
+    parser.add_argument(
+        "--lat",
+        type=int,
+        help="column no. for latitude attribute (start from 1)",
+    )
+    parser.add_argument(
+        "--lon",
+        type=int,
+        help="column no. for longitude attribute (start from 1)",
+    )
+    parser.add_argument(
+        "--label",
+        type=int,
+        help="column no. for label attribute (start from 1)",
     )
 
     args = parser.parse_args()
