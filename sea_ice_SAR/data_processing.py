@@ -1,4 +1,5 @@
 import os
+import sys
 import rasterio
 import statistics
 from osgeo import gdal
@@ -12,7 +13,7 @@ def create_dataset(expert_data, features_dir):
         if not ff.endswith(".tif"):
             break
 
-        print(f"Reading {features_dir}/{ff}")
+        print(f"Reading {features_dir}/{ff}", file=sys.stdout)
         fature_li.append("".join(ff.split(".")[:-1]))
         ds = gdal.Open(f"{features_dir}/{ff}")
         raster = rasterio.open(f"{features_dir}/{ff}")

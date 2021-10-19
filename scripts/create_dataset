@@ -22,6 +22,7 @@ def main(args):
         ]
         organized_data, fature_li = create_dataset(expert_data, args.features)
 
+    print(f"\nNumber of samples: {len(organized_data)}", file=sys.stdout)
     with open(".".join(args.expert.split(".")[:-1]) + "_ds.csv", "w") as ds_csv:
         writer = csv.writer(ds_csv)
         writer.writerow(fature_li)
