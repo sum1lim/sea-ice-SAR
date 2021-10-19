@@ -42,7 +42,7 @@ def get_pixel(ds, lat, lon):
     # to (width_in_pixels,height_in_pixels) at the bottom right corner of the bottom right pixel.
     # The pixel/line location of the center of the top left pixel would therefore be (0.5,0.5).
     # https://gdal.org/user/raster_data_model.html#affine-geotransform
-    col = int((ds_coord[0] - xOrigin) / xResolution)
-    row = int((ds_coord[1] - yOrigin) / yResolution)
+    col = int((ds_coord[0] - xOrigin) // xResolution)
+    row = int((ds_coord[1] - yOrigin) // yResolution)
 
     return row, col

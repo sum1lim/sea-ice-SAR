@@ -8,6 +8,9 @@ from .utils import get_pixel
 def create_dataset(expert_data, features_dir):
     features_files = os.listdir(features_dir)
     for iteration, ff in enumerate(features_files):
+        if not ff.endswith(".tif"):
+            break
+
         print(f"Reading {features_dir}/{ff}")
         ds = gdal.Open(f"{features_dir}/{ff}")
         raster = rasterio.open(f"{features_dir}/{ff}")
@@ -29,5 +32,6 @@ def create_dataset(expert_data, features_dir):
 
     for k in pixels.keys():
         pixels[k][0] = statistics.mean(pixels[k][0])
+
 
     return pixels
