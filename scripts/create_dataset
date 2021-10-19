@@ -9,13 +9,17 @@ def main(args):
     if args.features == None or args.expert == None:
         print("ERROR: Input file not provided", file=sys.stderr)
 
-    lat_idx = args.lat-1
-    lon_idx = args.lon-1
-    label_idx = args.label-1
+    lat_idx = args.lat - 1
+    lon_idx = args.lon - 1
+    label_idx = args.label - 1
 
     with open(args.expert) as expert_csv:
         csv_reader = csv.reader(expert_csv)
-        expert_data = [(row[lat_idx], row[lon_idx], row[label_idx]) for idx, row in enumerate(csv_reader) if idx>0]
+        expert_data = [
+            (row[lat_idx], row[lon_idx], row[label_idx])
+            for idx, row in enumerate(csv_reader)
+            if idx > 0
+        ]
         create_dataset(expert_data, args.features)
 
 

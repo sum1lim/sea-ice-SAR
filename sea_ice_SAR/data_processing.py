@@ -27,7 +27,6 @@ def create_dataset(expert_data, features_dir):
                 col = k[1]
                 pixels[k].append(band_arr[row, col])
 
-
     for k in pixels.keys():
         pixels[k][0] = statistics.mean(pixels[k][0])
 
