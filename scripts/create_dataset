@@ -20,8 +20,13 @@ def main(args):
             for idx, row in enumerate(csv_reader)
             if idx > 0
         ]
-        create_dataset(expert_data, args.features)
+        organized_data, fature_li = create_dataset(expert_data, args.features)
 
+    with open(".".join(args.expert.split(".")[:-1]) + "_ds.csv", "w") as ds_csv:
+        writer = csv.writer(ds_csv)
+        writer.writerow(fature_li)
+        for k in organized_data.keys():
+            writer.writerow(organized_data[k])
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
