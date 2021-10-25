@@ -3,3 +3,9 @@ matplotlib
 gdal
 rasterio
 tqdm
+pandas
+seaborn
+imblearn
+tensorflow
+keras
+scikit-learn
