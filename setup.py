@@ -12,5 +12,6 @@ setup(
     include_package_data=True,
     scripts="""
         ./scripts/create_dataset
+        ./scripts/neural-network
     """.split(),
 )

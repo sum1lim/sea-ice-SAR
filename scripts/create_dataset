@@ -29,6 +29,7 @@ def main(args):
         for k in organized_data.keys():
             writer.writerow(organized_data[k])
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 

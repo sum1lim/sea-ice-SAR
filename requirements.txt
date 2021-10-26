@@ -6,5 +6,5 @@ tqdm
 pandas
 seaborn
 imblearn
-keras
 scikit-learn
+pyyaml

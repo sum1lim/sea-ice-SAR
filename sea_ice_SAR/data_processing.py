@@ -24,7 +24,7 @@ def create_dataset(expert_data, features_dir):
             for idx, datum in enumerate(expert_data):
                 if "" in datum:
                     continue
-                row, col = get_pixel(ds, datum[0], datum[1])                
+                row, col = get_pixel(ds, datum[0], datum[1])
                 if (row, col) not in pixels.keys():
                     pixels[(row, col)] = [[float(datum[2])], band_arr[row, col]]
                 else:
