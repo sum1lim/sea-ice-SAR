@@ -29,10 +29,10 @@ def NN(hidden_layer_size, input_layer_size, output_layer_size):
         )
     )
     model.add(
-        Dense(output_layer_size, activation="softmax", kernel_initializer="normal")
+        Dense(output_layer_size, kernel_initializer="normal")
     )
 
-    model.compile(loss="mean_squared_error", optimizer="adam", metrics=["accuracy"])
+    model.compile(loss="mean_squared_error", optimizer="adam")
     model.summary()
 
     return model
