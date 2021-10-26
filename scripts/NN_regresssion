@@ -28,9 +28,7 @@ def NN(hidden_layer_size, input_layer_size, output_layer_size):
             kernel_initializer="normal",
         )
     )
-    model.add(
-        Dense(output_layer_size, kernel_initializer="normal")
-    )
+    model.add(Dense(output_layer_size, kernel_initializer="normal"))
 
     model.compile(loss="mean_squared_error", optimizer="adam")
     model.summary()
