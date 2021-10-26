@@ -1,0 +1,38 @@
+---
+configuration:
+  train_data: [./data/AEM/20150419_embird_thk_ds.csv, ./data/AEM/20160408_embird_thk_ds.csv]
+  test_data: [./data/AEM/20180508_embird_thk_ds.csv]
+  verbosity: 2
+  epochs: 1000
+  K-fold: 10
+
+train_features:
+  c5: [2015_c5, 2016_c5]
+  std_hv7: [2015_std_hv7, 2016_std_hv7]
+  np: [2015_np, 2016_np]
+  std_hv5: [2015_std_hv5, 2016_std_hv5]
+  c7: [2015_c7, 2016_c7]
+  hv: [2015_hv, 2016_hv]
+  std_hh5: [2015_std_hh5, 2016_std_hh5]
+  theta: [2015_theta, 2016_theta]
+  std_hh7: [2015_std_hh7, 2016_std_hh7]
+  std_hh9: [2015_std_hh9, 2016_std_hv9]
+  hh: [2015_hh, 2016_hh]
+  std_hv9: [2015_std_hv9, 2016_std_hh9] 
+  c9: [2015_c9, 2016_c9]
+
+test_features:
+  c5: [2018_c5]
+  std_hv7: [2018_std_hv7]
+  np: [2018_np]
+  std_hv5: [2018_std_hv5]
+  c7: [2018_c7]
+  hv: [2018_hv]
+  std_hh5: [2018_std_hh5]
+  theta: [2018_theta]
+  std_hh7: [2018_std_hh7]
+  std_hh9: [2018_std_hh9]
+  hh: [2018_hh]
+  std_hv9: [2018_std_hv9] 
+  c9: [2018_c9]
+...
