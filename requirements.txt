@@ -6,6 +6,5 @@ tqdm
 pandas
 seaborn
 imblearn
-tensorflow
 keras
 scikit-learn
