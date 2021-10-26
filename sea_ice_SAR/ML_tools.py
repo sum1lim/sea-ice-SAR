@@ -70,16 +70,16 @@ def process_data(data_files, ml_config=None):
 
     dataframes = [pandas.read_csv(f, header=0) for f in data_files]
 
-    for idx, dataframe in enumerate(dataframes):
+    for idx, _ in enumerate(dataframes):
         if config_dict:
             if "features" in config_dict.keys():
                 for k in config_dict["features"].keys():
-                    dataframe = dataframe.rename(
+                    dataframes[idx] = dataframes[idx].rename(
                         columns={config_dict["features"][k][idx]: k}, errors="raise"
                     )
                 try:
-                    dataframe.drop(
-                        dataframe.columns.difference(
+                    dataframes[idx].drop(
+                        dataframes[idx].columns.difference(
                             list(config_dict["features"].keys()) + ["label"]
                         ),
                         1,
@@ -90,9 +90,9 @@ def process_data(data_files, ml_config=None):
                     sys.exit(1)
 
         if idx == 0:
-            dataframe_aggr = dataframe
+            dataframe_aggr = dataframes[idx]
         else:
-            dataframe_aggr.append(dataframe)
+            dataframe_aggr = dataframe_aggr.append(dataframes[idx], ignore_index=True)
 
     dataset = dataframe_aggr.values
     X = dataset[:, 1:].astype(float)
