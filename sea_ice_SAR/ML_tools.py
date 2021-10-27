@@ -1,6 +1,7 @@
 import sys
 import csv
 import yaml
+import math
 import numpy as np
 import pandas
 import seaborn as sns
@@ -57,7 +58,7 @@ def calculate_hidden_layer_size(input_layer_size, output_layer_size, user_define
     return hidden_layer_size
 
 
-def process_data(data_files, ml_config=None):
+def process_data(data_file, ml_config=None):
     """
     Merge labels and/or select feautres for learning
     based on the user definition in the configuration file
@@ -68,33 +69,30 @@ def process_data(data_files, ml_config=None):
     else:
         config_dict = None
 
-    dataframes = [pandas.read_csv(f, header=0) for f in data_files]
+    dataframe = pandas.read_csv(data_file, header=0)
 
-    for idx, _ in enumerate(dataframes):
-        if config_dict:
-            if "features" in config_dict.keys():
-                for k in config_dict["features"].keys():
-                    dataframes[idx] = dataframes[idx].rename(
-                        columns={config_dict["features"][k][idx]: k}, errors="raise"
-                    )
-                try:
-                    dataframes[idx].drop(
-                        dataframes[idx].columns.difference(
-                            list(config_dict["features"].keys()) + ["label"]
-                        ),
-                        1,
-                        inplace=True,
-                    )
-                except KeyError:
-                    print("Error in configuration format", file=sys.stderr)
-                    sys.exit(1)
+    if config_dict:
+        if "labels" in config_dict.keys():
+            try:
+                for key, value in config_dict["labels"].items():
+                    for i in value:
+                        dataframe["label"].replace({i: key}, inplace=True)
+            except KeyError:
+                print("Error in configuration format", file=sys.stderr)
+                sys.exit(1)
 
-        if idx == 0:
-            dataframe_aggr = dataframes[idx]
-        else:
-            dataframe_aggr = dataframe_aggr.append(dataframes[idx], ignore_index=True)
+        if "features" in config_dict.keys():
+            try:
+                dataframe.drop(
+                    dataframe.columns.difference(config_dict["features"] + ["label"]),
+                    1,
+                    inplace=True,
+                )
+            except KeyError:
+                print("Error in configuration format", file=sys.stderr)
+                sys.exit(1)
 
-    dataset = dataframe_aggr.values
+    dataset = dataframe.values
     X = dataset[:, 1:].astype(float)
     Y = dataset[:, 0]
 
@@ -122,9 +120,9 @@ def learning_curve(model_hist, result_dir, iter):
     # plt.savefig(f"{result_dir}/learning_curve_{iter+1}.png")
     # plt.clf()
     # summarize history for loss
-    plt.plot(model_hist["loss"])
-    plt.plot(model_hist["val_loss"])
-    plt.title(f"Loss Curve (Fold #: {iter+1})")
+    plt.plot([math.sqrt(tr_loss) for tr_loss in model_hist["loss"]])
+    plt.plot([math.sqrt(val_loss) for val_loss in model_hist["val_loss"]])
+    plt.title(f"RMSE Loss Curve (Fold #: {iter+1})")
     plt.ylabel("Loss")
     plt.xlabel("Epoch")
     plt.legend(["Train", "Validation"], loc="upper left")
