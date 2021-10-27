@@ -2,19 +2,34 @@ import os
 import sys
 import rasterio
 import statistics
+import numpy as np
+import pandas as pd
 from osgeo import gdal
 from .utils import get_pixel
 
 
-def create_dataset(expert_data, features_dir):
+def configure_features(pixels, feature_li, feature_cfg):
+    df = pd.DataFrame(
+        np.array([features for _, features in pixels.items()]), columns=feature_li
+    )
+
+    for f in feature_li:
+        for key, value in feature_cfg.items():
+            if f in value:
+                df = df.rename(columns={f: key}, errors="raise")
+
+    return df
+
+
+def organize_data(expert_data, features_dir):
     features_files = os.listdir(features_dir)
-    fature_li = ["label"]
+    feature_li = ["label"]
     for iteration, ff in enumerate(features_files):
         if not ff.endswith(".tif"):
             continue
 
         print(f"Reading {features_dir}/{ff}", file=sys.stdout)
-        fature_li.append("".join(ff.split(".")[:-1]))
+        feature_li.append("".join(ff.split(".")[:-1]))
         ds = gdal.Open(f"{features_dir}/{ff}")
         raster = rasterio.open(f"{features_dir}/{ff}")
         band_arr = raster.read(1)
@@ -38,4 +53,4 @@ def create_dataset(expert_data, features_dir):
     for k in pixels.keys():
         pixels[k][0] = statistics.mean(pixels[k][0])
 
-    return pixels, fature_li
+    return pixels, feature_li
