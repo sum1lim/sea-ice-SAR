@@ -54,3 +54,19 @@ def organize_data(expert_data, features_dir):
         pixels[k][0] = statistics.mean(pixels[k][0])
 
     return pixels, feature_li
+
+
+def normalize(input, std_data):
+    tr_df = pd.read_csv(std_data)
+
+    minimums = {col: tr_df[col].min() for col in tr_df.columns if col != "label"}
+    maximums = {col: tr_df[col].max() for col in tr_df.columns if col != "label"}
+
+    df = pd.read_csv(input)
+
+    for col in df.columns:
+        if col == "label":
+            continue
+        df[col] = (df[col] - minimums[col]) / (maximums[col] - minimums[col])
+
+    return df

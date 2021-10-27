@@ -44,7 +44,7 @@ def create_dataset(config_dict, data_split_type):
         shutil.rmtree(output_dir)
         os.mkdir(output_dir)
 
-    dataframe_aggr.to_csv(config_dict["output_dir"][data_split_type])
+    dataframe_aggr.to_csv(config_dict["output_dir"][data_split_type], index=False)
     print(
         f"{data_split_type} saved as {config_dict['output_dir'][data_split_type]}\n",
         file=sys.stdout,

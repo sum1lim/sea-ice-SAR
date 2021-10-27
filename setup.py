@@ -13,5 +13,6 @@ setup(
     scripts="""
         ./scripts/create_dataset
         ./scripts/NN_regression
+        ./scripts/normalize
     """.split(),
 )
