@@ -76,18 +76,20 @@ def process_data(data_file, ml_config=None, regression=True, SMOTE=True):
     if regression and SMOTE:
         sns.kdeplot(dataframe["label"], label="Original")
         print(
-            f"Before SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}\n"
+            f"Before SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}\n",
+            file=sys.stdout,
         )
-        print(f"Number of samples: {dataframe.shape[0]}\n")
+        print(f"Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
         dataframe = smogn.smoter(data=dataframe, y="label")
         dataframe.reset_index(drop=True, inplace=True)
         sns.kdeplot(dataframe["label"], label="Modified")
         plt.show()
         plt.clf()
         print(
-            f"After SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}\n"
+            f"After SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}\n",
+            file=sys.stdout,
         )
-        print(f"Number of samples: {dataframe.shape[0]}\n")
+        print(f"Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
 
     if config_dict:
         if "labels" in config_dict.keys():
