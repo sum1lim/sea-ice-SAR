@@ -122,7 +122,7 @@ def learning_curve(model_hist, result_dir, iter):
     # summarize history for loss
     plt.plot(model_hist["loss"])
     plt.plot(model_hist["val_loss"])
-    plt.title(f"RMSE Loss Curve (Fold #: {iter+1})")
+    plt.title(f"Loss Curve (Fold #: {iter+1})")
     plt.ylabel("Loss")
     plt.xlabel("Epoch")
     plt.legend(["Train", "Validation"], loc="upper left")
