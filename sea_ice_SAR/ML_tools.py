@@ -120,8 +120,8 @@ def learning_curve(model_hist, result_dir, iter):
     # plt.savefig(f"{result_dir}/learning_curve_{iter+1}.png")
     # plt.clf()
     # summarize history for loss
-    plt.plot([math.sqrt(tr_loss) for tr_loss in model_hist["loss"]])
-    plt.plot([math.sqrt(val_loss) for val_loss in model_hist["val_loss"]])
+    plt.plot(model_hist["loss"])
+    plt.plot(model_hist["val_loss"])
     plt.title(f"RMSE Loss Curve (Fold #: {iter+1})")
     plt.ylabel("Loss")
     plt.xlabel("Epoch")
@@ -158,7 +158,7 @@ def construct_confusion_matrix(classes, Y_te, y_pred, result_dir, k):
 def tr_val_split(K, X_tr, Y_tr):
     if K < 2:
         K = 2
-    kfold = KFold(n_splits=K, shuffle=False)
+    kfold = KFold(n_splits=K, shuffle=True)
     tr_val_pairs = kfold.split(X_tr, Y_tr)
 
     return tr_val_pairs
