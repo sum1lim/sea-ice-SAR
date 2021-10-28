@@ -51,6 +51,7 @@ def main(args):
         hidden_size,
         verbosity,
         K,
+        SMOTE,
     ) = config_parser(args.ml_config)
 
     # Set up results directory
@@ -71,7 +72,7 @@ def main(args):
         sys.stdout = log_file
 
     # Modify train dataset
-    X_tr, Y_tr = process_data(train_data, args.ml_config, regression=True)
+    X_tr, Y_tr = process_data(train_data, args.ml_config, regression=True, SMOTE=SMOTE)
 
     # Define hidden layer size
     input_layer_size = X_tr.shape[1]

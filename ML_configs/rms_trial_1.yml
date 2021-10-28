@@ -5,6 +5,7 @@ configuration:
   verbosity: 2
   epochs: 1000
   K-fold: 10
+  SMOTE: True
 
 features:
   - hh

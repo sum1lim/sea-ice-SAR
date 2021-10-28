@@ -6,6 +6,7 @@ import numpy as np
 import pandas
 import seaborn as sns
 import matplotlib.pyplot as plt
+import smogn
 
 from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import LabelEncoder
@@ -36,8 +37,10 @@ def config_parser(ml_config):
             verbosity = params["verbosity"]
         if "K-fold" in params.keys():
             K = params["K-fold"]
+        if "SMOTE" in params.keys():
+            SMOTE = params["SMOTE"]
 
-    return train_data, test_data, num_epochs, hidden_size, verbosity, K
+    return train_data, test_data, num_epochs, hidden_size, verbosity, K, SMOTE
 
 
 def calculate_hidden_layer_size(input_layer_size, output_layer_size, user_defined=None):
@@ -58,7 +61,7 @@ def calculate_hidden_layer_size(input_layer_size, output_layer_size, user_define
     return hidden_layer_size
 
 
-def process_data(data_file, ml_config=None, regression=True):
+def process_data(data_file, ml_config=None, regression=True, SMOTE=True):
     """
     Merge labels and/or select feautres for learning
     based on the user definition in the configuration file
@@ -69,7 +72,22 @@ def process_data(data_file, ml_config=None, regression=True):
     else:
         config_dict = None
 
-    dataframe = pandas.read_csv(data_file, header=0)
+    dataframe = pandas.read_csv(data_file, header=0, index_col=False)
+    if regression and SMOTE:
+        sns.kdeplot(dataframe["label"], label="Original")
+        print(
+            f"Before SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}\n"
+        )
+        print(f"Number of samples: {dataframe.shape[0]}\n")
+        dataframe = smogn.smoter(data=dataframe, y="label")
+        dataframe.reset_index(drop=True, inplace=True)
+        sns.kdeplot(dataframe["label"], label="Modified")
+        plt.show()
+        plt.clf()
+        print(
+            f"After SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}\n"
+        )
+        print(f"Number of samples: {dataframe.shape[0]}\n")
 
     if config_dict:
         if "labels" in config_dict.keys():

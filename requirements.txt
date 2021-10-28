@@ -8,3 +8,4 @@ seaborn
 imblearn
 scikit-learn
 pyyaml
+smogn
