@@ -1,7 +1,7 @@
 ---
 configuration:
-  train_data: ./data/rms_tr_data/raw.csv
-  test_data: ./data/rms_te_data/raw.csv
+  train_data: ./data/rms_tr_data/raw_norm.csv
+  test_data: ./data/rms_te_data/raw_norm.csv
   verbosity: 2
   epochs: 1000
   K-fold: 10

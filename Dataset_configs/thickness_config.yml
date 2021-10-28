@@ -33,6 +33,6 @@ features:
   np: [2015_np, 2016_np, 2018_np]
 
 output_dir:
-  train_data: ./data/tr_data/raw.csv
-  test_data: ./data/te_data/raw.csv
+  train_data: ./data/thk_tr_data/raw.csv
+  test_data: ./data/thk_te_data/raw.csv
 ...
