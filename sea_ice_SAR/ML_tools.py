@@ -81,8 +81,10 @@ def process_data(data_file, ml_config=None, regression=True, SMOTE=True):
         )
         print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
         dataframe = smogn.smoter(data=dataframe, y="label")
+        dataframe.dropna()
         dataframe.reset_index(drop=True, inplace=True)
         sns.kdeplot(dataframe["label"], label="Modified")
+        plt.legend(["Original", "Modified"], loc="upper right")
         plt.show()
         plt.clf()
         print(
