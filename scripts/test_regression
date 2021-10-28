@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+import argparse
+import sys
+import numpy as np
+from sea_ice_SAR.ML_tools import (
+    config_parser,
+    process_data,
+    regression_scatter_plots,
+)
+from tensorflow.keras.models import load_model
+
+
+def main(args):
+    model_type = args.result_dir.split("/")[-1].split("_")[0]
+
+    # Parse configuration
+    _, test_data, _, _, verbosity, K = config_parser(args.dl_config)
+
+    # Verbosity == 1 --> sys.stdout
+    # Verbosity == 2 --> .log file
+    if verbosity == 2:
+        log_file = open(f"{args.result_dir}/test.log", "w")
+        sys.stdout = log_file
+
+    # Modify test dataset
+    X_te, Y_te = process_data(test_data, args.dl_config, regression=True)
+
+    sum_err = 0
+    for k in range(K):
+        print(
+            f"*************************** Fold #: {k+1} ***************************",
+            file=sys.stdout,
+        )
+        # Call checkpoint
+        checkpoint_path = f"{args.result_dir}/ckpt_{k+1}"
+        trained_model = load_model(checkpoint_path)
+
+        # Predict the test dataset
+        y_pred = trained_model.predict(X_te, verbose=verbosity).flatten()
+        absolute_errors = abs(Y_te - y_pred)
+        sum_err += sum(absolute_errors) / len(Y_te)
+        print(f"Mean Error: {sum(absolute_errors)/len(Y_te)}", file=sys.stdout)
+        regression_scatter_plots(Y_te, y_pred, absolute_errors, args.result_dir, k)
+
+    print(f"\nAverage Test Error: {sum_err/K}", file=sys.stdout)
+    # stdout redirection closed
+    if verbosity == 2:
+        log_file.close()
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--result-dir",
+        type=str,
+        help="Directory path with train results including checkpoint files",
+    )
+    parser.add_argument(
+        "--dl-config",
+        type=str,
+        help="YAML file containing the configuration for deep learning",
+    )
+
+    args = parser.parse_args()
+    main(args)

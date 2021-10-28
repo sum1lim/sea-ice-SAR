@@ -58,7 +58,7 @@ def calculate_hidden_layer_size(input_layer_size, output_layer_size, user_define
     return hidden_layer_size
 
 
-def process_data(data_file, ml_config=None):
+def process_data(data_file, ml_config=None, regression=True):
     """
     Merge labels and/or select feautres for learning
     based on the user definition in the configuration file
@@ -96,11 +96,15 @@ def process_data(data_file, ml_config=None):
     X = dataset[:, 1:].astype(float)
     Y = dataset[:, 0]
 
-    encoder = LabelEncoder()
-    encoder.fit(Y)
-    encoded_Y = encoder.transform(Y)
+    if regression:
+        return X, Y
+    else:
+        encoder = LabelEncoder()
+        encoder.fit(Y)
+        encoded_Y = encoder.transform(Y)
+        print(f"Classes: {encoder.classes_}", file=sys.stdout)
 
-    return X, encoded_Y, encoder.classes_
+        return X, encoded_Y
 
 
 def learning_curve(model_hist, result_dir, iter):
@@ -162,3 +166,25 @@ def tr_val_split(K, X_tr, Y_tr):
     tr_val_pairs = kfold.split(X_tr, Y_tr)
 
     return tr_val_pairs
+
+
+def regression_scatter_plots(Y_expert, Y_pred, abs_error, result_dir, iter):
+    maximum_val = max([max(Y_expert), max(Y_pred)])
+
+    plt.scatter(Y_expert, Y_pred)
+    plt.title(f"Prediction VS Expert (Fold #: {iter+1})")
+    plt.ylabel("Predcited Value")
+    plt.xlabel("Expert Value")
+    xpoints = ypoints = plt.xlim(0, maximum_val + maximum_val / 10)
+    plt.plot(
+        xpoints, ypoints, linestyle="--", color="k", lw=3, scalex=False, scaley=False
+    )
+    plt.savefig(f"{result_dir}/pred_expert_{iter+1}.png")
+    plt.clf()
+
+    plt.scatter(Y_expert, abs_error)
+    plt.title(f"Absolute Errors (Fold #: {iter+1})")
+    plt.ylabel("Absolute Error")
+    plt.xlabel("Expert Value")
+    plt.savefig(f"{result_dir}/abs_errs_{iter+1}.png")
+    plt.clf()

@@ -27,6 +27,7 @@ def NN(hidden_layer_size, input_layer_size, output_layer_size):
             activation="relu",
         )
     )
+    model.add(Dense(hidden_layer_size, activation="relu"))
     model.add(Dense(output_layer_size))
 
     model.compile(loss="mean_absolute_error", optimizer="adam")
@@ -64,7 +65,7 @@ def main(args):
         sys.stdout = log_file
 
     # Modify train dataset
-    X_tr, Y_tr, _ = process_data(train_data, args.ml_config)
+    X_tr, Y_tr = process_data(train_data, args.ml_config, regression=True)
 
     # Define hidden layer size
     input_layer_size = X_tr.shape[1]
@@ -91,18 +92,14 @@ def main(args):
 
         model = NN(hidden_layer_size, input_layer_size, output_layer_size)
 
-        # One-hot encoding of the label vector
-        one_hot_Y_tr = to_categorical(Y_tr[train])
-        one_hot_Y_val = to_categorical(Y_tr[validation])
-
         # Train the model
         model_summary = model.fit(
             x=X_tr[train],
-            y=one_hot_Y_tr,
+            y=Y_tr[train],
             epochs=num_epochs,
             batch_size=1024,
             verbose=verbosity,
-            validation_data=(X_tr[validation], one_hot_Y_val),
+            validation_data=(X_tr[validation], Y_tr[validation]),
             callbacks=[cp_callback, es_callback],
         )
 
