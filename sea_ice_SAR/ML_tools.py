@@ -76,7 +76,7 @@ def process_data(data_file, ml_config=None, regression=True, SMOTE=True):
     if regression and SMOTE:
         sns.kdeplot(dataframe["label"], label="Original")
         print(
-            f"Before SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}\n",
+            f"Before SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
             file=sys.stdout,
         )
         print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
