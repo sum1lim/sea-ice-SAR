@@ -77,9 +77,10 @@ def main(args):
     # Define hidden layer size
     input_layer_size = X_tr.shape[1]
     output_layer_size = 1
-    hidden_layer_size = calculate_hidden_layer_size(
-        input_layer_size, output_layer_size, hidden_size
-    )
+    if not hidden_size:
+        hidden_size = calculate_hidden_layer_size(
+            input_layer_size, output_layer_size, hidden_size
+        )
 
     # K-fold classification
     tr_val_pairs = tr_val_split(K, X_tr, Y_tr)
@@ -97,7 +98,7 @@ def main(args):
             monitor="val_loss", mode="min", verbose=verbosity, patience=50
         )
 
-        model = NN(hidden_layer_size, input_layer_size, output_layer_size)
+        model = NN(hidden_size, input_layer_size, output_layer_size)
 
         # Train the model
         model_summary = model.fit(
