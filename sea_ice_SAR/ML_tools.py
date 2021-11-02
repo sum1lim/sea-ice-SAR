@@ -36,10 +36,8 @@ def config_parser(ml_config):
             verbosity = params["verbosity"]
         if "K-fold" in params.keys():
             K = params["K-fold"]
-        if "SMOTE" in params.keys():
-            SMOTE = params["SMOTE"]
 
-    return train_data, test_data, num_epochs, hidden_size, verbosity, K, SMOTE
+    return train_data, test_data, num_epochs, hidden_size, verbosity, K
 
 
 def calculate_hidden_layer_size(input_layer_size, output_layer_size, user_defined=None):
@@ -60,7 +58,7 @@ def calculate_hidden_layer_size(input_layer_size, output_layer_size, user_define
     return hidden_layer_size
 
 
-def process_data(data_file, ml_config=None, regression=True, SMOTE=True):
+def process_data(data_file, ml_config=None, regression=True):
     """
     Merge labels and/or select feautres for learning
     based on the user definition in the configuration file
