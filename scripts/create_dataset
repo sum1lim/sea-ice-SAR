@@ -5,11 +5,11 @@ import os
 import sys
 import csv
 import yaml
-from sea_ice_SAR.data_processing import organize_data, configure_features
+from sea_ice_SAR.data_processing import organize_data, configure_features, SMOTE
 from sea_ice_SAR.utils import decompose_filepath
 
 
-def create_dataset(config_dict, data_split_type):
+def create_dataset(config_dict, data_split_type, smote=False):
     feature_cfg = config_dict["features"]
 
     dataframes = []
@@ -37,6 +37,9 @@ def create_dataset(config_dict, data_split_type):
         else:
             dataframe_aggr = dataframe_aggr.append(dataframes[idx], ignore_index=True)
 
+    if smote:
+        dataframe_aggr = SMOTE(dataframe_aggr)
+
     output_dir, _, _ = decompose_filepath(config_dict["output_dir"][data_split_type])
     try:
         os.mkdir(output_dir)
@@ -58,8 +61,8 @@ def main(args):
     except:
         print("ERROR: Configuration file not provided", file=sys.stderr)
 
-    create_dataset(config_dict, "train_data")
-    create_dataset(config_dict, "test_data")
+    create_dataset(config_dict, "train_data", args.smote)
+    create_dataset(config_dict, "test_data", args.smote)
 
 
 if __name__ == "__main__":
@@ -69,6 +72,11 @@ if __name__ == "__main__":
         "--config",
         type=str,
         help="Configuration file to create datasets",
+    )
+    parser.add_argument(
+        "--smote",
+        action="store_true",
+        help="Synthetic Minority Over-Sampling",
     )
 
     args = parser.parse_args()

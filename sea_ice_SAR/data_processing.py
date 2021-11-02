@@ -2,8 +2,12 @@ import os
 import sys
 import rasterio
 import statistics
+import smogn
 import numpy as np
 import pandas as pd
+import seaborn as sns
+
+import matplotlib.pyplot as plt
 from osgeo import gdal
 from .utils import get_pixel
 
@@ -70,3 +74,26 @@ def normalize(input, std_data):
         df[col] = (df[col] - minimums[col]) / (maximums[col] - minimums[col])
 
     return df
+
+
+def SMOTE(dataframe):
+    sns.kdeplot(dataframe["label"], label="Original")
+    print(
+        f"Before SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
+        file=sys.stdout,
+    )
+    print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
+    dataframe = smogn.smoter(data=dataframe, y="label")
+    dataframe.dropna()
+    dataframe.reset_index(drop=True, inplace=True)
+    sns.kdeplot(dataframe["label"], label="Modified")
+    plt.legend(["Original", "Modified"], loc="upper right")
+    plt.show()
+    plt.clf()
+    print(
+        f"After SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
+        file=sys.stdout,
+    )
+    print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
+
+    return dataframe
