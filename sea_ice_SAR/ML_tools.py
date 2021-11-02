@@ -26,6 +26,7 @@ def config_parser(ml_config):
     else:
         return num_epochs, hidden_size, verbosity, K
 
+    num_epochs, hidden_size, verbosity, K, kernel_size = None, None, None, None, None
     if "configuration" in config_dict.keys():
         params = config_dict["configuration"]
         train_data = params["train_data"]
