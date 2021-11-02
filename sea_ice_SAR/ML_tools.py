@@ -116,7 +116,7 @@ def process_data(data_file, ml_config=None, regression=True):
         encoded_Y = encoder.transform(Y)
         print(f"Classes: {encoder.classes_}", file=sys.stdout)
 
-        return X, encoded_Y
+        return X, encoded_Y, encoder.classes_
 
 
 def learning_curve(model_hist, result_dir, iter):

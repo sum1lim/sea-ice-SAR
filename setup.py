@@ -16,5 +16,6 @@ setup(
         ./scripts/NN_classification
         ./scripts/normalize
         ./scripts/test_regression
+        ./scripts/test_classification
     """.split(),
 )

@@ -56,7 +56,7 @@ def main(args):
         sys.stdout = log_file
 
     # Modify train dataset
-    X_tr, Y_tr = process_data(train_data, args.ml_config, regression=False)
+    X_tr, Y_tr, _ = process_data(train_data, args.ml_config, regression=False)
 
     # Define hidden layer size
     input_layer_size = X_tr.shape[1]
