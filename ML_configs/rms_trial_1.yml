@@ -5,14 +5,14 @@ configuration:
   verbosity: 2
   epochs: 1000
   K-fold: 1
-  SMOTE: True
+  hidden_size: 30
 
 features:
   - hh
   - hv
-  # - c5
-  # - c7
-  # - c9
+  - c5
+  - c7
+  - c9
   - std_hh5
   - std_hh7
   - std_hh9
