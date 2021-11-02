@@ -128,14 +128,15 @@ def learning_curve(model_hist, result_dir, iter):
     Available: https://machinelearningmastery.com/display-deep-learning-model-training-history-in-keras/. [Accessed: 16-Jul-2021].
     """
     # summarize history for accuracy
-    # plt.plot(model_hist["accuracy"])
-    # plt.plot(model_hist["val_accuracy"])
-    # plt.title(f"Learning Curve (Fold #: {iter+1})")
-    # plt.ylabel("Accuracy")
-    # plt.xlabel("Epoch")
-    # plt.legend(["Train", "Validation"], loc="upper left")
-    # plt.savefig(f"{result_dir}/learning_curve_{iter+1}.png")
-    # plt.clf()
+    if "accuracy" in model_hist.keys() and "val_accuracy" in model_hist.keys():
+        plt.plot(model_hist["accuracy"])
+        plt.plot(model_hist["val_accuracy"])
+        plt.title(f"Learning Curve (Fold #: {iter+1})")
+        plt.ylabel("Accuracy")
+        plt.xlabel("Epoch")
+        plt.legend(["Train", "Validation"], loc="upper left")
+        plt.savefig(f"{result_dir}/learning_curve_{iter+1}.png")
+        plt.clf()
     # summarize history for loss
     plt.plot(model_hist["loss"])
     plt.plot(model_hist["val_loss"])
