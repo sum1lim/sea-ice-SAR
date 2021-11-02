@@ -13,6 +13,7 @@ setup(
     scripts="""
         ./scripts/create_dataset
         ./scripts/NN_regression
+        ./scripts/NN_classification
         ./scripts/normalize
         ./scripts/test_regression
     """.split(),

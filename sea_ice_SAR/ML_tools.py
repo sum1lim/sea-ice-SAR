@@ -7,9 +7,11 @@ import pandas
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+from collections import Counter
 from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import KFold
+from imblearn.over_sampling import RandomOverSampler
 
 
 def config_parser(ml_config):
@@ -36,8 +38,10 @@ def config_parser(ml_config):
             verbosity = params["verbosity"]
         if "K-fold" in params.keys():
             K = params["K-fold"]
+        if "kernel_size" in params.keys():
+            kernel_size = params["kernel_size"]
 
-    return train_data, test_data, num_epochs, hidden_size, verbosity, K
+    return train_data, test_data, num_epochs, hidden_size, verbosity, K, kernel_size
 
 
 def calculate_hidden_layer_size(input_layer_size, output_layer_size, user_defined=None):
@@ -74,9 +78,12 @@ def process_data(data_file, ml_config=None, regression=True):
     if config_dict:
         if "labels" in config_dict.keys():
             try:
-                for key, value in config_dict["labels"].items():
-                    for i in value:
-                        dataframe["label"].replace({i: key}, inplace=True)
+                for idx, data_range in config_dict["labels"].items():
+                    min, max = data_range
+                    dataframe["label"] = np.where(
+                        dataframe["label"].between(min, max), -idx, dataframe["label"]
+                    )
+                dataframe["label"] = -dataframe["label"]
             except KeyError:
                 print("Error in configuration format", file=sys.stderr)
                 sys.exit(1)
@@ -99,6 +106,11 @@ def process_data(data_file, ml_config=None, regression=True):
     if regression:
         return X, Y
     else:
+        print(f"Before oversampling: {Counter(Y)}", file=sys.stdout)
+        oversample = RandomOverSampler(sampling_strategy="not majority")
+        X, Y = oversample.fit_resample(X, Y)
+        print(f"After oversampling: {Counter(Y)}", file=sys.stdout)
+
         encoder = LabelEncoder()
         encoder.fit(Y)
         encoded_Y = encoder.transform(Y)

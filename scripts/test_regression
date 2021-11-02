@@ -11,10 +11,8 @@ from tensorflow.keras.models import load_model
 
 
 def main(args):
-    model_type = args.result_dir.split("/")[-1].split("_")[0]
-
     # Parse configuration
-    _, test_data, _, _, verbosity, K = config_parser(args.dl_config)
+    _, test_data, _, _, verbosity, K, _ = config_parser(args.dl_config)
 
     # Verbosity == 1 --> sys.stdout
     # Verbosity == 2 --> .log file

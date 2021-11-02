@@ -3,6 +3,7 @@ import sys
 import os
 import shutil
 import argparse
+import numpy as np
 from sea_ice_SAR.utils import decompose_filepath
 from sea_ice_SAR.ML_tools import (
     config_parser,
@@ -13,30 +14,19 @@ from sea_ice_SAR.ML_tools import (
 )
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
+from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 
 
 def NN(hidden_layer_size, input_layer_size, output_layer_size):
     # Construct Neural Network
     model = Sequential()
-    model.add(
-        Dense(
-            hidden_layer_size,
-            input_dim=input_layer_size,
-            kernel_initializer="normal",
-            activation="relu",
-        )
-    )
-    model.add(Dense(hidden_layer_size, kernel_initializer="normal", activation="relu"))
-    model.add(Dense(hidden_layer_size, kernel_initializer="normal", activation="relu"))
-    model.add(
-        Dense(
-            output_layer_size,
-            kernel_initializer="normal",
-        )
-    )
+    model.add(Dense(hidden_layer_size, input_dim=input_layer_size, activation="relu"))
+    model.add(Dense(output_layer_size, activation="softmax"))
 
-    model.compile(loss="mean_squared_error", optimizer="adam")
+    model.compile(
+        loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"]
+    )
     model.summary()
 
     return model
@@ -44,7 +34,7 @@ def NN(hidden_layer_size, input_layer_size, output_layer_size):
 
 def main(args):
     # Parse configuration
-    (train_data, _, num_epochs, hidden_size, verbosity, K, _) = config_parser(
+    train_data, _, num_epochs, hidden_size, verbosity, K, _ = config_parser(
         args.ml_config
     )
 
@@ -66,15 +56,14 @@ def main(args):
         sys.stdout = log_file
 
     # Modify train dataset
-    X_tr, Y_tr = process_data(train_data, args.ml_config, regression=True)
+    X_tr, Y_tr = process_data(train_data, args.ml_config, regression=False)
 
     # Define hidden layer size
     input_layer_size = X_tr.shape[1]
-    output_layer_size = 1
-    if not hidden_size:
-        hidden_size = calculate_hidden_layer_size(
-            input_layer_size, output_layer_size, hidden_size
-        )
+    output_layer_size = len(np.unique(Y_tr))
+    hidden_layer_size = calculate_hidden_layer_size(
+        input_layer_size, output_layer_size, hidden_size
+    )
 
     # K-fold classification
     tr_val_pairs = tr_val_split(K, X_tr, Y_tr)
@@ -92,16 +81,20 @@ def main(args):
             monitor="val_loss", mode="min", verbose=verbosity, patience=50
         )
 
-        model = NN(hidden_size, input_layer_size, output_layer_size)
+        model = NN(hidden_layer_size, input_layer_size, output_layer_size)
+
+        # One-hot encoding of the label vector
+        one_hot_Y_tr = to_categorical(Y_tr[train])
+        one_hot_Y_val = to_categorical(Y_tr[validation])
 
         # Train the model
         model_summary = model.fit(
             x=X_tr[train],
-            y=Y_tr[train],
+            y=one_hot_Y_tr,
             epochs=num_epochs,
             batch_size=1024,
             verbose=verbosity,
-            validation_data=(X_tr[validation], Y_tr[validation]),
+            validation_data=(X_tr[validation], one_hot_Y_val),
             callbacks=[cp_callback, es_callback],
         )
 
@@ -122,7 +115,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--ml-config",
         type=str,
-        help="YAML file containing the configuration for machine learning",
+        help="YAML file containing the configuration for deep learning",
     )
 
     args = parser.parse_args()
