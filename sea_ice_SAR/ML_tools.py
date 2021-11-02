@@ -6,7 +6,6 @@ import numpy as np
 import pandas
 import seaborn as sns
 import matplotlib.pyplot as plt
-import smogn
 
 from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import LabelEncoder
@@ -73,25 +72,6 @@ def process_data(data_file, ml_config=None, regression=True, SMOTE=True):
         config_dict = None
 
     dataframe = pandas.read_csv(data_file, header=0, index_col=False)
-    if regression and SMOTE:
-        sns.kdeplot(dataframe["label"], label="Original")
-        print(
-            f"Before SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
-            file=sys.stdout,
-        )
-        print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
-        dataframe = smogn.smoter(data=dataframe, y="label")
-        dataframe.dropna()
-        dataframe.reset_index(drop=True, inplace=True)
-        sns.kdeplot(dataframe["label"], label="Modified")
-        plt.legend(["Original", "Modified"], loc="upper right")
-        plt.show()
-        plt.clf()
-        print(
-            f"After SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
-            file=sys.stdout,
-        )
-        print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
 
     if config_dict:
         if "labels" in config_dict.keys():
