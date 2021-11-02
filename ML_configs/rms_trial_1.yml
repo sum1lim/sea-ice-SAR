@@ -4,7 +4,7 @@ configuration:
   test_data: ./data/rms_te_data/raw_norm.csv
   verbosity: 2
   epochs: 10000
-  K-fold: 1
+  K-fold: 10
   hidden_size: 30
 
 features:
