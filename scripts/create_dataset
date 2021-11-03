@@ -40,9 +40,6 @@ def create_dataset(config_dict, data_split_type, smote=False, cross_pol=False):
     if smote:
         dataframe_aggr = SMOTE(dataframe_aggr)
 
-    if cross_pol:
-        dataframe_aggr["hv_hh"] = dataframe_aggr["hv"] / dataframe_aggr["hh"]
-
     output_dir, _, _ = decompose_filepath(config_dict["output_dir"][data_split_type])
     try:
         os.mkdir(output_dir)
