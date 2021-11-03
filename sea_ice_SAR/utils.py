@@ -1,3 +1,5 @@
+import sys
+import math
 from osgeo import osr
 
 wgs84_wkt = """
@@ -69,3 +71,19 @@ def decompose_filepath(filepath):
         extension = None
 
     return (dir_path, filename, extension)
+
+
+def window(raster, row, col, size=1):
+    if size == 1:
+        return [raster[row, col]]
+    elif size > 1:
+        lower_bound = math.ceil(-size / 2)
+        upper_bound = math.ceil(size / 2)
+        return [
+            raster[row + i, col + j]
+            for i in range(lower_bound, upper_bound)
+            for j in range(lower_bound, upper_bound)
+        ]
+    else:
+        print("Invalid window size", file=sys.stderr)
+        sys.exit(1)
