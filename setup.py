@@ -17,5 +17,6 @@ setup(
         ./scripts/normalize
         ./scripts/test_regression
         ./scripts/test_classification
+        ./scripts/crosspol_ratio
     """.split(),
 )
