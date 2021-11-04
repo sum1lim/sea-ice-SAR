@@ -75,6 +75,7 @@ def process_data(data_file, ml_config=None, regression=True):
         config_dict = None
 
     dataframe = pandas.read_csv(data_file, header=0, index_col=False)
+    dataframe.drop(columns=["src_dir", "row", "col"], inplace=True)
 
     if config_dict:
         if "labels" in config_dict.keys():
