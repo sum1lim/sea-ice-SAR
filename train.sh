@@ -16,3 +16,9 @@ NN_regression --ml-config ./ML_configs/thk_regr_2.yml
 test_regression --dl-config ./ML_configs/thk_regr_2.yml --result-dir ./results/NN_thk_regr_2
 NN_classification --ml-config ./ML_configs/thk_class_2.yml
 test_classification --ml-config ./ML_configs/thk_class_2.yml --result-dir ./results/NN_thk_class_2
+NN_regression --ml-config ./ML_configs/rms_regr_3.yml
+test_regression --dl-config ./ML_configs/rms_regr_3.yml --result-dir ./results/NN_rms_regr_3
+NN_regression --ml-config ./ML_configs/thk_regr_3.yml
+test_regression --dl-config ./ML_configs/thk_regr_3.yml --result-dir ./results/NN_thk_regr_3
+NN_classification --ml-config ./ML_configs/thk_class_3.yml
+test_classification --ml-config ./ML_configs/thk_class_3.yml --result-dir ./results/NN_thk_class_3
