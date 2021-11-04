@@ -10,7 +10,7 @@ import seaborn as sns
 
 import matplotlib.pyplot as plt
 from osgeo import gdal
-from .utils import get_pixel, window
+from .utils import get_pixel, window, decompose_filepath
 
 
 def configure_features(pixels, feature_li, feature_cfg, window_size):
@@ -32,15 +32,17 @@ def configure_features(pixels, feature_li, feature_cfg, window_size):
 
 
 def organize_data(expert_data, features_files, window_size):
-    feature_li = ["label"]
+    feature_li = ["label", "src_dir", "row", "col"]
     for iteration, ff in enumerate(features_files):
         if not ff.endswith(".tif"):
             continue
 
         print(f"Reading {ff}", file=sys.stdout)
-        feature = ".".join(ff.split("/")[-1].split(".")[:-1])
+        dir_path, filename, extension = decompose_filepath(ff)
         feature_li = feature_li + [
-            f"{feature}_{i}_{j}" for i in range(window_size) for j in range(window_size)
+            f"{filename}_{i}_{j}"
+            for i in range(window_size)
+            for j in range(window_size)
         ]
         ds = gdal.Open(ff)
         raster = rasterio.open(ff)
@@ -53,9 +55,12 @@ def organize_data(expert_data, features_files, window_size):
                     continue
                 row, col = get_pixel(ds, datum[0], datum[1])
                 if (row, col) not in pixels.keys():
-                    pixels[(row, col)] = [[float(datum[2])]] + window(
-                        band_arr, row, col, window_size
-                    )
+                    pixels[(row, col)] = [
+                        [float(datum[2])],
+                        dir_path,
+                        row,
+                        col,
+                    ] + window(band_arr, row, col, window_size)
                 else:
                     pixels[(row, col)][0].append(float(datum[2]))
         else:
