@@ -76,6 +76,6 @@ features:
   # np: [2015_np, 2016_np, 2018_np]
 
 output_dir:
-  train_data: ./data/rms_tr_data/thickness_hh_std5.csv
-  test_data: ./data/rms_te_data/thickness_hh_std5.csv
+  train_data: ./data/thk_tr_data/thickness_hh_std5.csv
+  test_data: ./data/thk_te_data/thickness_hh_std5.csv
 ...
