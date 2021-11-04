@@ -1,6 +1,6 @@
 ---
 train_data: 
-  ./data/AEM/20150419_laser_rms.csv:
+  ./data/AEM/20150419_embird_thk.csv:
     SAR_data: 
       - ./data/SAR/2015/2015_c5.tif
       - ./data/SAR/2015/2015_c7.tif
@@ -19,7 +19,7 @@ train_data:
     lat: 4
     lon: 3
     label: 5
-  ./data/AEM/20160408_laser_rms.csv:
+  ./data/AEM/20160408_embird_thk.csv:
     SAR_data: 
       - ./data/SAR/2016/2016_c5.tif
       - ./data/SAR/2016/2016_c7.tif
@@ -35,11 +35,11 @@ train_data:
       - ./data/SAR/2016/2016_std_hv9.tif
       - ./data/SAR/2016/2016_theta.tif
       - ./data/SAR/2016/hv_hh.tif
-    lat: 1
-    lon: 2
-    label: 3
+    lat: 6
+    lon: 7
+    label: 9
 test_data: 
-  ./data/AEM/20180508_laser_rms.csv:
+  ./data/AEM/20180508_embird_thk.csv:
     SAR_data:
       - ./data/SAR/2018/2018_c5.tif
       - ./data/SAR/2018/2018_c7.tif
@@ -55,9 +55,9 @@ test_data:
       - ./data/SAR/2018/2018_std_hv9.tif
       - ./data/SAR/2018/2018_theta.tif
       - ./data/SAR/2018/hv_hh.tif
-    lat: 4
-    lon: 3
-    label: 5
+    lat: 6
+    lon: 7
+    label: 9
 
 features:
   hh: [2015_hh, 2016_hh, 2018_hh]
