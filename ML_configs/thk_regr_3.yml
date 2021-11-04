@@ -4,5 +4,5 @@ configuration:
   test_data: ./data/thk_te_data/kernel_norm.csv
   verbosity: 2
   epochs: 10000
-  K-fold: 1
+  K-fold: 10
 ...
