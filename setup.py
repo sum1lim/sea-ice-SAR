@@ -18,5 +18,6 @@ setup(
         ./scripts/test_regression
         ./scripts/test_classification
         ./scripts/crosspol_ratio
+        ./scripts/CAE
     """.split(),
 )
