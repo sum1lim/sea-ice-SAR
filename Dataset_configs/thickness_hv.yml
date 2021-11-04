@@ -1,11 +1,11 @@
 ---
 train_data: 
-  ./data/AEM/20150419_laser_rms.csv:
+  ./data/AEM/20150419_embird_thk.csv:
     SAR_data: 
       # - ./data/SAR/2015/2015_c5.tif
       # - ./data/SAR/2015/2015_c7.tif
       # - ./data/SAR/2015/2015_c9.tif
-      - ./data/SAR/2015/2015_hh.tif
+      # - ./data/SAR/2015/2015_hh.tif
       - ./data/SAR/2015/2015_hv.tif
       # - ./data/SAR/2015/2015_np.tif
       # - ./data/SAR/2015/2015_std_hh5.tif
@@ -15,16 +15,16 @@ train_data:
       # - ./data/SAR/2015/2015_std_hv7.tif
       # - ./data/SAR/2015/2015_std_hv9.tif
       # - ./data/SAR/2015/2015_theta.tif
-      - ./data/SAR/2015/hv_hh.tif
+      # - ./data/SAR/2015/hv_hh.tif
     lat: 4
     lon: 3
     label: 5
-  ./data/AEM/20160408_laser_rms.csv:
+  ./data/AEM/20160408_embird_thk.csv:
     SAR_data: 
       # - ./data/SAR/2016/2016_c5.tif
       # - ./data/SAR/2016/2016_c7.tif
       # - ./data/SAR/2016/2016_c9.tif
-      - ./data/SAR/2016/2016_hh.tif
+      # - ./data/SAR/2016/2016_hh.tif
       - ./data/SAR/2016/2016_hv.tif
       # - ./data/SAR/2016/2016_np.tif
       # - ./data/SAR/2016/2016_std_hh5.tif
@@ -34,17 +34,17 @@ train_data:
       # - ./data/SAR/2016/2016_std_hv7.tif
       # - ./data/SAR/2016/2016_std_hv9.tif
       # - ./data/SAR/2016/2016_theta.tif
-      - ./data/SAR/2016/hv_hh.tif
-    lat: 1
-    lon: 2
-    label: 3
+      # - ./data/SAR/2016/hv_hh.tif
+    lat: 6
+    lon: 7
+    label: 9
 test_data: 
-  ./data/AEM/20180508_laser_rms.csv:
+  ./data/AEM/20180508_embird_thk.csv:
     SAR_data:
       # - ./data/SAR/2018/2018_c5.tif
       # - ./data/SAR/2018/2018_c7.tif
       # - ./data/SAR/2018/2018_c9.tif
-      - ./data/SAR/2018/2018_hh.tif
+      # - ./data/SAR/2018/2018_hh.tif
       - ./data/SAR/2018/2018_hv.tif
       # - ./data/SAR/2018/2018_np.tif
       # - ./data/SAR/2018/2018_std_hh5.tif
@@ -54,15 +54,15 @@ test_data:
       # - ./data/SAR/2018/2018_std_hv7.tif
       # - ./data/SAR/2018/2018_std_hv9.tif
       # - ./data/SAR/2018/2018_theta.tif
-      - ./data/SAR/2018/hv_hh.tif
-    lat: 4
-    lon: 3
-    label: 5
+      # - ./data/SAR/2018/hv_hh.tif
+    lat: 6
+    lon: 7
+    label: 9
 
 features:
-  hh: [2015_hh, 2016_hh, 2018_hh]
+  # hh: [2015_hh, 2016_hh, 2018_hh]
   hv: [2015_hv, 2016_hv, 2018_hv]
-  hv_hh: [hv_hh, hv_hh, hv_hh]
+  # hv_hh: [hv_hh, hv_hh, hv_hh]
   # c5: [2015_c5, 2016_c5, 2018_c5]
   # c7: [2015_c7, 2016_c7, 2018_c7]
   # c9: [2015_c9, 2016_c9, 2018_c9]
@@ -76,6 +76,6 @@ features:
   # np: [2015_np, 2016_np, 2018_np]
 
 output_dir:
-  train_data: ./data/rms_tr_data/kernel.csv
-  test_data: ./data/rms_te_data/kernel.csv
+  train_data: ./data/rms_tr_data/thickness_hv.csv
+  test_data: ./data/rms_te_data/thickness_hv.csv
 ...
