@@ -4,57 +4,56 @@ from math import sqrt, ceil, floor
 import sys
 import numpy as np
 
-from tensorflow.keras import Input, Model
+from tensorflow.keras import Input, Model, Sequential, losses
 from tensorflow.keras.layers import (
     Conv2D,
-    MaxPooling2D,
-    UpSampling2D,
+    Conv2DTranspose,
     ZeroPadding2D,
     Cropping2D,
 )
-from sea_ice_SAR.ML_tools import process_data, learning_curve
-from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
+from sea_ice_SAR.ML_tools import process_data
 
 
-def CAE(input_dimension):
-    if input_dimension > 16:
-        print("Input dimension too big", file=sys.stderr)
-    padding_size = (16 - input_dimension) / 2
-    input_img = Input(shape=(input_dimension, input_dimension, 1))
-
-    x = ZeroPadding2D(
-        (
-            (floor(padding_size), ceil(padding_size)),
-            (floor(padding_size), ceil(padding_size)),
+class CAE(Model):
+    def __init__(self, input_dimension, padding_size):
+        super(CAE, self).__init__()
+        self.encoder = Sequential(
+            [
+                Input(shape=(input_dimension, input_dimension, 1)),
+                ZeroPadding2D(
+                    (
+                        (floor(padding_size), ceil(padding_size)),
+                        (floor(padding_size), ceil(padding_size)),
+                    )
+                ),
+                Conv2D(16, (3, 3), activation="relu", padding="same", strides=2),
+                Conv2D(8, (3, 3), activation="relu", padding="same", strides=2),
+            ]
         )
-    )(input_img)
-    x = Conv2D(16, (3, 3), activation="relu", padding="same")(x)
-    x = MaxPooling2D((2, 2), padding="same")(x)
-    x = Conv2D(8, (3, 3), activation="relu", padding="same")(x)
-    x = MaxPooling2D((2, 2), padding="same")(x)
-    x = Conv2D(8, (3, 3), activation="relu", padding="same")(x)
-    encoded = MaxPooling2D((2, 2), padding="same")(x)
 
-    # at this point the representation is (4, 4, 8) i.e. 128-dimensional
-
-    x = Conv2D(8, (3, 3), activation="relu", padding="same")(encoded)
-    x = UpSampling2D((2, 2))(x)
-    x = Conv2D(8, (3, 3), activation="relu", padding="same")(x)
-    x = UpSampling2D((2, 2))(x)
-    x = Conv2D(16, (3, 3), activation="relu", padding="same")(x)
-    x = UpSampling2D((2, 2))(x)
-    x = Conv2D(1, (3, 3), activation="sigmoid", padding="same")(x)
-    decoded = Cropping2D(
-        (
-            (floor(padding_size), ceil(padding_size)),
-            (floor(padding_size), ceil(padding_size)),
+        self.decoder = Sequential(
+            [
+                Input(shape=(3, 3, 8)),
+                Conv2DTranspose(
+                    8, kernel_size=3, strides=2, activation="relu", padding="same"
+                ),
+                Conv2DTranspose(
+                    16, kernel_size=3, strides=2, activation="relu", padding="same"
+                ),
+                Conv2D(1, kernel_size=(3, 3), activation="sigmoid", padding="same"),
+                Cropping2D(
+                    (
+                        (floor(padding_size), ceil(padding_size)),
+                        (floor(padding_size), ceil(padding_size)),
+                    )
+                ),
+            ]
         )
-    )(x)
 
-    autoencoder = Model(input_img, decoded)
-    autoencoder.compile(optimizer="adam", loss="binary_crossentropy")
-
-    return autoencoder
+    def call(self, x):
+        encoded = self.encoder(x)
+        decoded = self.decoder(encoded)
+        return decoded
 
 
 def main(args):
@@ -93,35 +92,18 @@ def main(args):
     X_tr = np.reshape(X_tr, (len(X_tr), input_dimension, input_dimension, 1))
     X_te = np.reshape(X_te, (len(X_te), input_dimension, input_dimension, 1))
 
-    autoencoder = CAE(input_dimension)
-    print(autoencoder.summary())
+    if input_dimension > 12:
+        print("Input dimension too big", file=sys.stderr)
+    padding_size = (12 - input_dimension) / 2
 
-    checkpoint_path = f"./CAE_models/{args.filename}/ckpt"
-    cp_callback = ModelCheckpoint(
-        filepath=checkpoint_path, save_best_only=True, mode="min"
-    )
-    es_callback = EarlyStopping(monitor="val_loss", mode="min", patience=5)
+    autoencoder = CAE(input_dimension, padding_size)
+    autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
+    autoencoder.encoder.summary()
+    autoencoder.decoder.summary()
 
-    model_summary = autoencoder.fit(
-        X_tr,
-        X_tr,
-        epochs=10000,
-        batch_size=1024,
-        shuffle=True,
-        validation_data=(X_te, X_te),
-        callbacks=[cp_callback, es_callback],
-    )
-
-    # Plot the learning curve
-    learning_curve(model_summary.history, f"./CAE_models/{args.filename}", 0)
-
-    decoded = autoencoder.predict(X_te), (
-        len(autoencoder.predict(X_te)),
-        input_dimension,
-        input_dimension,
-    )
-    print(X_te)
-    print(decoded)
+    encoded_te = autoencoder.encoder(X_te)
+    decoded_te = autoencoder.decoder(encoded_te)
+    print(f"Performance (mean error): {np.mean(X_te - decoded_te)}")
 
 
 if __name__ == "__main__":
