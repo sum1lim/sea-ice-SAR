@@ -2,6 +2,7 @@
 import argparse
 from math import sqrt, ceil, floor
 import sys
+import pandas
 import numpy as np
 
 from tensorflow.keras import Input, Model, Sequential, losses
@@ -11,7 +12,8 @@ from tensorflow.keras.layers import (
     ZeroPadding2D,
     Cropping2D,
 )
-from sea_ice_SAR.ML_tools import process_data
+from sea_ice_SAR.ML_tools import process_data, learning_curve
+from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 
 
 class CAE(Model):
@@ -26,19 +28,23 @@ class CAE(Model):
                         (floor(padding_size), ceil(padding_size)),
                     )
                 ),
-                Conv2D(16, (3, 3), activation="relu", padding="same", strides=2),
                 Conv2D(8, (3, 3), activation="relu", padding="same", strides=2),
+                Conv2D(4, (3, 3), activation="relu", padding="same", strides=2),
+                Conv2D(4, (3, 3), activation="relu", padding="same", strides=2),
             ]
         )
 
         self.decoder = Sequential(
             [
-                Input(shape=(3, 3, 8)),
+                Input(shape=(2, 2, 4)),
                 Conv2DTranspose(
-                    8, kernel_size=3, strides=2, activation="relu", padding="same"
+                    4, kernel_size=3, strides=2, activation="relu", padding="same"
                 ),
                 Conv2DTranspose(
-                    16, kernel_size=3, strides=2, activation="relu", padding="same"
+                    4, kernel_size=3, strides=2, activation="relu", padding="same"
+                ),
+                Conv2DTranspose(
+                    8, kernel_size=3, strides=2, activation="relu", padding="same"
                 ),
                 Conv2D(1, kernel_size=(3, 3), activation="sigmoid", padding="same"),
                 Cropping2D(
@@ -92,18 +98,78 @@ def main(args):
     X_tr = np.reshape(X_tr, (len(X_tr), input_dimension, input_dimension, 1))
     X_te = np.reshape(X_te, (len(X_te), input_dimension, input_dimension, 1))
 
-    if input_dimension > 12:
+    if input_dimension > 16:
         print("Input dimension too big", file=sys.stderr)
-    padding_size = (12 - input_dimension) / 2
+    padding_size = (16 - input_dimension) / 2
 
     autoencoder = CAE(input_dimension, padding_size)
     autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
     autoencoder.encoder.summary()
     autoencoder.decoder.summary()
 
+    checkpoint_path = f"./CAE_models/{args.filename}/ckpt"
+    cp_callback = ModelCheckpoint(
+        filepath=checkpoint_path, save_best_only=True, mode="min"
+    )
+    es_callback = EarlyStopping(monitor="val_loss", mode="min", patience=50)
+
+    model_summary = autoencoder.fit(
+        X_tr,
+        X_tr,
+        epochs=args.epochs,
+        batch_size=1024,
+        shuffle=True,
+        validation_data=(X_te, X_te),
+        callbacks=[cp_callback, es_callback],
+    )
+
+    # Plot the learning curve
+    learning_curve(model_summary.history, f"./CAE_models/{args.filename}", 0)
+
+    encoded_tr = autoencoder.encoder(X_tr)
+    decoded_tr = autoencoder.decoder(encoded_tr)
+    print(
+        f"Performance on train dataset (mean error): {abs(np.mean(X_tr - decoded_tr))}",
+        file=sys.stdout,
+    )
+
+    new_tr_df = pandas.DataFrame(
+        data=np.asanyarray(
+            [[float(z) for x in sample for y in x for z in y] for sample in encoded_tr]
+        ),
+        columns=[f"{args.new_feature}_{i}" for i in range(16)],
+    )
+    original_tr_df = pandas.read_csv(f"{args.tr_dir}/{args.filename}.csv", header=0)
+    original_tr_df.drop(
+        original_tr_df.columns.difference(["label", "src_dir", "row", "col"]),
+        1,
+        inplace=True,
+    )
+    output_tr_df = pandas.concat([original_tr_df, new_tr_df], axis=1)
+
     encoded_te = autoencoder.encoder(X_te)
     decoded_te = autoencoder.decoder(encoded_te)
-    print(f"Performance (mean error): {np.mean(X_te - decoded_te)}")
+    print(
+        f"Performance on test dataset (mean error): {abs(np.mean(X_te - decoded_te))}",
+        file=sys.stdout,
+    )
+
+    new_te_df = pandas.DataFrame(
+        data=np.asanyarray(
+            [[float(z) for x in sample for y in x for z in y] for sample in encoded_te]
+        ),
+        columns=[f"{args.new_feature}_{i}" for i in range(16)],
+    )
+    original_te_df = pandas.read_csv(f"{args.te_dir}/{args.filename}.csv", header=0)
+    original_te_df.drop(
+        original_te_df.columns.difference(["label", "src_dir", "row", "col"]),
+        1,
+        inplace=True,
+    )
+    output_te_df = pandas.concat([original_te_df, new_te_df], axis=1)
+
+    output_tr_df.to_csv(f"{args.tr_dir}/{args.filename}_CAE.csv", index=False)
+    output_te_df.to_csv(f"{args.te_dir}/{args.filename}_CAE.csv", index=False)
 
 
 if __name__ == "__main__":
@@ -123,6 +189,14 @@ if __name__ == "__main__":
         "--filename",
         type=str,
         help="Dataset filename",
+    )
+    parser.add_argument(
+        "--new-feature",
+        type=str,
+        help="Naming of output features",
+    )
+    parser.add_argument(
+        "--epochs", type=int, help="Maximum number of epochs", default=1000
     )
 
     args = parser.parse_args()
