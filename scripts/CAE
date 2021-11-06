@@ -2,6 +2,7 @@
 import argparse
 from math import sqrt, ceil, floor
 import sys
+import yaml
 import pandas
 import numpy as np
 
@@ -88,8 +89,11 @@ def CAE_output(autoencoder, X, new_feature, src_dir, src_file, dataset_type):
 
 
 def main(args):
-    X_tr, _ = process_data(f"{args.tr_dir}/{args.filename}.csv")
-    X_te, _ = process_data(f"{args.te_dir}/{args.filename}.csv")
+    stream = open(args.config, "r")
+    config_dict = yaml.safe_load(stream)
+
+    X_tr, _ = process_data(f"{config_dict['train_dir']}/{config_dict['filename']}.csv")
+    X_te, _ = process_data(f"{config_dict['test_dir']}/{config_dict['filename']}.csv")
 
     input_dimension = sqrt(X_tr.shape[1])
     if int(input_dimension) != input_dimension:
@@ -132,7 +136,7 @@ def main(args):
     autoencoder.encoder.summary()
     autoencoder.decoder.summary()
 
-    checkpoint_path = f"./CAE_models/{args.filename}/ckpt"
+    checkpoint_path = f"./CAE_models/{config_dict['filename']}/ckpt"
     cp_callback = ModelCheckpoint(
         filepath=checkpoint_path, save_best_only=True, mode="min"
     )
@@ -141,7 +145,7 @@ def main(args):
     model_summary = autoencoder.fit(
         X_tr,
         X_tr,
-        epochs=args.epochs,
+        epochs=config_dict["epochs"],
         batch_size=1024,
         shuffle=True,
         validation_data=(X_te, X_te),
@@ -149,37 +153,33 @@ def main(args):
     )
 
     # Plot the learning curve
-    learning_curve(model_summary.history, f"./CAE_models/{args.filename}", 0)
+    learning_curve(model_summary.history, f"./CAE_models/{config_dict['filename']}", 0)
 
-    CAE_output(autoencoder, X_tr, args.new_feature, args.tr_dir, args.filename, "train")
-    CAE_output(autoencoder, X_te, args.new_feature, args.te_dir, args.filename, "test")
+    CAE_output(
+        autoencoder,
+        X_tr,
+        config_dict["new_feature"],
+        config_dict["train_dir"],
+        config_dict["filename"],
+        "train",
+    )
+    CAE_output(
+        autoencoder,
+        X_te,
+        config_dict["new_feature"],
+        config_dict["test_dir"],
+        config_dict["filename"],
+        "test",
+    )
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--tr-dir",
+        "--config",
         type=str,
-        help="Source directory containing training datasets",
-    )
-    parser.add_argument(
-        "--te-dir",
-        type=str,
-        help="Source directory containing test datasets",
-    )
-    parser.add_argument(
-        "--filename",
-        type=str,
-        help="Dataset filename",
-    )
-    parser.add_argument(
-        "--new-feature",
-        type=str,
-        help="Naming of output features",
-    )
-    parser.add_argument(
-        "--epochs", type=int, help="Maximum number of epochs", default=1000
+        help="YAML file containing the configuration for CAE",
     )
 
     args = parser.parse_args()
