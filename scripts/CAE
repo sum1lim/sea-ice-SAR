@@ -62,6 +62,31 @@ class CAE(Model):
         return decoded
 
 
+def CAE_output(autoencoder, X, new_feature, src_dir, src_file):
+    encoded_tr = autoencoder.encoder(X)
+    decoded_tr = autoencoder.decoder(encoded_tr)
+    print(
+        f"Performance on train dataset (mean error): {abs(np.mean(X - decoded_tr))}",
+        file=sys.stdout,
+    )
+
+    new_tr_df = pandas.DataFrame(
+        data=np.asanyarray(
+            [[float(z) for x in sample for y in x for z in y] for sample in encoded_tr]
+        ),
+        columns=[f"{new_feature}_{i}" for i in range(16)],
+    )
+    original_tr_df = pandas.read_csv(f"{src_dir}/{src_file}.csv", header=0)
+    original_tr_df.drop(
+        original_tr_df.columns.difference(["label", "src_dir", "row", "col"]),
+        1,
+        inplace=True,
+    )
+    output_tr_df = pandas.concat([original_tr_df, new_tr_df], axis=1)
+
+    output_tr_df.to_csv(f"{src_dir}/{src_file}_CAE.csv", index=False)
+
+
 def main(args):
     X_tr, _ = process_data(f"{args.tr_dir}/{args.filename}.csv")
     X_te, _ = process_data(f"{args.te_dir}/{args.filename}.csv")
@@ -126,50 +151,8 @@ def main(args):
     # Plot the learning curve
     learning_curve(model_summary.history, f"./CAE_models/{args.filename}", 0)
 
-    encoded_tr = autoencoder.encoder(X_tr)
-    decoded_tr = autoencoder.decoder(encoded_tr)
-    print(
-        f"Performance on train dataset (mean error): {abs(np.mean(X_tr - decoded_tr))}",
-        file=sys.stdout,
-    )
-
-    new_tr_df = pandas.DataFrame(
-        data=np.asanyarray(
-            [[float(z) for x in sample for y in x for z in y] for sample in encoded_tr]
-        ),
-        columns=[f"{args.new_feature}_{i}" for i in range(16)],
-    )
-    original_tr_df = pandas.read_csv(f"{args.tr_dir}/{args.filename}.csv", header=0)
-    original_tr_df.drop(
-        original_tr_df.columns.difference(["label", "src_dir", "row", "col"]),
-        1,
-        inplace=True,
-    )
-    output_tr_df = pandas.concat([original_tr_df, new_tr_df], axis=1)
-
-    encoded_te = autoencoder.encoder(X_te)
-    decoded_te = autoencoder.decoder(encoded_te)
-    print(
-        f"Performance on test dataset (mean error): {abs(np.mean(X_te - decoded_te))}",
-        file=sys.stdout,
-    )
-
-    new_te_df = pandas.DataFrame(
-        data=np.asanyarray(
-            [[float(z) for x in sample for y in x for z in y] for sample in encoded_te]
-        ),
-        columns=[f"{args.new_feature}_{i}" for i in range(16)],
-    )
-    original_te_df = pandas.read_csv(f"{args.te_dir}/{args.filename}.csv", header=0)
-    original_te_df.drop(
-        original_te_df.columns.difference(["label", "src_dir", "row", "col"]),
-        1,
-        inplace=True,
-    )
-    output_te_df = pandas.concat([original_te_df, new_te_df], axis=1)
-
-    output_tr_df.to_csv(f"{args.tr_dir}/{args.filename}_CAE.csv", index=False)
-    output_te_df.to_csv(f"{args.te_dir}/{args.filename}_CAE.csv", index=False)
+    CAE_output(autoencoder, X_tr, args.new_feature, args.tr_dir, args.filename)
+    CAE_output(autoencoder, X_te, args.new_feature, args.te_dir, args.filename)
 
 
 if __name__ == "__main__":
