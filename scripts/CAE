@@ -62,11 +62,11 @@ class CAE(Model):
         return decoded
 
 
-def CAE_output(autoencoder, X, new_feature, src_dir, src_file):
+def CAE_output(autoencoder, X, new_feature, src_dir, src_file, dataset_type):
     encoded_tr = autoencoder.encoder(X)
     decoded_tr = autoencoder.decoder(encoded_tr)
     print(
-        f"Performance on train dataset (mean error): {abs(np.mean(X - decoded_tr))}",
+        f"Performance on {dataset_type} dataset (mean error): {abs(np.mean(X - decoded_tr))}",
         file=sys.stdout,
     )
 
@@ -151,8 +151,8 @@ def main(args):
     # Plot the learning curve
     learning_curve(model_summary.history, f"./CAE_models/{args.filename}", 0)
 
-    CAE_output(autoencoder, X_tr, args.new_feature, args.tr_dir, args.filename)
-    CAE_output(autoencoder, X_te, args.new_feature, args.te_dir, args.filename)
+    CAE_output(autoencoder, X_tr, args.new_feature, args.tr_dir, args.filename, "train")
+    CAE_output(autoencoder, X_te, args.new_feature, args.te_dir, args.filename, "test")
 
 
 if __name__ == "__main__":
