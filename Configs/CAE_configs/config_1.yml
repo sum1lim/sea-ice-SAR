@@ -1,7 +1,0 @@
----
-train_dir: ./data/thk_tr_data
-test_dir: ./data/thk_te_data
-filename: thickness_hh_norm
-new_feature: hh
-epochs: 1000
-...
