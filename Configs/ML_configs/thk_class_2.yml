@@ -30,6 +30,6 @@ features:
   - std_hv5
   - std_hv7
   - std_hv9
-  # - theta
-  # - np
+  - theta
+  - np
 ...

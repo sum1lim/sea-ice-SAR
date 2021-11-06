@@ -47,7 +47,7 @@ def create_dataset(config_dict, data_split_type, window_size, smote=False):
         os.mkdir(output_dir)
     except FileExistsError:
         None
-        
+
     dataframe_aggr.to_csv(config_dict["output_dir"][data_split_type], index=False)
     print(
         f"{data_split_type} saved as {config_dict['output_dir'][data_split_type]}\n",

@@ -42,9 +42,7 @@ def main(args):
 
     # Set up results directory
     config_dir, filename, _ = decompose_filepath(args.ml_config)
-    result_dir = os.path.join(
-        ".".join(config_dir.split("/")[:-1]), f"results/NN_{filename}"
-    )
+    result_dir = f"./results/NN_{filename}"
     try:
         os.mkdir(result_dir)
     except FileExistsError:

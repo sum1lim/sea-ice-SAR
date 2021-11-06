@@ -20,7 +20,7 @@ labels:
 features:
   - hh
   - hv
-  # - hv_hh
+  - hv_hh
   # - c5
   # - c7
   # - c9
