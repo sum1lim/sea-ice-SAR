@@ -24,6 +24,7 @@ def configure_features(pixels, feature_li, feature_cfg, window_size):
         ),
         columns=feature_li,
     )
+    df = df.drop_duplicates()
 
     for f in feature_li:
         for key, value in feature_cfg.items():
