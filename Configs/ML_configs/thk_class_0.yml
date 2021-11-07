@@ -4,7 +4,7 @@ configuration:
   test_data: ./data/thk_te_data/raw_norm.csv
   epochs: 10000
   verbosity: 2
-  K-fold: 10
+  K-fold: 1
   hidden_size: 30
 
 labels:
@@ -16,7 +16,7 @@ labels:
   6: [4, 4.5]
   7: [4.5, 5]
   8: [5, 100]
-
+  
 features:
   - hh
   - hv

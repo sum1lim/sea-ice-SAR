@@ -1,4 +1,9 @@
 ---
+  configuration:
+  smote: False
+  aggregate: False
+  window_size: 9
+  
 train_data: 
   ./data/AEM/20150419_laser_rms.csv:
     SAR_data: 
