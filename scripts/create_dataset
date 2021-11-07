@@ -27,7 +27,7 @@ def create_dataset(config_dict, data_split_type, window_size, smote=False):
                 if idx > 0
             ]
             organized_data, feature_li = organize_data(
-                expert_data, sar_data, window_size
+                expert_data, sar_data, window_size, args.aggregate
             )
             dataframes.append(
                 configure_features(organized_data, feature_li, feature_cfg, window_size)
@@ -84,6 +84,11 @@ if __name__ == "__main__":
         "--smote",
         action="store_true",
         help="Synthetic Minority Over-Sampling",
+    )
+    parser.add_argument(
+        "--aggregate",
+        action="store_true",
+        help="Calculate average of samples in a pixel",
     )
 
     args = parser.parse_args()

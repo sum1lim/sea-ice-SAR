@@ -15,7 +15,14 @@ from .utils import get_pixel, window, decompose_filepath
 
 def configure_features(pixels, feature_li, feature_cfg, window_size):
     df = pd.DataFrame(
-        np.array([features for _, features in pixels.items()]), columns=feature_li
+        np.array(
+            [
+                features if type(features[0]) != list else f
+                for _, features in pixels.items()
+                for f in features
+            ]
+        ),
+        columns=feature_li,
     )
 
     for f in feature_li:
@@ -31,7 +38,7 @@ def configure_features(pixels, feature_li, feature_cfg, window_size):
     return df
 
 
-def organize_data(expert_data, features_files, window_size):
+def organize_data(expert_data, features_files, window_size, is_aggregate):
     feature_li = ["label", "src_dir", "row", "col"]
     for iteration, ff in enumerate(features_files):
         if not ff.endswith(".tif"):
@@ -69,8 +76,14 @@ def organize_data(expert_data, features_files, window_size):
                 col = k[1]
                 pixels[k] = pixels[k] + window(band_arr, row, col, window_size)
 
-    for k in pixels.keys():
-        pixels[k][0] = statistics.mean(pixels[k][0])
+    if is_aggregate:
+        for k in pixels.keys():
+            pixels[k][0] = statistics.mean(pixels[k][0])
+    else:
+        pixels = {
+            k: [[label] + pixels[k][1:] for label in pixels[k][0]]
+            for k in pixels.keys()
+        }
 
     return pixels, feature_li
 
