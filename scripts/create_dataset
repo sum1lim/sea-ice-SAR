@@ -9,7 +9,8 @@ from sea_ice_SAR.data_processing import organize_data, configure_features, SMOTE
 from sea_ice_SAR.utils import decompose_filepath
 
 
-def create_dataset(config_dict, data_split_type, window_size, smote=False):
+def create_dataset(config_dict, data_split_type):
+    dataset_cfg = config_dict["configuration"]
     feature_cfg = config_dict["features"]
 
     dataframes = []
@@ -27,10 +28,10 @@ def create_dataset(config_dict, data_split_type, window_size, smote=False):
                 if idx > 0
             ]
             organized_data, feature_li = organize_data(
-                expert_data, sar_data, window_size, args.aggregate
+                expert_data, sar_data, dataset_cfg["window_size"], dataset_cfg["aggregate"]
             )
             dataframes.append(
-                configure_features(organized_data, feature_li, feature_cfg, window_size)
+                configure_features(organized_data, feature_li, feature_cfg, dataset_cfg["window_size"])
             )
 
     for idx, _ in enumerate(dataframes):
@@ -39,7 +40,7 @@ def create_dataset(config_dict, data_split_type, window_size, smote=False):
         else:
             dataframe_aggr = dataframe_aggr.append(dataframes[idx], ignore_index=True)
 
-    if smote:
+    if dataset_cfg["smote"]:
         dataframe_aggr = SMOTE(dataframe_aggr)
 
     output_dir, _, _ = decompose_filepath(config_dict["output_dir"][data_split_type])
@@ -62,8 +63,8 @@ def main(args):
     except:
         print("ERROR: Configuration file not provided", file=sys.stderr)
 
-    create_dataset(config_dict, "train_data", args.window_size, args.smote)
-    create_dataset(config_dict, "test_data", args.window_size, args.smote)
+    create_dataset(config_dict, "train_data")
+    create_dataset(config_dict, "test_data")
 
 
 if __name__ == "__main__":
@@ -73,22 +74,6 @@ if __name__ == "__main__":
         "--config",
         type=str,
         help="Configuration file to create datasets",
-    )
-    parser.add_argument(
-        "--window-size",
-        type=int,
-        default=1,
-        help="Size of sliding window to collect data from",
-    )
-    parser.add_argument(
-        "--smote",
-        action="store_true",
-        help="Synthetic Minority Over-Sampling",
-    )
-    parser.add_argument(
-        "--aggregate",
-        action="store_true",
-        help="Calculate average of samples in a pixel",
     )
 
     args = parser.parse_args()
