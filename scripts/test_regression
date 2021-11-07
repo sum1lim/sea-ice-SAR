@@ -7,21 +7,23 @@ from sea_ice_SAR.ML_tools import (
     process_data,
     regression_scatter_plots,
 )
+from sea_ice_SAR.utils import decompose_filepath
 from tensorflow.keras.models import load_model
 
 
 def main(args):
     # Parse configuration
-    _, test_data, _, _, verbosity, K, _ = config_parser(args.dl_config)
+    _, test_data, _, _, verbosity, K, _ = config_parser(args.ml_config)
+    _, cfg_filename, _ = decompose_filepath(args.ml_config)
 
     # Verbosity == 1 --> sys.stdout
     # Verbosity == 2 --> .log file
     if verbosity == 2:
-        log_file = open(f"{args.result_dir}/test.log", "w")
+        log_file = open(f"{args.result_dir}/{cfg_filename}/test.log", "w")
         sys.stdout = log_file
 
     # Modify test dataset
-    X_te, Y_te = process_data(test_data, args.dl_config, regression=True)
+    X_te, Y_te = process_data(test_data, args.ml_config, regression=True)
 
     sum_err = 0
     for k in range(K):
@@ -30,7 +32,7 @@ def main(args):
             file=sys.stdout,
         )
         # Call checkpoint
-        checkpoint_path = f"{args.result_dir}/ckpt_{k+1}"
+        checkpoint_path = f"{args.result_dir}/cfg_filename/ckpt_{k+1}"
         trained_model = load_model(checkpoint_path)
 
         # Predict the test dataset
@@ -38,7 +40,9 @@ def main(args):
         absolute_errors = abs(Y_te - y_pred)
         sum_err += sum(absolute_errors) / len(Y_te)
         print(f"Mean Error: {sum(absolute_errors)/len(Y_te)}", file=sys.stdout)
-        regression_scatter_plots(Y_te, y_pred, absolute_errors, args.result_dir, k)
+        regression_scatter_plots(
+            Y_te, y_pred, absolute_errors, f"{args.result_dir}/{cfg_filename}", k
+        )
 
     print(f"\nAverage Test Error: {sum_err/K}", file=sys.stdout)
     # stdout redirection closed
@@ -55,10 +59,17 @@ if __name__ == "__main__":
         help="Directory path with train results including checkpoint files",
     )
     parser.add_argument(
-        "--dl-config",
+        "--ml-config",
+        nargs="+",
         type=str,
         help="YAML file containing the configuration for deep learning",
     )
 
     args = parser.parse_args()
-    main(args)
+    if type(args.ml_config) == list:
+        ml_configs = args.ml_config[:]
+        for ml_config in ml_configs:
+            args.ml_config = ml_config
+            main(args)
+    else:
+        main(args)

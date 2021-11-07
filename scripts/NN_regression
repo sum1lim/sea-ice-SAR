@@ -50,7 +50,7 @@ def main(args):
 
     # Set up results directory
     config_dir, filename, _ = decompose_filepath(args.ml_config)
-    result_dir = f"./results/NN_{filename}"
+    result_dir = f"{args.result_dir}/{filename}"
     try:
         os.mkdir(result_dir)
     except FileExistsError:
@@ -118,10 +118,22 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
+        "--result-dir",
+        type=str,
+        help="Directory path to store the results",
+    )
+    parser.add_argument(
         "--ml-config",
+        nargs="+",
         type=str,
         help="YAML file containing the configuration for machine learning",
     )
 
     args = parser.parse_args()
-    main(args)
+    if type(args.ml_config) == list:
+        ml_configs = args.ml_config[:]
+        for ml_config in ml_configs:
+            args.ml_config = ml_config
+            main(args)
+    else:
+        main(args)

@@ -7,43 +7,24 @@ from sea_ice_SAR.ML_tools import (
     process_data,
     construct_confusion_matrix,
 )
+from sea_ice_SAR.utils import decompose_filepath
 from sklearn.metrics import accuracy_score, classification_report
 from tensorflow.keras.models import load_model
 
 
 def main(args):
-    model_type = args.result_dir.split("/")[-1].split("_")[0]
-
     # Parse configuration
-    _, test_data, _, _, verbosity, K, kernel_size = config_parser(args.ml_config)
+    _, test_data, _, _, verbosity, K, _ = config_parser(args.ml_config)
+    _, cfg_filename, _ = decompose_filepath(args.ml_config)
 
     # Verbosity == 1 --> sys.stdout
     # Verbosity == 2 --> .log file
     if verbosity == 2:
-        log_file = open(f"{args.result_dir}/test.log", "w")
+        log_file = open(f"{args.result_dir}/{cfg_filename}/test.log", "w")
         sys.stdout = log_file
 
     # Modify test dataset
     X_te, Y_te, classes = process_data(test_data, args.ml_config, regression=False)
-
-    # Format X if CNN
-    # Pad first few features at the end for convolution
-    if model_type == "CNN":
-        X_te_conv = np.transpose(
-            [
-                np.transpose(
-                    np.pad(
-                        X_te[0 : X_te.shape[0], X_te.shape[1] - 21 : X_te.shape[1]],
-                        ((0, 0), (0, kernel_size)),
-                        "wrap",
-                    )
-                )
-            ]
-        )
-        # Test dataset for dense layer to concatenate after convolution
-        X_te_cat = X_te[0 : X_te.shape[0], 0 : X_te.shape[1] - 18]
-
-        X_te = {"conv": X_te_conv, "cat": X_te_cat}
 
     for k in range(K):
         print(
@@ -51,7 +32,7 @@ def main(args):
             file=sys.stdout,
         )
         # Call checkpoint
-        checkpoint_path = f"{args.result_dir}/ckpt_{k+1}"
+        checkpoint_path = f"{args.result_dir}/cfg_filename/ckpt_{k+1}"
         trained_model = load_model(checkpoint_path)
 
         # Predict the test dataset
@@ -62,7 +43,9 @@ def main(args):
         print(classification_report(Y_te, y_pred), file=sys.stdout)
 
         # Construct confusion matrix
-        construct_confusion_matrix(classes, Y_te, y_pred, args.result_dir, k)
+        construct_confusion_matrix(
+            classes, Y_te, y_pred, f"{args.result_dir}/{cfg_filename}", k
+        )
 
     # stdout redirection closed
     if verbosity == 2:
@@ -79,9 +62,16 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--ml-config",
+        nargs="+",
         type=str,
         help="YAML file containing the configuration for deep learning",
     )
 
     args = parser.parse_args()
-    main(args)
+    if type(args.ml_config) == list:
+        ml_configs = args.ml_config[:]
+        for ml_config in ml_configs:
+            args.ml_config = ml_config
+            main(args)
+    else:
+        main(args)

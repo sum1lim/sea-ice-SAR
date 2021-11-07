@@ -28,10 +28,15 @@ def create_dataset(config_dict, data_split_type):
                 if idx > 0
             ]
             organized_data, feature_li = organize_data(
-                expert_data, sar_data, dataset_cfg["window_size"], dataset_cfg["aggregate"]
+                expert_data,
+                sar_data,
+                dataset_cfg["window_size"],
+                dataset_cfg["aggregate"],
             )
             dataframes.append(
-                configure_features(organized_data, feature_li, feature_cfg, dataset_cfg["window_size"])
+                configure_features(
+                    organized_data, feature_li, feature_cfg, dataset_cfg["window_size"]
+                )
             )
 
     for idx, _ in enumerate(dataframes):
