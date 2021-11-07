@@ -6,27 +6,39 @@ from sea_ice_SAR.utils import decompose_filepath
 from sea_ice_SAR.data_processing import normalize
 
 
-def main(args):
-    if os.path.isfile(args.input) == False or os.path.isfile(args.std_data) == False:
-        print("File(s) not existing", file=sys.stderr)
-        sys.exit(1)
-
-    decomposed = decompose_filepath(args.input)
-
-    df = normalize(args.input, args.std_data)
-
+def process_normalization(input, std_data):
+    decomposed = decompose_filepath(input)
+    df = normalize(input, std_data)
     out = decomposed[0] + "/" + decomposed[1] + "_norm.csv"
-
     df.to_csv(out, index=False)
+
+
+def main(args):
+    if not args.train_data.endswith("_norm.csv"):
+        process_normalization(args.train_data, args.train_data)
+        _, filename, extension = decompose_filepath(args.train_data)
+        test_data = f"{args.test_dir}/{filename}.{extension}"
+        process_normalization(test_data, args.train_data)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--input", type=str, help="Path of dataset to be normalized")
     parser.add_argument(
-        "--std-data", type=str, help="Dataset that provides normalization standard"
+        "--test-dir", type=str, help="Directory path of test dataset to be normalized"
+    )
+    parser.add_argument(
+        "--train-data",
+        nargs="+",
+        type=str,
+        help="Train dataset that provides normalization standard",
     )
 
     args = parser.parse_args()
-    main(args)
+    if type(args.train_data) == list:
+        train_datasets = args.train_data[:]
+        for train_data in train_datasets:
+            args.train_data = train_data
+            main(args)
+    else:
+        main(args)
