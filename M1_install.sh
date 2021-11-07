@@ -1,3 +1,5 @@
+#!/bin/bash
+
 curl https://raw.githubusercontent.com/mwidjaja1/DSOnMacARM/main/environment.yml --output ./environment.yml
 conda env remove -n conda-venv
 conda env create --file=./environment.yml --name=conda-venv
