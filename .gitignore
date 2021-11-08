@@ -5,3 +5,4 @@ venv
 data
 .vscode
 environment.yml
+upscaling_models
