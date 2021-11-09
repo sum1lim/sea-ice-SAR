@@ -12,6 +12,7 @@ from tensorflow.keras.layers import (
     Conv2DTranspose,
     ZeroPadding2D,
     Cropping2D,
+    Flatten,
 )
 from sea_ice_SAR.ML_tools import process_data, learning_curve
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
@@ -80,12 +81,12 @@ def CAE_output(encoded_df_tr, config_dict, outptu_dir, output_filename):
 
 
 def convert_to_vectors(df, config_dict, idx):
-    return pandas.DataFrame(
-        data=np.asanyarray(
-            [[float(z) for x in sample for y in x for z in y] for sample in df]
-        ),
-        columns=[f"{config_dict['new_features'][idx]}_{i}" for i in range(16)],
-    )
+    flatten = Sequential()
+    flatten.add(Input(shape=df.shape))
+    flatten.add(Flatten())
+    flatten.compile()
+
+    return pandas.DataFrame(flatten(df)).astype("float")
 
 
 def predict(autoencoder, X, dataset_type):
