@@ -1,5 +1,3 @@
-from math import pi
-import os
 import sys
 import rasterio
 import statistics
@@ -9,6 +7,7 @@ import pandas as pd
 import seaborn as sns
 
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 from osgeo import gdal
 from .utils import get_pixel, window, decompose_filepath
 
@@ -58,7 +57,7 @@ def organize_data(expert_data, features_files, window_size, is_aggregate):
 
         if iteration == 0:
             pixels = {}
-            for idx, datum in enumerate(expert_data):
+            for idx, datum in enumerate(tqdm(expert_data)):
                 if "" in datum:
                     continue
                 row, col = get_pixel(ds, datum[0], datum[1])
