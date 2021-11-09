@@ -1,7 +1,7 @@
 ---
-  configuration:
+configuration:
   smote: False
-  aggregate: False
+  aggregate: True
   window_size: 9
 
 train_data: 

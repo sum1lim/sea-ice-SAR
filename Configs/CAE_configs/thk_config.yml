@@ -1,8 +1,8 @@
 ---
 train_dir: ./data/thk_tr_data
 test_dir: ./data/thk_te_data
-filenames: [hh_norm, hv_norm, hv_hh_norm]
-new_features: [hh, hv, hv_hh]
+filenames: [hh_norm, hv_norm]
+new_features: [hh, hv]
 epochs: 1000
 output_filename: CAE
 ...
