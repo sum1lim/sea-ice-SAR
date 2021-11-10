@@ -39,8 +39,11 @@ def main(args):
         feature_files[idx] += te_cfg[idx]
 
     for output_dir in output_dirs:
-        os.mkdir(output_dir)
-
+        try:
+            os.mkdir(output_dir)
+        except FileExistsError:
+            continue
+        
     for f_idx, f_li in enumerate(feature_files):
         for output_idx, f in enumerate(f_li):
             _, filename, _ = decompose_filepath(f)
