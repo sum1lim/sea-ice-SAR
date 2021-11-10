@@ -41,8 +41,19 @@ def config_parser(ml_config):
             K = params["K-fold"]
         if "kernel_size" in params.keys():
             kernel_size = params["kernel_size"]
+        if "min_num_points" in params.keys():
+            min_num_points = params["min_num_points"]
 
-    return train_data, test_data, num_epochs, hidden_size, verbosity, K, kernel_size
+    return (
+        train_data,
+        test_data,
+        num_epochs,
+        hidden_size,
+        verbosity,
+        K,
+        kernel_size,
+        min_num_points,
+    )
 
 
 def calculate_hidden_layer_size(input_layer_size, output_layer_size, user_defined=None):
@@ -63,7 +74,7 @@ def calculate_hidden_layer_size(input_layer_size, output_layer_size, user_define
     return hidden_layer_size
 
 
-def process_data(data_file, ml_config=None, regression=True):
+def process_data(data_file, ml_config=None, regression=True, min_num_points=0):
     """
     Merge labels and/or select feautres for learning
     based on the user definition in the configuration file
@@ -76,6 +87,9 @@ def process_data(data_file, ml_config=None, regression=True):
 
     dataframe = pandas.read_csv(data_file, header=0, index_col=False)
     dataframe.drop(columns=["src_dir", "row", "col", "num_points"], inplace=True)
+    dataframe.drop(
+        dataframe[dataframe["num_points"] < min_num_points].index, inplace=True
+    )
 
     if config_dict:
         if "labels" in config_dict.keys():

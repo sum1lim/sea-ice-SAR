@@ -44,9 +44,16 @@ def NN(hidden_layer_size, input_layer_size, output_layer_size):
 
 def main(args):
     # Parse configuration
-    (train_data, _, num_epochs, hidden_size, verbosity, K, _) = config_parser(
-        args.ml_config
-    )
+    (
+        train_data,
+        _,
+        num_epochs,
+        hidden_size,
+        verbosity,
+        K,
+        _,
+        min_num_points,
+    ) = config_parser(args.ml_config)
 
     # Set up results directory
     config_dir, filename, _ = decompose_filepath(args.ml_config)
@@ -64,7 +71,9 @@ def main(args):
         sys.stdout = log_file
 
     # Modify train dataset
-    X_tr, Y_tr = process_data(train_data, args.ml_config, regression=True)
+    X_tr, Y_tr = process_data(
+        train_data, args.ml_config, regression=True, min_num_points=min_num_points
+    )
 
     # Define hidden layer size
     input_layer_size = X_tr.shape[1]
