@@ -91,30 +91,6 @@ def organize_data(expert_data, features_files, window_size, is_aggregate):
     return pixels, feature_li
 
 
-def normalize(input, std_data):
-    tr_df = pd.read_csv(std_data)
-
-    minimums = {
-        col: tr_df[col].min()
-        for col in tr_df.columns
-        if col != "label" or col != "src_dir" or col != "row" or col != "col"
-    }
-    maximums = {
-        col: tr_df[col].max()
-        for col in tr_df.columns
-        if col != "label" or col != "src_dir" or col != "row" or col != "col"
-    }
-
-    df = pd.read_csv(input)
-
-    for col in df.columns:
-        if col == "label" or col == "src_dir" or col == "row" or col == "col":
-            continue
-        df[col] = (df[col] - minimums[col]) / (maximums[col] - minimums[col])
-
-    return df
-
-
 def SMOTE(dataframe):
     sns.kdeplot(dataframe["label"], label="Original")
     print(

@@ -1,44 +1,84 @@
 #!/usr/bin/env python3
 import argparse
-import os
 import sys
+import os
+import yaml
+import rasterio
 from sea_ice_SAR.utils import decompose_filepath
-from sea_ice_SAR.data_processing import normalize
-
-
-def process_normalization(input, std_data):
-    decomposed = decompose_filepath(input)
-    df = normalize(input, std_data)
-    out = decomposed[0] + "/" + decomposed[1] + "_norm.csv"
-    df.to_csv(out, index=False)
+from osgeo import gdal
 
 
 def main(args):
-    if not args.train_data.endswith("_norm.csv"):
-        process_normalization(args.train_data, args.train_data)
-        _, filename, extension = decompose_filepath(args.train_data)
-        test_data = f"{args.test_dir}/{filename}.{extension}"
-        process_normalization(test_data, args.train_data)
+    try:
+        stream = open(args.config, "r")
+        config_dict = yaml.safe_load(stream)
+    except:
+        print("ERROR: Configuration file not provided", file=sys.stderr)
+
+    tr_cfg = config_dict["train_data"]
+    te_cfg = config_dict["test_data"]
+    output_dirs = config_dict["output_dir"]
+
+    min_max_li = []
+    for idx, tr_data in enumerate(tr_cfg):
+        for f in tr_data:
+            raster = rasterio.open(f)
+            band_arr = raster.read(1)
+            min = band_arr.min()
+            max = band_arr.max()
+            if idx == len(min_max_li):
+                min_max_li.append([min, max])
+            else:
+                if min < min_max_li[idx][0]:
+                    min_max_li[idx][0] = min
+                if max > min_max_li[idx][1]:
+                    min_max_li[idx][1] = max
+
+    feature_files = tr_cfg[:]
+    for idx, _ in enumerate(te_cfg):
+        feature_files[idx] += te_cfg[idx]
+
+    for output_dir in output_dirs:
+        os.mkdir(output_dir)
+
+    for f_idx, f_li in enumerate(feature_files):
+        for output_idx, f in enumerate(f_li):
+            _, filename, _ = decompose_filepath(f)
+            ds = gdal.Open(f)
+            band = ds.GetRasterBand(1)
+            band_arr = band.ReadAsArray()
+            min = min_max_li[f_idx][0]
+            max = min_max_li[f_idx][1]
+
+            normalized_arr = (band_arr - min) / (max - min)
+
+            [rows, cols] = band_arr.shape
+            driver = gdal.GetDriverByName("GTiff")
+            outdata = driver.Create(
+                f"{output_dirs[output_idx]}/{filename}.tif",
+                cols,
+                rows,
+                1,
+                gdal.GDT_Float64,
+            )
+            outdata.SetGeoTransform(ds.GetGeoTransform())
+            outdata.SetProjection(ds.GetProjection())
+            outdata.GetRasterBand(1).WriteArray(normalized_arr)
+            outdata.FlushCache()
+            outdata = None
+            band = None
+            ds = None
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--test-dir", type=str, help="Directory path of test dataset to be normalized"
-    )
-    parser.add_argument(
-        "--train-data",
-        nargs="+",
+        "--config",
         type=str,
-        help="Train dataset that provides normalization standard",
+        help="Configuration file to create datasets",
     )
 
     args = parser.parse_args()
-    if type(args.train_data) == list:
-        train_datasets = args.train_data[:]
-        for train_data in train_datasets:
-            args.train_data = train_data
-            main(args)
-    else:
-        main(args)
+
+    main(args)
