@@ -39,7 +39,7 @@ def configure_features(pixels, feature_li, feature_cfg, window_size):
 
 
 def organize_data(expert_data, features_files, window_size, is_aggregate):
-    feature_li = ["label", "src_dir", "row", "col", "num_point"]
+    feature_li = ["label", "src_dir", "row", "col", "num_points"]
     for iteration, ff in enumerate(features_files):
         if not ff.endswith(".tif"):
             continue
