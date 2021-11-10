@@ -70,7 +70,8 @@ def organize_data(expert_data, features_files, window_size, is_aggregate):
                         1,
                     ] + window(band_arr, row, col, window_size)
                 else:
-                    pixels[(row, col)][4] += 1
+                    if is_aggregate:
+                        pixels[(row, col)][4] += 1
                     pixels[(row, col)][0].append(float(datum[2]))
         else:
             for k in pixels.keys():
