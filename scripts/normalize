@@ -3,7 +3,6 @@ import argparse
 import sys
 import os
 import yaml
-import rasterio
 from sea_ice_SAR.utils import decompose_filepath
 from osgeo import gdal
 
@@ -22,8 +21,9 @@ def main(args):
     min_max_li = []
     for idx, tr_data in enumerate(tr_cfg):
         for f in tr_data:
-            raster = rasterio.open(f)
-            band_arr = raster.read(1)
+            ds = gdal.Open(f)
+            band = ds.GetRasterBand(1)
+            band_arr = band.ReadAsArray()
             min = band_arr.min()
             max = band_arr.max()
             if idx == len(min_max_li):
