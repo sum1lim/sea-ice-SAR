@@ -39,7 +39,7 @@ def configure_features(pixels, feature_li, feature_cfg, window_size):
 
 
 def organize_data(expert_data, features_files, window_size, is_aggregate):
-    feature_li = ["label", "src_dir", "row", "col"]
+    feature_li = ["label", "src_dir", "row", "col", "num_point"]
     for iteration, ff in enumerate(features_files):
         if not ff.endswith(".tif"):
             continue
@@ -67,8 +67,10 @@ def organize_data(expert_data, features_files, window_size, is_aggregate):
                         dir_path,
                         row,
                         col,
+                        1,
                     ] + window(band_arr, row, col, window_size)
                 else:
+                    pixels[(row, col)][4] += 1
                     pixels[(row, col)][0].append(float(datum[2]))
         else:
             for k in pixels.keys():
