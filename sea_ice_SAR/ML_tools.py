@@ -43,6 +43,8 @@ def config_parser(ml_config):
             kernel_size = params["kernel_size"]
         if "min_num_points" in params.keys():
             min_num_points = params["min_num_points"]
+        else:
+            min_num_points = 0
 
     return (
         train_data,
