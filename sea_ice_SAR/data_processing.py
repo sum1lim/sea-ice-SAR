@@ -170,7 +170,7 @@ def GLCM_handler(csv_file, img_dir, single_file=False):
         hv_file = f"{img_dir}/{src_dir}/hv.tif"
 
         data_points = [
-            (int(item["pix_loc_y"]), int(item["pix_loc_x"]))
+            (int(item["row"]), int(item["col"]))
             for idx, item in group.iterrows()
         ]
 
