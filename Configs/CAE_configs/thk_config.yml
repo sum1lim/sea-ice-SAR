@@ -3,7 +3,7 @@ train_dir: ./data/thk_tr_data
 test_dir: ./data/thk_te_data
 filenames: [hh, hv]
 new_features: [hh, hv]
-epochs: 1000
+epochs: 100
 output_filename: CAE
 min_num_points: 10
 ...

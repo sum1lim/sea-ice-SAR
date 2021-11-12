@@ -210,9 +210,17 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--config",
+        nargs="+",
         type=str,
         help="YAML file containing the configuration for CAE",
     )
 
     args = parser.parse_args()
-    main(args)
+    args = parser.parse_args()
+    if type(args.config) == list:
+        configs = args.config[:]
+        for config in configs:
+            args.config = config
+            main(args)
+    else:
+        main(args)
