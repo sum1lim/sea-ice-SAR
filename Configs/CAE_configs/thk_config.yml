@@ -5,4 +5,5 @@ filenames: [hh, hv]
 new_features: [hh, hv]
 epochs: 1000
 output_filename: CAE
+min_num_points: 10
 ...

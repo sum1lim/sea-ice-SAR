@@ -81,7 +81,7 @@ def CAE_output(encoded_df, config_dict, outptu_dir, output_filename):
     )
 
 
-def convert_to_vectors(df, config_dict, idx):
+def convert_to_vectors(df):
     flatten = Sequential()
     flatten.add(Input(shape=df.shape))
     flatten.add(Flatten())
@@ -100,10 +100,7 @@ def predict(autoencoder, X, dataset_type):
     return encoded, decoded
 
 
-def arrange_2d_arrays(tr_file, te_file):
-    X_tr, _ = process_data(tr_file)
-    X_te, _ = process_data(te_file)
-
+def arrange_2d_arrays(X_tr, X_te):
     input_dimension = sqrt(X_tr.shape[1])
     if int(input_dimension) != input_dimension:
         print("Window should be square", file=sys.stderr)
@@ -146,9 +143,16 @@ def main(args):
     encoded_df_tr = []
     encoded_df_te = []
     for idx, f in enumerate(config_dict["filenames"]):
-        X_tr_2d, X_te_2d, input_dimension = arrange_2d_arrays(
-            f"{config_dict['train_dir']}/{f}.csv", f"{config_dict['test_dir']}/{f}.csv"
+        X_tr_vector, _ = process_data(
+            f"{config_dict['train_dir']}/{f}.csv",
+            min_num_points=config_dict["min_num_points"],
         )
+        X_te_vector, _ = process_data(
+            f"{config_dict['test_dir']}/{f}.csv",
+            min_num_points=config_dict["min_num_points"],
+        )
+
+        X_tr_2d, X_te_2d, input_dimension = arrange_2d_arrays(X_tr_vector, X_te_vector)
         if idx == 0:
             X_tr = X_tr_2d
             X_te = X_te_2d
