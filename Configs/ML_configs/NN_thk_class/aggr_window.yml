@@ -5,6 +5,7 @@ configuration:
   verbosity: 2
   epochs: 10000
   K-fold: 10
+  min_num_points: 10
 
 labels:
   1: [0, 2]

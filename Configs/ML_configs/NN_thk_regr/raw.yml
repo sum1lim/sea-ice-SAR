@@ -6,6 +6,7 @@ configuration:
   epochs: 10000
   K-fold: 10
   hidden_size: 30
+  min_num_points: 10
 
 features:
   - hh
