@@ -70,7 +70,9 @@ def CAE_output(encoded_df, config_dict, outptu_dir, output_filename):
         f"{config_dict['train_dir']}/{config_dict['filenames'][0]}.csv", header=0
     )
     original_df.drop(
-        original_df.columns.difference(["label", "src_dir", "row", "col"]),
+        original_df.columns.difference(
+            ["label", "src_dir", "row", "col", "num_points"]
+        ),
         1,
         inplace=True,
     )
