@@ -112,3 +112,133 @@ def SMOTE(dataframe):
     print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
 
     return dataframe
+
+def GLCM_band(bordered_img, border_width, band, datapoints):
+    half_right_angle = np.pi / 8
+
+    return [
+        greycomatrix(
+            bordered_img[
+                row : row + 2 * border_width + 1,
+                col : col + 2 * border_width + 1,
+                band,
+            ],
+            distances=[1],
+            angles=[
+                0,
+                half_right_angle,
+                2 * half_right_angle,
+                3 * half_right_angle,
+                4 * half_right_angle,
+                5 * half_right_angle,
+                6 * half_right_angle,
+                7 * half_right_angle,
+            ],
+            levels=64,
+        )
+        for (row, col) in datapoints
+    ]
+
+def GLCM_handler(csv_file, img_dir, single_file=False):
+    GLCM_dataset = open(f"{parent_dir}/GLCM.csv", "w", newline="")
+    GLCM_writer = csv.writer(GLCM_dataset)
+
+    dataframe = pd.read_csv(csv_file, header=0)
+
+    GLCM_writer.writerow(
+        list(dataframe.columns)
+        + [
+            "entropy_hh",
+            "entropy_hv",
+            "ASM_hh",
+            "ASM_hv",
+            "contrast_hh",
+            "contrast_hv",
+            "homogeneity_hh",
+            "homogeneity_hv",
+            "dissimilarity_hh",
+            "dissimilarity_hv",
+        ]
+    )
+
+    grouped = dataframe.groupby(["src_dir"])
+    
+    for name, group in tqdm(grouped):
+        src_dir = name[0]
+
+        hh_file = f"{img_dir}/{src_dir}/hh.tif"
+        hv_file = f"{img_dir}/{src_dir}/hv.tif"
+
+        data_points = [
+            (int(item["pix_loc_y"]), int(item["pix_loc_x"]))
+            for idx, item in group.iterrows()
+        ]
+
+        GLCM_matrices = generate_GLCM([hh_file, hv_file], data_points)
+
+        entropy = glcm_product(GLCM_matrices, "entropy")
+        ASM = glcm_product(GLCM_matrices, "ASM")
+        contrast = glcm_product(GLCM_matrices, "contrast")
+        homogeneity = glcm_product(GLCM_matrices, "homogeneity")
+        dissimilarity = glcm_product(GLCM_matrices, "dissimilarity")
+
+        i = 0
+        for idx, item in group.iterrows():
+            GLCM_features = (
+                [item[i] for i in range(len(item))]
+                + entropy[i, :].tolist()
+                + ASM[i, :].tolist()
+                + contrast[i, :].tolist()
+                + homogeneity[i, :].tolist()
+                + dissimilarity[i, :].tolist()
+            )
+            GLCM_writer.writerow(GLCM_features)
+            i += 1
+
+def generate_GLCM(img_files, datapoints):
+    GLCM_matrices = []
+    for img_file in img_files
+
+        image = cv2.imread(img_file)
+
+        rescaled = ((image / 255) * (64 - 1)).astype(int)
+
+        border_width = 5
+        bordered = cv2.copyMakeBorder(
+            rescaled,
+            border_width,
+            border_width,
+            border_width,
+            border_width,
+            borderType=cv2.BORDER_REFLECT_101,
+        )
+
+        GLCM = GLCM_band(bordered, border_width, 0, datapoints)
+        GLCM_matrices.append(GLCM)
+
+    return GLCM_matrices
+
+
+def generate_entropy(GLCM):
+    e = np.finfo(float).eps
+
+    return [
+        np.sum(-np.multiply(GLCM[:, :, :, i], np.log(GLCM[:, :, :, i] + e)))
+        for i in range(GLCM.shape[-1])
+    ]
+
+
+def glcm_product(GLCM_matrices, product_type):
+    return np.transpose(
+        np.asarray(
+            [
+                [
+                    np.sum(generate_entropy(GLCM))
+                    if product_type == "entropy"
+                    else np.sum(greycoprops(GLCM, product_type)[0])
+                    for GLCM in GLCM_matrices[i]
+                ]
+                for i in range(len(GLCM_matrices))
+            ]
+        )
+    )
