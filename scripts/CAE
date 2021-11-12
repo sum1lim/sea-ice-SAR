@@ -8,10 +8,11 @@ import numpy as np
 
 from tensorflow.keras import Input, Model, Sequential, losses
 from tensorflow.keras.layers import (
-    Conv2D,
-    Conv2DTranspose,
-    ZeroPadding2D,
-    Cropping2D,
+    Conv3D,
+    UpSampling3D,
+    ZeroPadding3D,
+    Cropping3D,
+    MaxPooling3D,
     Flatten,
 )
 from sea_ice_SAR.ML_tools import process_data, learning_curve
@@ -23,36 +24,36 @@ class CAE(Model):
         super(CAE, self).__init__()
         self.encoder = Sequential(
             [
-                Input(shape=(input_dimension, input_dimension, 1)),
-                ZeroPadding2D(
+                Input(shape=(input_dimension, input_dimension, 2, 1)),
+                ZeroPadding3D(
                     (
                         (floor(padding_size), ceil(padding_size)),
                         (floor(padding_size), ceil(padding_size)),
+                        (1, 1),
                     )
                 ),
-                Conv2D(8, (3, 3), activation="relu", padding="same", strides=2),
-                Conv2D(4, (3, 3), activation="relu", padding="same", strides=2),
-                Conv2D(4, (3, 3), activation="relu", padding="same", strides=2),
+                Conv3D(8, (3, 3, 2), activation="relu", padding="same"),
+                MaxPooling3D(pool_size=(2, 2, 2), padding="same"),
+                Conv3D(4, (3, 3, 2), activation="relu", padding="same"),
+                MaxPooling3D(pool_size=(2, 2, 2), padding="same"),
+                Conv3D(2, (3, 3, 2), activation="relu", padding="same"),
             ]
         )
 
         self.decoder = Sequential(
             [
-                Input(shape=(2, 2, 4)),
-                Conv2DTranspose(
-                    4, kernel_size=3, strides=2, activation="relu", padding="same"
-                ),
-                Conv2DTranspose(
-                    4, kernel_size=3, strides=2, activation="relu", padding="same"
-                ),
-                Conv2DTranspose(
-                    8, kernel_size=3, strides=2, activation="relu", padding="same"
-                ),
-                Conv2D(1, kernel_size=(3, 3), activation="sigmoid", padding="same"),
-                Cropping2D(
+                Input(shape=(4, 4, 1, 2)),
+                Conv3D(2, (3, 3, 2), activation="relu", padding="same"),
+                UpSampling3D((2, 2, 2)),
+                Conv3D(4, (3, 3, 2), activation="relu", padding="same"),
+                UpSampling3D((2, 2, 2)),
+                Conv3D(8, (3, 3, 2), activation="relu", padding="same"),
+                Conv3D(1, kernel_size=(3, 3, 2), activation="sigmoid", padding="same"),
+                Cropping3D(
                     (
                         (floor(padding_size), ceil(padding_size)),
                         (floor(padding_size), ceil(padding_size)),
+                        (1, 1),
                     )
                 ),
             ]
@@ -64,17 +65,17 @@ class CAE(Model):
         return decoded
 
 
-def CAE_output(encoded_df_tr, config_dict, outptu_dir, output_filename):
-    original_tr_df = pandas.read_csv(
+def CAE_output(encoded_df, config_dict, outptu_dir, output_filename):
+    original_df = pandas.read_csv(
         f"{config_dict['train_dir']}/{config_dict['filenames'][0]}.csv", header=0
     )
-    original_tr_df.drop(
-        original_tr_df.columns.difference(["label", "src_dir", "row", "col"]),
+    original_df.drop(
+        original_df.columns.difference(["label", "src_dir", "row", "col"]),
         1,
         inplace=True,
     )
-    output_tr_df = pandas.concat([original_tr_df] + encoded_df_tr, axis=1)
-    output_tr_df.to_csv(
+    output_df = pandas.concat([original_df] + encoded_df, axis=1)
+    output_df.to_csv(
         f"{outptu_dir}/{output_filename}.csv",
         index=False,
     )
@@ -99,6 +100,45 @@ def predict(autoencoder, X, dataset_type):
     return encoded, decoded
 
 
+def arrange_2d_arrays(tr_file, te_file):
+    X_tr, _ = process_data(tr_file)
+    X_te, _ = process_data(te_file)
+
+    input_dimension = sqrt(X_tr.shape[1])
+    if int(input_dimension) != input_dimension:
+        print("Window should be square", file=sys.stderr)
+        sys.exit(1)
+    elif int(input_dimension) != sqrt(X_te.shape[1]):
+        print("Different train and test sample dimensions", file=sys.stderr)
+        sys.exit(1)
+    else:
+        input_dimension = int(input_dimension)
+
+    X_tr = np.asarray(
+        [
+            [
+                sample[i * input_dimension : (i + 1) * input_dimension]
+                for i in range(input_dimension)
+            ]
+            for sample in X_tr
+        ]
+    )
+    X_te = np.asarray(
+        [
+            [
+                sample[i * input_dimension : (i + 1) * input_dimension]
+                for i in range(input_dimension)
+            ]
+            for sample in X_te
+        ]
+    )
+
+    X_tr = np.reshape(X_tr, (len(X_tr), input_dimension, input_dimension, 1))
+    X_te = np.reshape(X_te, (len(X_te), input_dimension, input_dimension, 1))
+
+    return X_tr, X_te, input_dimension
+
+
 def main(args):
     stream = open(args.config, "r")
     config_dict = yaml.safe_load(stream)
@@ -106,76 +146,56 @@ def main(args):
     encoded_df_tr = []
     encoded_df_te = []
     for idx, f in enumerate(config_dict["filenames"]):
-        X_tr, _ = process_data(f"{config_dict['train_dir']}/{f}.csv")
-        X_te, _ = process_data(f"{config_dict['test_dir']}/{f}.csv")
-
-        input_dimension = sqrt(X_tr.shape[1])
-        if int(input_dimension) != input_dimension:
-            print("Window should be square", file=sys.stderr)
-            sys.exit(1)
-        elif int(input_dimension) != sqrt(X_te.shape[1]):
-            print("Different train and test sample dimensions", file=sys.stderr)
-            sys.exit(1)
+        X_tr_2d, X_te_2d, input_dimension = arrange_2d_arrays(
+            f"{config_dict['train_dir']}/{f}.csv", f"{config_dict['test_dir']}/{f}.csv"
+        )
+        if idx == 0:
+            X_tr = X_tr_2d
+            X_te = X_te_2d
         else:
-            input_dimension = int(input_dimension)
+            X_tr = np.concatenate((X_tr, X_tr_2d), axis=-1)
+            X_te = np.concatenate((X_te, X_te_2d), axis=-1)
 
-        X_tr = np.asarray(
-            [
-                [
-                    sample[i * input_dimension : (i + 1) * input_dimension]
-                    for i in range(input_dimension)
-                ]
-                for sample in X_tr
-            ]
-        )
-        X_te = np.asarray(
-            [
-                [
-                    sample[i * input_dimension : (i + 1) * input_dimension]
-                    for i in range(input_dimension)
-                ]
-                for sample in X_te
-            ]
-        )
+    X_tr = np.reshape(X_tr, (len(X_tr), input_dimension, input_dimension, 2, 1))
+    X_te = np.reshape(X_te, (len(X_te), input_dimension, input_dimension, 2, 1))
 
-        X_tr = np.reshape(X_tr, (len(X_tr), input_dimension, input_dimension, 1))
-        X_te = np.reshape(X_te, (len(X_te), input_dimension, input_dimension, 1))
+    print(X_tr.shape)
 
-        if input_dimension > 16:
-            print("Input dimension too big", file=sys.stderr)
-        padding_size = (16 - input_dimension) / 2
+    if input_dimension > 16:
+        print("Input dimension too big", file=sys.stderr)
+    padding_size = (16 - input_dimension) / 2
 
-        autoencoder = CAE(input_dimension, padding_size)
-        autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
-        autoencoder.encoder.summary()
-        autoencoder.decoder.summary()
+    autoencoder = CAE(input_dimension, padding_size)
+    autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
+    autoencoder.encoder.summary()
+    autoencoder.decoder.summary()
 
-        checkpoint_path = f"./CAE_models/{f}/ckpt"
-        cp_callback = ModelCheckpoint(
-            filepath=checkpoint_path, save_best_only=True, mode="min"
-        )
-        es_callback = EarlyStopping(monitor="val_loss", mode="min", patience=50)
+    checkpoint_path = f"./CAE_models/{f}/ckpt"
+    cp_callback = ModelCheckpoint(
+        filepath=checkpoint_path, save_best_only=True, mode="min"
+    )
+    es_callback = EarlyStopping(monitor="val_loss", mode="min", patience=50)
 
-        model_summary = autoencoder.fit(
-            X_tr,
-            X_tr,
-            epochs=config_dict["epochs"],
-            batch_size=1024,
-            shuffle=True,
-            validation_data=(X_te, X_te),
-            callbacks=[cp_callback, es_callback],
-        )
+    model_summary = autoencoder.fit(
+        X_tr,
+        X_tr,
+        epochs=config_dict["epochs"],
+        batch_size=1024,
+        shuffle=True,
+        validation_data=(X_te, X_te),
+        callbacks=[cp_callback, es_callback],
+    )
 
-        # Plot the learning curve
-        learning_curve(
-            model_summary.history, f"./CAE_models/{config_dict['filenames'][idx]}", 0
-        )
+    # Plot the learning curve
+    learning_curve(
+        model_summary.history, f"./CAE_models/{config_dict['filenames'][idx]}", 0
+    )
 
-        encoded_tr, _ = predict(autoencoder, X_tr, "train")
-        encoded_te, _ = predict(autoencoder, X_te, "test")
+    encoded_tr, _ = predict(autoencoder, X_tr, "train")
+    encoded_te, _ = predict(autoencoder, X_te, "test")
 
-        encoded_df_tr.append(convert_to_vectors(encoded_tr, config_dict, idx))
-        encoded_df_te.append(convert_to_vectors(encoded_te, config_dict, idx))
+    encoded_df_tr.append(convert_to_vectors(encoded_tr, config_dict, idx))
+    encoded_df_te.append(convert_to_vectors(encoded_te, config_dict, idx))
 
     CAE_output(encoded_df_tr, config_dict, config_dict["train_dir"], "CAE")
     CAE_output(encoded_df_te, config_dict, config_dict["test_dir"], "CAE")
