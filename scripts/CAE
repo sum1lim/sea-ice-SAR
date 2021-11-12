@@ -36,14 +36,14 @@ class CAE(Model):
                 MaxPooling3D(pool_size=(2, 2, 2), padding="same"),
                 Conv3D(4, (3, 3, 2), activation="relu", padding="same"),
                 MaxPooling3D(pool_size=(2, 2, 2), padding="same"),
-                Conv3D(2, (3, 3, 2), activation="relu", padding="same"),
+                Conv3D(4, (3, 3, 2), activation="relu", padding="same"),
             ]
         )
 
         self.decoder = Sequential(
             [
-                Input(shape=(4, 4, 1, 2)),
-                Conv3D(2, (3, 3, 2), activation="relu", padding="same"),
+                Input(shape=(3, 3, 1, 4)),
+                Conv3D(4, (3, 3, 2), activation="relu", padding="same"),
                 UpSampling3D((2, 2, 2)),
                 Conv3D(4, (3, 3, 2), activation="relu", padding="same"),
                 UpSampling3D((2, 2, 2)),
@@ -165,9 +165,9 @@ def main(args):
 
     print(X_tr.shape)
 
-    if input_dimension > 16:
+    if input_dimension > 12:
         print("Input dimension too big", file=sys.stderr)
-    padding_size = (16 - input_dimension) / 2
+    padding_size = (12 - input_dimension) / 2
 
     autoencoder = CAE(input_dimension, padding_size)
     autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
