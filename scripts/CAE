@@ -198,8 +198,8 @@ def main(args):
     encoded_tr, _ = predict(autoencoder, X_tr, "train")
     encoded_te, _ = predict(autoencoder, X_te, "test")
 
-    encoded_df_tr.append(convert_to_vectors(encoded_tr, config_dict, idx))
-    encoded_df_te.append(convert_to_vectors(encoded_te, config_dict, idx))
+    encoded_df_tr.append(convert_to_vectors(encoded_tr))
+    encoded_df_te.append(convert_to_vectors(encoded_te))
 
     CAE_output(encoded_df_tr, config_dict, config_dict["train_dir"], "CAE")
     CAE_output(encoded_df_te, config_dict, config_dict["test_dir"], "CAE")
