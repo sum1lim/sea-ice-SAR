@@ -130,7 +130,7 @@ def process_data(data_file, ml_config=None, regression=True, min_num_points=0):
                 sys.exit(1)
 
     dataset = dataframe.values
-    print(f"Size of dataset: {dataset.shape}")
+    print(f"Size of dataset: {dataset.shape}", file=sys.stderr)
     X = dataset[:, 1:].astype(float)
     Y = dataset[:, 0]
 

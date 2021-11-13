@@ -16,44 +16,45 @@ from tensorflow.keras.layers import (
     Flatten,
 )
 from sea_ice_SAR.ML_tools import process_data, learning_curve
+from sea_ice_SAR.utils import decompose_filepath
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 
 
 class CAE(Model):
-    def __init__(self, input_dimension, padding_size):
+    def __init__(self, input_dimension, padding_2d, padding_height):
         super(CAE, self).__init__()
         self.encoder = Sequential(
             [
                 Input(shape=(input_dimension, input_dimension, 2, 1)),
                 ZeroPadding3D(
                     (
-                        (floor(padding_size), ceil(padding_size)),
-                        (floor(padding_size), ceil(padding_size)),
-                        (1, 1),
+                        (floor(padding_2d), ceil(padding_2d)),
+                        (floor(padding_2d), ceil(padding_2d)),
+                        (floor(padding_height), ceil(padding_height)),
                     )
                 ),
-                Conv3D(8, (3, 3, 2), activation="relu", padding="same"),
+                Conv3D(8, (3, 3, 3), activation="relu", padding="same"),
                 MaxPooling3D(pool_size=(2, 2, 2), padding="same"),
-                Conv3D(4, (3, 3, 2), activation="relu", padding="same"),
+                Conv3D(4, (3, 3, 3), activation="relu", padding="same"),
                 MaxPooling3D(pool_size=(2, 2, 2), padding="same"),
-                Conv3D(4, (3, 3, 2), activation="relu", padding="same"),
+                Conv3D(4, (3, 3, 3), activation="relu", padding="same"),
             ]
         )
 
         self.decoder = Sequential(
             [
                 Input(shape=(3, 3, 1, 4)),
-                Conv3D(4, (3, 3, 2), activation="relu", padding="same"),
+                Conv3D(4, (3, 3, 3), activation="relu", padding="same"),
                 UpSampling3D((2, 2, 2)),
-                Conv3D(4, (3, 3, 2), activation="relu", padding="same"),
+                Conv3D(4, (3, 3, 3), activation="relu", padding="same"),
                 UpSampling3D((2, 2, 2)),
-                Conv3D(8, (3, 3, 2), activation="relu", padding="same"),
+                Conv3D(8, (3, 3, 3), activation="relu", padding="same"),
                 Conv3D(1, kernel_size=(3, 3, 2), activation="sigmoid", padding="same"),
                 Cropping3D(
                     (
-                        (floor(padding_size), ceil(padding_size)),
-                        (floor(padding_size), ceil(padding_size)),
-                        (1, 1),
+                        (floor(padding_2d), ceil(padding_2d)),
+                        (floor(padding_2d), ceil(padding_2d)),
+                        (floor(padding_height), ceil(padding_height)),
                     )
                 ),
             ]
@@ -167,11 +168,16 @@ def main(args):
     X_tr = np.reshape(X_tr, (len(X_tr), input_dimension, input_dimension, 2, 1))
     X_te = np.reshape(X_te, (len(X_te), input_dimension, input_dimension, 2, 1))
 
-    if input_dimension > 12:
-        print("Input dimension too big", file=sys.stderr)
-    padding_size = (12 - input_dimension) / 2
+    height = idx + 1
+    if input_dimension > 8:
+        print("2D dimension too big", file=sys.stderr)
+    if height > 4:
+        print("Height dimension too big", file=sys.stderr)
 
-    autoencoder = CAE(input_dimension, padding_size)
+    padding_2d = (8 - input_dimension) / 2
+    padding_height = (4 - height) / 2
+
+    autoencoder = CAE(input_dimension, padding_2d, padding_height)
     autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
     autoencoder.encoder.summary()
     autoencoder.decoder.summary()
@@ -193,8 +199,9 @@ def main(args):
     )
 
     # Plot the learning curve
+    _, filename, _ = decompose_filepath(args.config)
     learning_curve(
-        model_summary.history, f"./CAE_models/{config_dict['filenames'][idx]}", 0
+        model_summary.history, f"./CAE_models/{filename}", 0
     )
 
     encoded_tr, _ = predict(autoencoder, X_tr, "train")
