@@ -165,8 +165,6 @@ def main(args):
     X_tr = np.reshape(X_tr, (len(X_tr), input_dimension, input_dimension, 2, 1))
     X_te = np.reshape(X_te, (len(X_te), input_dimension, input_dimension, 2, 1))
 
-    print(X_tr.shape)
-
     if input_dimension > 12:
         print("Input dimension too big", file=sys.stderr)
     padding_size = (12 - input_dimension) / 2
