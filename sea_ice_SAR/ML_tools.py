@@ -102,6 +102,7 @@ def process_data(data_file, ml_config=None, regression=True, min_num_points=0):
     dataframe.drop(
         dataframe[dataframe["num_points"] < min_num_points].index, inplace=True
     )
+    dataframe.reset_index(drop=True, inplace=True)
     dataframe.drop(columns=["src_dir", "row", "col", "num_points"], inplace=True)
 
     if config_dict:
