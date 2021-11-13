@@ -43,7 +43,7 @@ class CAE(Model):
 
         self.decoder = Sequential(
             [
-                Input(shape=(3, 3, 1, 4)),
+                Input(shape=(2, 2, 1, 4)),
                 Conv3D(4, (3, 3, 3), activation="relu", padding="same"),
                 UpSampling3D((2, 2, 2)),
                 Conv3D(4, (3, 3, 3), activation="relu", padding="same"),
