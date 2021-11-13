@@ -201,10 +201,6 @@ def main(args):
         callbacks=[cp_callback, es_callback],
     )
 
-    # Plot the learning curve
-    _, filename, _ = decompose_filepath(args.config)
-    learning_curve(model_summary.history, f"./CAE_models/{filename}", 0)
-
     encoded_tr, _ = predict(autoencoder, X_tr, "train")
     encoded_te, _ = predict(autoencoder, X_te, "test")
 
