@@ -2,7 +2,7 @@
 configuration:
   smote: True
   aggregate: True
-  window_size: 9
+  window_size: 7
 
 train_data: 
   ./data/AEM/20150419_embird_thk.csv:
