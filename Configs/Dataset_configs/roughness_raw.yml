@@ -1,6 +1,6 @@
 ---
 configuration:
-  smote: False
+  smote: True
   aggregate: False
   window_size: 1
 
