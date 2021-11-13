@@ -87,7 +87,18 @@ def process_data(data_file, ml_config=None, regression=True, min_num_points=0):
     else:
         config_dict = None
 
-    dataframe = pandas.read_csv(data_file, header=0, index_col=False)
+    if type(data_file) != list:
+        dataframe = pandas.read_csv(data_file, header=0, index_col=False)
+    else:
+        df_li = [pandas.read_csv(df, header=0, index_col=False) for df in data_file]
+        dataframe = df_li[0]
+        for idx, df in enumerate(df_li):
+            if idx == 0:
+                continue
+            dataframe = pandas.merge(
+                dataframe, df, on=["label", "src_dir", "row", "col", "num_points"]
+            )
+
     dataframe.drop(
         dataframe[dataframe["num_points"] < min_num_points].index, inplace=True
     )

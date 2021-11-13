@@ -113,6 +113,7 @@ def SMOTE(dataframe):
 
     return dataframe
 
+
 def GLCM_band(bordered_img, border_width, band, datapoints):
     half_right_angle = np.pi / 8
 
@@ -139,6 +140,7 @@ def GLCM_band(bordered_img, border_width, band, datapoints):
         for (row, col) in datapoints
     ]
 
+
 def GLCM_handler(csv_file, img_dir, single_file=False):
     GLCM_dataset = open(f"{parent_dir}/GLCM.csv", "w", newline="")
     GLCM_writer = csv.writer(GLCM_dataset)
@@ -162,7 +164,7 @@ def GLCM_handler(csv_file, img_dir, single_file=False):
     )
 
     grouped = dataframe.groupby(["src_dir"])
-    
+
     for name, group in tqdm(grouped):
         src_dir = name[0]
 
@@ -170,8 +172,7 @@ def GLCM_handler(csv_file, img_dir, single_file=False):
         hv_file = f"{img_dir}/{src_dir}/hv.tif"
 
         data_points = [
-            (int(item["row"]), int(item["col"]))
-            for idx, item in group.iterrows()
+            (int(item["row"]), int(item["col"])) for idx, item in group.iterrows()
         ]
 
         GLCM_matrices = generate_GLCM([hh_file, hv_file], data_points)
@@ -195,9 +196,10 @@ def GLCM_handler(csv_file, img_dir, single_file=False):
             GLCM_writer.writerow(GLCM_features)
             i += 1
 
+
 def generate_GLCM(img_files, datapoints):
     GLCM_matrices = []
-    for img_file in img_files
+    for img_file in img_files:
 
         image = cv2.imread(img_file)
 
