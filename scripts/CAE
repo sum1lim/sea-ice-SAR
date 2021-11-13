@@ -65,10 +65,12 @@ class CAE(Model):
         return decoded
 
 
-def CAE_output(encoded_df, config_dict, outptu_dir, output_filename):
-    original_df = pandas.read_csv(
-        f"{config_dict['train_dir']}/{config_dict['filenames'][0]}.csv", header=0
+def CAE_output(encoded_df, input_dir, input_file, output_filename, min_num_points=0):
+    original_df = pandas.read_csv(f"{input_dir}/{input_file}.csv", header=0)
+    original_df.drop(
+        original_df[original_df["num_points"] < min_num_points].index, inplace=True
     )
+    original_df.reset_index(drop=True, inplace=True)
     original_df.drop(
         original_df.columns.difference(
             ["label", "src_dir", "row", "col", "num_points"]
@@ -78,7 +80,7 @@ def CAE_output(encoded_df, config_dict, outptu_dir, output_filename):
     )
     output_df = pandas.concat([original_df] + encoded_df, axis=1)
     output_df.to_csv(
-        f"{outptu_dir}/{output_filename}.csv",
+        f"{input_dir}/{output_filename}.csv",
         index=False,
     )
 
@@ -201,8 +203,20 @@ def main(args):
     encoded_df_tr.append(convert_to_vectors(encoded_tr))
     encoded_df_te.append(convert_to_vectors(encoded_te))
 
-    CAE_output(encoded_df_tr, config_dict, config_dict["train_dir"], "CAE")
-    CAE_output(encoded_df_te, config_dict, config_dict["test_dir"], "CAE")
+    CAE_output(
+        encoded_df_tr,
+        config_dict["train_dir"],
+        config_dict["filenames"][0],
+        "CAE",
+        config_dict["min_num_points"],
+    )
+    CAE_output(
+        encoded_df_te,
+        config_dict["test_dir"],
+        config_dict["filenames"][0],
+        "CAE",
+        config_dict["min_num_points"],
+    )
 
 
 if __name__ == "__main__":
