@@ -17,6 +17,8 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+
 
 def NN(hidden_layer_size, input_layer_size, output_layer_size):
     # Construct Neural Network
