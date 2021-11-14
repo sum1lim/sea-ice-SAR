@@ -1,12 +1,12 @@
 ---
 configuration:
-  train_data: ./data/rms_tr_data/aggr.csv
-  test_data: ./data/rms_te_data/aggr.csv
+  train_data: ./data/thk_tr_data/aggr.csv
+  test_data: ./data/thk_te_data/aggr.csv
   verbosity: 2
   epochs: 10000
   K-fold: 10
   hidden_size: 30
-  min_num_points: 50
+  min_num_points: 10
 
 features:
   - hh
@@ -22,5 +22,5 @@ features:
   - std_hv7
   - std_hv9
   - theta
-  # - np
+  - np
 ...

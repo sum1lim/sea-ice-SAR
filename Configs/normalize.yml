@@ -13,7 +13,7 @@ train_data:
   - [./data/SAR/2015/2015_std_hv7.tif, ./data/SAR/2016/2016_std_hv7.tif]
   - [./data/SAR/2015/2015_std_hv9.tif, ./data/SAR/2016/2016_std_hv9.tif]
   - [./data/SAR/2015/2015_theta.tif, ./data/SAR/2016/2016_theta.tif]
-  - [./data/SAR/2015/hv_hh.tif, ./data/SAR/2016/hv_hh.tif]
+  - [./data/SAR/2015/ratio.tif, ./data/SAR/2016/ratio.tif]
 
 test_data: 
   - [./data/SAR/2018/2018_c5.tif]
@@ -29,7 +29,7 @@ test_data:
   - [./data/SAR/2018/2018_std_hv7.tif]
   - [./data/SAR/2018/2018_std_hv9.tif]
   - [./data/SAR/2018/2018_theta.tif]
-  - [./data/SAR/2018/hv_hh.tif]
+  - [./data/SAR/2018/ratio.tif]
 
 output_dir: [./data/SAR/2015_norm, ./data/SAR/2016_norm, ./data/SAR/2018_norm]
 ...
