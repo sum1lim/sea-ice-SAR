@@ -20,7 +20,7 @@ train_data:
       # - ./data/SAR/2015_norm/2015_std_hv7.tif
       # - ./data/SAR/2015_norm/2015_std_hv9.tif
       # - ./data/SAR/2015_norm/2015_theta.tif
-      # - ./data/SAR/2015_norm/hv_hh.tif
+      # - ./data/SAR/2015_norm/ratio.tif
     lat: 4
     lon: 3
     label: 5
@@ -39,7 +39,7 @@ train_data:
       # - ./data/SAR/2016_norm/2016_std_hv7.tif
       # - ./data/SAR/2016_norm/2016_std_hv9.tif
       # - ./data/SAR/2016_norm/2016_theta.tif
-      # - ./data/SAR/2016_norm/hv_hh.tif
+      # - ./data/SAR/2016_norm/ratio.tif
     lat: 6
     lon: 7
     label: 9
@@ -59,7 +59,7 @@ test_data:
       # - ./data/SAR/2018_norm/2018_std_hv7.tif
       # - ./data/SAR/2018_norm/2018_std_hv9.tif
       # - ./data/SAR/2018_norm/2018_theta.tif
-      # - ./data/SAR/2018_norm/hv_hh.tif
+      # - ./data/SAR/2018_norm/ratio.tif
     lat: 6
     lon: 7
     label: 9
@@ -67,7 +67,7 @@ test_data:
 features:
   hh: [2015_hh, 2016_hh, 2018_hh]
   # hv: [2015_hv, 2016_hv, 2018_hv]
-  # hv_hh: [hv_hh, hv_hh, hv_hh]
+  # ratio: [ratio, ratio, ratio]
   # c5: [2015_c5, 2016_c5, 2018_c5]
   # c7: [2015_c7, 2016_c7, 2018_c7]
   # c9: [2015_c9, 2016_c9, 2018_c9]
