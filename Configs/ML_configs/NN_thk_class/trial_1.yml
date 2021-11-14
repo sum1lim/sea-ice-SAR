@@ -1,0 +1,33 @@
+---
+configuration:
+  train_data: ./data/thk_tr_data/raw.csv
+  test_data: ./data/thk_te_data/aggr.csv
+  epochs: 10000
+  verbosity: 2
+  K-fold: 10
+  hidden_size: 30
+  min_num_points: 10
+
+labels:
+  1: [0, 2]
+  2: [2, 2.5]
+  3: [2.5, 3]
+  4: [3, 3.5]
+  5: [3.5, 100]
+  
+features:
+  - hh
+  - hv
+  - hv_hh
+  - c5
+  - c7
+  - c9
+  - std_hh5
+  - std_hh7
+  - std_hh9
+  - std_hv5
+  - std_hv7
+  - std_hv9
+  - theta
+  # - np
+...

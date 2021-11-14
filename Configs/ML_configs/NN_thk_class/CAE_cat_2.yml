@@ -1,11 +1,18 @@
 ---
 configuration:
-  train_data: [./data/rms_tr_data/CAE.csv, ./data/rms_tr_data/aggr.csv]
-  test_data: [./data/rms_te_data/CAE.csv, ./data/rms_te_data/aggr.csv]
+  train_data: [./data/thk_tr_data/CAE.csv, ./data/thk_tr_data/aggr.csv]
+  test_data: [./data/thk_te_data/CAE.csv, ./data/thk_te_data/aggr.csv]
   verbosity: 2
   epochs: 10000
   K-fold: 10
-  min_num_points: 50
+  min_num_points: 10
+
+labels:
+  1: [0, 2]
+  2: [2, 2.5]
+  3: [2.5, 3]
+  4: [3, 3.5]
+  5: [3.5, 100]
 
 features:
   - "0"
@@ -50,11 +57,11 @@ features:
   # - c5
   # - c7
   # - c9
-  # - std_hh5
-  # - std_hh7
-  # - std_hh9
-  # - std_hv5
-  # - std_hv7
+  - std_hh5
+  - std_hh7
+  - std_hh9
+  - std_hv5
+  - std_hv7
   # - std_hv9
   # - theta
   # - np
