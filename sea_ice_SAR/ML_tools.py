@@ -96,7 +96,7 @@ def process_data(data_file, ml_config=None, regression=True, min_num_points=0):
             if idx == 0:
                 continue
             dataframe = pandas.merge(
-                dataframe, df, on=["label", "src_dir", "row", "col"]
+                dataframe, df, on=["label", "src_dir", "row", "col", "num_points"]
             )
 
     dataframe.drop(
