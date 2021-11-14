@@ -16,7 +16,7 @@ def main(args):
     crosspol_ratio_arr = hv_arr / hh_arr
 
     driver = gdal.GetDriverByName("GTiff")
-    outdata = driver.Create(f"{output_dir}/hv_hh.tif", cols, rows, 1, gdal.GDT_Float64)
+    outdata = driver.Create(f"{output_dir}/ratio.tif", cols, rows, 1, gdal.GDT_Float64)
     outdata.SetGeoTransform(hh_ds.GetGeoTransform())
     outdata.SetProjection(hh_ds.GetProjection())
     outdata.GetRasterBand(1).WriteArray(crosspol_ratio_arr)
