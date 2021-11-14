@@ -11,7 +11,7 @@ configuration:
 features:
   - hh
   - hv
-  - hv_hh
+  - ratio
   # - c5
   # - c7
   # - c9
