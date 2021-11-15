@@ -81,6 +81,6 @@ features:
   # np: [2015_np, 2016_np, 2018_np]
 
 output_dir:
-  train_data: ./data/rms_tr_data/hv7.csv
-  test_data: ./data/rms_te_data/hv7.csv
+  train_data: ./data/rms_tr_data/c7.csv
+  test_data: ./data/rms_te_data/c7.csv
 ...

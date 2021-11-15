@@ -5,7 +5,7 @@ configuration:
   window_size: 7
 
 train_data: 
-  ./data/AEM/20150419_embird_thk.csv:
+  ./data/AEM/20150419_laser_rms.csv:
     SAR_data: 
       # - ./data/SAR/2015_norm/2015_c5.tif
       # - ./data/SAR/2015_norm/2015_c7.tif
@@ -24,7 +24,7 @@ train_data:
     lat: 4
     lon: 3
     label: 5
-  ./data/AEM/20160408_embird_thk.csv:
+  ./data/AEM/20160408_laser_rms.csv:
     SAR_data: 
       # - ./data/SAR/2016_norm/2016_c5.tif
       # - ./data/SAR/2016_norm/2016_c7.tif
@@ -40,11 +40,11 @@ train_data:
       # - ./data/SAR/2016_norm/2016_std_hv9.tif
       # - ./data/SAR/2016_norm/2016_theta.tif
       - ./data/SAR/2016_norm/ratio.tif
-    lat: 6
-    lon: 7
-    label: 9
+    lat: 1
+    lon: 2
+    label: 3
 test_data: 
-  ./data/AEM/20180508_embird_thk.csv:
+  ./data/AEM/20180508_laser_rms.csv:
     SAR_data:
       # - ./data/SAR/2018_norm/2018_c5.tif
       # - ./data/SAR/2018_norm/2018_c7.tif
@@ -60,9 +60,9 @@ test_data:
       # - ./data/SAR/2018_norm/2018_std_hv9.tif
       # - ./data/SAR/2018_norm/2018_theta.tif
       - ./data/SAR/2018_norm/ratio.tif
-    lat: 6
-    lon: 7
-    label: 9
+    lat: 4
+    lon: 3
+    label: 5
 
 features:
   # hh: [2015_hh, 2016_hh, 2018_hh]
@@ -81,6 +81,6 @@ features:
   # np: [2015_np, 2016_np, 2018_np]
 
 output_dir:
-  train_data: ./data/thk_tr_data/hv7.csv
-  test_data: ./data/thk_te_data/hv7.csv
+  train_data: ./data/rms_tr_data/ratio7.csv
+  test_data: ./data/rms_te_data/ratio7.csv
 ...

@@ -168,10 +168,10 @@ def main(args):
             X_tr = np.concatenate((X_tr, X_tr_2d), axis=-1)
             X_te = np.concatenate((X_te, X_te_2d), axis=-1)
 
-    X_tr = np.reshape(X_tr, (len(X_tr), input_dimension, input_dimension, 2, 1))
-    X_te = np.reshape(X_te, (len(X_te), input_dimension, input_dimension, 2, 1))
-
     height = idx + 1
+    X_tr = np.reshape(X_tr, (len(X_tr), input_dimension, input_dimension, height, 1))
+    X_te = np.reshape(X_te, (len(X_te), input_dimension, input_dimension, height, 1))
+
     if input_dimension > 8:
         print("2D dimension too big", file=sys.stderr)
     if height > 4:
