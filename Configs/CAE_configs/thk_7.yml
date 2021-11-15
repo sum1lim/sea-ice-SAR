@@ -1,8 +1,8 @@
 ---
 train_dir: ./data/thk_tr_data
 test_dir: ./data/thk_te_data
-filenames: [hh7, hv7]
-new_features: [hh, hv]
+filenames: [hh7, hv7, c7, ratio]
+new_features: [hh7, hv7, c7, ratio]
 epochs: 1000
 output_filename: CAE7
 min_num_points: 10

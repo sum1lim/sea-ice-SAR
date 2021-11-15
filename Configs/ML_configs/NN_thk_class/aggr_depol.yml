@@ -1,17 +1,24 @@
 ---
 configuration:
-  train_data: ./data/rms_tr_data/aggr.csv
-  test_data: ./data/rms_te_data/aggr.csv
-  verbosity: 2
+  train_data: ./data/thk_tr_data/aggr.csv
+  test_data: ./data/thk_te_data/aggr.csv
   epochs: 10000
+  verbosity: 2
   K-fold: 10
   hidden_size: 30
-  min_num_points: 50
+  min_num_points: 10
 
+labels:
+  1: [0, 2]
+  2: [2, 2.5]
+  3: [2.5, 3]
+  4: [3, 3.5]
+  5: [3.5, 100]
+  
 features:
   - hh
   - hv
-  # - ratio
+  - ratio
   - c5
   - c7
   - c9

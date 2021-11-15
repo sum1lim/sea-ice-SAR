@@ -12,9 +12,9 @@ features:
   - hh
   - hv
   - ratio
-  # - c5
-  # - c7
-  # - c9
+  - c5
+  - c7
+  - c9
   # - std_hh5
   # - std_hh7
   # - std_hh9
