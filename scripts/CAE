@@ -28,7 +28,7 @@ class CAE(Model):
         super(CAE, self).__init__()
         self.encoder = Sequential(
             [
-                Input(shape=(input_dimension, input_dimension, 2, 1)),
+                Input(shape=(input_dimension, input_dimension, 4, 1)),
                 ZeroPadding3D(
                     (
                         (floor(padding_2d), ceil(padding_2d)),
