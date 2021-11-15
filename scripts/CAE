@@ -24,11 +24,11 @@ os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 
 class CAE(Model):
-    def __init__(self, input_dimension, padding_2d, padding_height):
+    def __init__(self, input_dimension, height, padding_2d, padding_height):
         super(CAE, self).__init__()
         self.encoder = Sequential(
             [
-                Input(shape=(input_dimension, input_dimension, 4, 1)),
+                Input(shape=(input_dimension, input_dimension, height, 1)),
                 ZeroPadding3D(
                     (
                         (floor(padding_2d), ceil(padding_2d)),
@@ -180,7 +180,7 @@ def main(args):
     padding_2d = (8 - input_dimension) / 2
     padding_height = (4 - height) / 2
 
-    autoencoder = CAE(input_dimension, padding_2d, padding_height)
+    autoencoder = CAE(input_dimension, height, padding_2d, padding_height)
     autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
     autoencoder.encoder.summary()
     autoencoder.decoder.summary()
