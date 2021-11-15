@@ -1,0 +1,61 @@
+---
+configuration:
+  train_data: [./data/thk_tr_data/CAE7.csv, ./data/thk_tr_data/aggr.csv]
+  test_data: [./data/thk_te_data/CAE7.csv, ./data/thk_te_data/aggr.csv]
+  verbosity: 2
+  epochs: 10000
+  K-fold: 10
+  min_num_points: 10
+
+features:
+  - "0"
+  - "1"
+  - "2"
+  - "3"
+  - "4"
+  - "5"
+  - "6"
+  - "7"
+  - "8"
+  - "9"
+  - "10"
+  - "11"
+  - "12"
+  - "13"
+  - "14"
+  - "15"
+  - "16"
+  - "17"
+  - "18"
+  - "19"
+  - "20"
+  - "21"
+  - "22"
+  - "23"
+  - "24"
+  - "25"
+  - "26"
+  - "27"
+  - "28"
+  - "29"
+  - "30"
+  - "31"
+  - "32"
+  - "33"
+  - "34"
+  - "35"
+  - hh
+  - hv
+  - ratio
+  # - c5
+  # - c7
+  # - c9
+  # - std_hh5
+  # - std_hh7
+  # - std_hh9
+  # - std_hv5
+  # - std_hv7
+  # - std_hv9
+  # - theta
+  # - np
+...
