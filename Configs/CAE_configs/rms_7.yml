@@ -1,9 +1,0 @@
----
-train_dir: ./data/rms_tr_data
-test_dir: ./data/rms_te_data
-filenames: [hh7, hv7, c7, ratio7]
-new_features: [hh7, hv7, c7, ratio7]
-epochs: 1000
-output_filename: depol_CAE7
-min_num_points: 50
-...
