@@ -3,6 +3,8 @@ import argparse
 import sys
 import os
 import numpy as np
+
+from statistics import stdev
 from sea_ice_SAR.ML_tools import (
     config_parser,
     process_data,
@@ -10,6 +12,7 @@ from sea_ice_SAR.ML_tools import (
 )
 from sea_ice_SAR.utils import decompose_filepath
 from tensorflow.keras.models import load_model
+from scipy.stats import pearsonr
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
@@ -30,7 +33,8 @@ def main(args):
         test_data, args.ml_config, regression=True, min_num_points=min_num_points
     )
 
-    sum_err = 0
+    error_li = []
+    pearsonr_li = []
     for k in range(K):
         print(
             f"*************************** Fold #: {k+1} ***************************",
@@ -42,14 +46,24 @@ def main(args):
 
         # Predict the test dataset
         y_pred = trained_model.predict(X_te, verbose=verbosity).flatten()
+
         absolute_errors = abs(Y_te - y_pred)
-        sum_err += sum(absolute_errors) / len(Y_te)
-        print(f"Mean Error: {sum(absolute_errors)/len(Y_te)}", file=sys.stdout)
+        mean_absolute_error = sum(abs(Y_te - y_pred)) / len(Y_te)
+        error_li.append(mean_absolute_error)
+        corr_coefficient = pearsonr(Y_te, y_pred)[0]
+        pearsonr_li.append(corr_coefficient)
+
+        print(f"Mean Asolute Error: {mean_absolute_error}", file=sys.stdout)
+        print(f"Pearson's r: {corr_coefficient}", file=sys.stdout)
         regression_scatter_plots(
             Y_te, y_pred, absolute_errors, f"{args.result_dir}/{cfg_filename}", k
         )
 
-    print(f"\nAverage Test Error: {sum_err/K}", file=sys.stdout)
+    print(f"\nAverage MAE: {sum(error_li)/K}", file=sys.stdout)
+    print(f"Standard Deviation (MAE): {stdev(error_li)}", file=sys.stdout)
+    print(f"\nAverage Pearson's r: {sum(pearsonr_li)/K}", file=sys.stdout)
+    print(f"Standard Deviation (Pearson's r): {stdev(pearsonr_li)}", file=sys.stdout)
+
     # stdout redirection closed
     if verbosity == 2:
         log_file.close()
