@@ -1,18 +1,11 @@
 ---
 configuration:
-  train_data: [./data/thk_tr_data/hhhv_CAE7.csv, ./data/thk_tr_data/aggr.csv]
-  test_data: [./data/thk_te_data/hhhv_CAE7.csv, ./data/thk_te_data/aggr.csv]
+  train_data: [./data/thk_tr_data/depol_CAE.csv, ./data/thk_tr_data/aggr.csv]
+  test_data: [./data/thk_te_data/depol_CAE.csv, ./data/thk_te_data/aggr.csv]
   verbosity: 2
   epochs: 10000
   K-fold: 10
   min_num_points: 10
-
-labels:
-  1: [0, 2]
-  2: [2, 2.5]
-  3: [2.5, 3]
-  4: [3, 3.5]
-  5: [3.5, 100]
 
 features:
   - "0"
