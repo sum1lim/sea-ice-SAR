@@ -218,7 +218,7 @@ def main(args):
         encoded_df_te,
         config_dict["test_dir"],
         config_dict["filenames"][0],
-        "CAE",
+        config_dict["output_filename"],
         config_dict["min_num_points"],
     )
 

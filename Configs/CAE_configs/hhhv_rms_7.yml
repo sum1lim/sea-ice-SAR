@@ -4,6 +4,6 @@ test_dir: ./data/rms_te_data
 filenames: [hh7, hv7]
 new_features: [hh7, hv7]
 epochs: 1000
-output_filename: hhhv_CAE7
+output_filename: CAE7
 min_num_points: 50
 ...
