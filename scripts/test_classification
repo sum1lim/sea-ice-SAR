@@ -34,7 +34,6 @@ def main(args):
         args.ml_config,
         regression=False,
         min_num_points=min_num_points,
-        smote=smote,
     )
 
     for k in range(K):

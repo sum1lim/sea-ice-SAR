@@ -7,7 +7,7 @@ configuration:
   K-fold: 10
   hidden_size: 30
   min_num_points: 10
-	smote: True
+  smote: True
   
 features:
   - hh

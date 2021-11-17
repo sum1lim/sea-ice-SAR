@@ -36,7 +36,6 @@ def main(args):
         args.ml_config,
         regression=True,
         min_num_points=min_num_points,
-        smote=smote,
     )
 
     error_li = []
