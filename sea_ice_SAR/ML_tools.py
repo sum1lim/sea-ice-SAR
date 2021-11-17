@@ -212,13 +212,16 @@ def tr_val_split(K, X_tr, Y_tr):
     return tr_val_pairs
 
 
-def regression_scatter_plots(Y_expert, Y_pred, abs_error, result_dir, iter):
+def regression_plots(Y_expert, Y_pred, abs_error, result_dir, iter):
     maximum_val = max([max(Y_expert), max(Y_pred)])
 
+    # pred vs expert
+    pred_df = {"expert": Y_expert, "pred": Y_pred}
     plt.scatter(Y_expert, Y_pred)
     plt.title(f"Prediction VS Expert (Fold #: {iter+1})")
     plt.ylabel("Predcited Value")
     plt.xlabel("Expert Value")
+    sns.kdeplot(data=pred_df, x="expert", y="pred", color="red")
     xpoints = ypoints = plt.xlim(0, maximum_val + maximum_val / 10)
     plt.plot(
         xpoints, ypoints, linestyle="--", color="k", lw=3, scalex=False, scaley=False
@@ -226,9 +229,12 @@ def regression_scatter_plots(Y_expert, Y_pred, abs_error, result_dir, iter):
     plt.savefig(f"{result_dir}/pred_expert_{iter+1}.png")
     plt.clf()
 
+    # absolute errors
     plt.scatter(Y_expert, abs_error)
     plt.title(f"Absolute Errors (Fold #: {iter+1})")
     plt.ylabel("Absolute Error")
     plt.xlabel("Expert Value")
+    err_df = {"expert": Y_expert, "error": abs_error}
+    sns.kdeplot(data=err_df, x="expert", y="error", color="red")
     plt.savefig(f"{result_dir}/abs_errs_{iter+1}.png")
     plt.clf()

@@ -8,7 +8,7 @@ from statistics import stdev
 from sea_ice_SAR.ML_tools import (
     config_parser,
     process_data,
-    regression_scatter_plots,
+    regression_plots,
 )
 from sea_ice_SAR.utils import decompose_filepath
 from tensorflow.keras.models import load_model
@@ -55,7 +55,7 @@ def main(args):
 
         print(f"Mean Asolute Error: {mean_absolute_error}", file=sys.stdout)
         print(f"Pearson's r: {corr_coefficient}", file=sys.stdout)
-        regression_scatter_plots(
+        regression_plots(
             Y_te, y_pred, absolute_errors, f"{args.result_dir}/{cfg_filename}", k
         )
 

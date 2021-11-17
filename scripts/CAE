@@ -211,7 +211,7 @@ def main(args):
         encoded_df_tr,
         config_dict["train_dir"],
         config_dict["filenames"][0],
-        "CAE",
+        config_dict["output_filename"],
         config_dict["min_num_points"],
     )
     CAE_output(
