@@ -5,7 +5,8 @@ configuration:
   verbosity: 2
   epochs: 10000
   K-fold: 10
-  min_num_points: 50
+  min_num_points: 10
+	smote: True 
 
 features:
   - "0"

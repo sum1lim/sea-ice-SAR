@@ -91,33 +91,6 @@ def organize_data(expert_data, features_files, window_size, is_aggregate):
     return pixels, feature_li
 
 
-def SMOTE(dataframe):
-    for col in dataframe.columns:
-        if col not in ["src_dir", "row", "col", "num_points"]:
-            dataframe[col] = pd.to_numeric(dataframe[col])
-
-    sns.kdeplot(dataframe["label"], label="Original")
-    print(
-        f"Before SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
-        file=sys.stdout,
-    )
-    print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
-    dataframe = smogn.smoter(data=dataframe, y="label")
-    dataframe.dropna()
-    dataframe.reset_index(drop=True, inplace=True)
-    sns.kdeplot(dataframe["label"], label="Modified")
-    plt.legend(["Original", "Modified"], loc="upper right")
-    # plt.show()
-    plt.clf()
-    print(
-        f"After SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
-        file=sys.stdout,
-    )
-    print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
-
-    return dataframe
-
-
 def GLCM_band(bordered_img, border_width, band, datapoints):
     half_right_angle = np.pi / 8
 

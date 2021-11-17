@@ -17,7 +17,9 @@ os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 def main(args):
     # Parse configuration
-    _, test_data, _, _, verbosity, K, _, min_num_points = config_parser(args.ml_config)
+    _, test_data, _, _, verbosity, K, _, min_num_points, smote = config_parser(
+        args.ml_config
+    )
     _, cfg_filename, _ = decompose_filepath(args.ml_config)
 
     # Verbosity == 1 --> sys.stdout
@@ -28,7 +30,11 @@ def main(args):
 
     # Modify test dataset
     X_te, Y_te, classes = process_data(
-        test_data, args.ml_config, regression=False, min_num_points=min_num_points
+        test_data,
+        args.ml_config,
+        regression=False,
+        min_num_points=min_num_points,
+        smote=smote,
     )
 
     for k in range(K):

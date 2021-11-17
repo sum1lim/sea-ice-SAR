@@ -5,7 +5,7 @@ import os
 import sys
 import csv
 import yaml
-from sea_ice_SAR.data_processing import organize_data, configure_features, SMOTE
+from sea_ice_SAR.data_processing import organize_data, configure_features
 from sea_ice_SAR.utils import decompose_filepath
 
 
@@ -44,9 +44,6 @@ def create_dataset(config_dict, data_split_type):
             dataframe_aggr = dataframes[idx]
         else:
             dataframe_aggr = dataframe_aggr.append(dataframes[idx], ignore_index=True)
-
-    if dataset_cfg["smote"] and data_split_type == "train_data":
-        dataframe_aggr = SMOTE(dataframe_aggr)
 
     output_dir, _, _ = decompose_filepath(config_dict["output_dir"][data_split_type])
     try:

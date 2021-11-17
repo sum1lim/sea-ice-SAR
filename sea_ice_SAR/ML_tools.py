@@ -1,7 +1,7 @@
 import sys
 import csv
 import yaml
-import math
+import smogn
 import numpy as np
 import pandas
 import seaborn as sns
@@ -45,6 +45,10 @@ def config_parser(ml_config):
             min_num_points = params["min_num_points"]
         else:
             min_num_points = 0
+        if "smote" in params.keys():
+            smote = params["smote"]
+        else:
+            smote = False
 
     return (
         train_data,
@@ -55,6 +59,7 @@ def config_parser(ml_config):
         K,
         kernel_size,
         min_num_points,
+        smote,
     )
 
 
@@ -76,7 +81,9 @@ def calculate_hidden_layer_size(input_layer_size, output_layer_size, user_define
     return hidden_layer_size
 
 
-def process_data(data_file, ml_config=None, regression=True, min_num_points=0):
+def process_data(
+    data_file, ml_config=None, regression=True, min_num_points=0, smote=False
+):
     """
     Merge labels and/or select feautres for learning
     based on the user definition in the configuration file
@@ -102,7 +109,7 @@ def process_data(data_file, ml_config=None, regression=True, min_num_points=0):
     dataframe.drop(
         dataframe[dataframe["num_points"] < min_num_points].index, inplace=True
     )
-    dataframe.reset_index(drop=True, inplace=True)
+
     dataframe.drop(columns=["src_dir", "row", "col", "num_points"], inplace=True)
 
     if config_dict:
@@ -128,6 +135,31 @@ def process_data(data_file, ml_config=None, regression=True, min_num_points=0):
             except KeyError:
                 print("Error in configuration format", file=sys.stderr)
                 sys.exit(1)
+
+    # SMOTE over/under-sampling
+    if smote:
+        print(
+            f"Before SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
+            file=sys.stdout,
+        )
+        print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
+        dataframe = dataframe.dropna()
+        dataframe.reset_index(drop=True, inplace=True)
+        while True:
+            try:
+                dataframe = smogn.smoter(
+                    data=dataframe, y="label", samp_method="extreme"
+                )
+                break
+            except ValueError:
+                continue
+        dataframe = dataframe.dropna()
+        dataframe.reset_index(drop=True, inplace=True)
+        print(
+            f"After SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
+            file=sys.stdout,
+        )
+        print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
 
     dataset = dataframe.values
     print(f"Size of dataset: {dataset.shape}", file=sys.stderr)

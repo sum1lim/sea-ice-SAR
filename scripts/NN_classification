@@ -47,6 +47,7 @@ def main(args):
         K,
         _,
         min_num_points,
+        smote,
     ) = config_parser(args.ml_config)
 
     # Set up results directory
@@ -66,7 +67,11 @@ def main(args):
 
     # Modify train dataset
     X_tr, Y_tr, _ = process_data(
-        train_data, args.ml_config, regression=False, min_num_points=min_num_points
+        train_data,
+        args.ml_config,
+        regression=False,
+        min_num_points=min_num_points,
+        smote=smote,
     )
 
     # Define hidden layer size
