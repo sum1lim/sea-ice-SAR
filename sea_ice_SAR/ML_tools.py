@@ -258,6 +258,7 @@ def regression_plots(Y_expert, Y_pred, abs_error, result_dir, iter):
     plt.plot(
         xpoints, ypoints, linestyle="--", color="k", lw=3, scalex=False, scaley=False
     )
+    plt.axis('square')
     plt.savefig(f"{result_dir}/pred_expert_{iter+1}.png")
     plt.clf()
 
