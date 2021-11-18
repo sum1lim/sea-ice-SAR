@@ -19,5 +19,6 @@ setup(
         ./scripts/test_classification
         ./scripts/crosspol_ratio
         ./scripts/CAE
+        ./scripts/SOBEL
     """.split(),
 )
