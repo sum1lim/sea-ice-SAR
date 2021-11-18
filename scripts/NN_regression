@@ -3,6 +3,7 @@ import sys
 import os
 import shutil
 import argparse
+import tensorflow as tf
 from sea_ice_SAR.utils import decompose_filepath
 from sea_ice_SAR.ML_tools import (
     config_parser,
@@ -15,7 +16,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+tf.get_logger().setLevel('ERROR')
 
 
 def NN(hidden_layer_size, input_layer_size, output_layer_size):

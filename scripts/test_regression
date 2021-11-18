@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import sys
-import os
-import numpy as np
+import tensorflow as tf
 
 from statistics import stdev
 from sea_ice_SAR.ML_tools import (
@@ -14,7 +13,7 @@ from sea_ice_SAR.utils import decompose_filepath
 from tensorflow.keras.models import load_model
 from scipy.stats import pearsonr
 
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+tf.get_logger().setLevel('ERROR')
 
 
 def main(args):
