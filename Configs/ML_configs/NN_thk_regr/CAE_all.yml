@@ -38,5 +38,5 @@ features:
   - std_hv7
   - std_hv9
   - theta
-  - np
+  # - np
 ...
