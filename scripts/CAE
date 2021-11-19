@@ -185,7 +185,7 @@ def main(args):
     autoencoder.encoder.summary()
     autoencoder.decoder.summary()
 
-    _, filename, _ = decompose_filepath(args.configs)
+    _, filename, _ = decompose_filepath(args.config)
     checkpoint_path = f"./CAE_models/{filename}/ckpt"
     cp_callback = ModelCheckpoint(
         filepath=checkpoint_path, save_best_only=True, mode="min"
