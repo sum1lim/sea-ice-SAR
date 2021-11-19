@@ -1,0 +1,34 @@
+---
+configuration:
+  smote: False
+  aggregate: True
+  window_size: 7
+
+train_data: 
+  ./data/AEM/20150419_embird_thk.csv:
+    SAR_data: 
+      - ./data/SAR/2015_norm/2015_hh_SOBEL.tif
+    lat: 4
+    lon: 3
+    label: 5
+  ./data/AEM/20160408_embird_thk.csv:
+    SAR_data: 
+      - ./data/SAR/2016_norm/2016_hh_SOBEL.tif
+    lat: 6
+    lon: 7
+    label: 9
+test_data: 
+  ./data/AEM/20180508_embird_thk.csv:
+    SAR_data:
+      - ./data/SAR/2018_norm/2018_hh_SOBEL.tif
+    lat: 6
+    lon: 7
+    label: 9
+
+features:
+  hh_SOBEL: [2015_hh_SOBEL, 2016_hh_SOBEL, 2018_hh_SOBEL]
+
+output_dir:
+  train_data: ./data/thk_tr_data/hh7_SOBEL.csv
+  test_data: ./data/thk_te_data/hh7_SOBEL.csv
+...
