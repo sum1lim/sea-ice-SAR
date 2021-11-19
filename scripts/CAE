@@ -20,7 +20,7 @@ from sea_ice_SAR.ML_tools import process_data, learning_curve
 from sea_ice_SAR.utils import decompose_filepath
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 
-tf.get_logger().setLevel('ERROR')
+tf.get_logger().setLevel("ERROR")
 
 
 class CAE(Model):
@@ -185,7 +185,8 @@ def main(args):
     autoencoder.encoder.summary()
     autoencoder.decoder.summary()
 
-    checkpoint_path = f"./CAE_models/{f}/ckpt"
+    _, filename, _ = decompose_filepath(args.configs)
+    checkpoint_path = f"./CAE_models/{filename}/ckpt"
     cp_callback = ModelCheckpoint(
         filepath=checkpoint_path, save_best_only=True, mode="min"
     )

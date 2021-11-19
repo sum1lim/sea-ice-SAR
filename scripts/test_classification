@@ -12,7 +12,7 @@ from sea_ice_SAR.utils import decompose_filepath
 from sklearn.metrics import accuracy_score, classification_report
 from tensorflow.keras.models import load_model
 
-tf.get_logger().setLevel('ERROR')
+tf.get_logger().setLevel("ERROR")
 
 
 def main(args):

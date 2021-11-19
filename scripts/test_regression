@@ -13,7 +13,7 @@ from sea_ice_SAR.utils import decompose_filepath
 from tensorflow.keras.models import load_model
 from scipy.stats import pearsonr
 
-tf.get_logger().setLevel('ERROR')
+tf.get_logger().setLevel("ERROR")
 
 
 def main(args):
