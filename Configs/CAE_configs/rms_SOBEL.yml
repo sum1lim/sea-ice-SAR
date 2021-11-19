@@ -1,8 +1,8 @@
 ---
 train_dir: ./data/rms_tr_data
 test_dir: ./data/rms_te_data
-filenames: [hh7, hv7,hh7_SOBEL, hv7_SOBEL]
-new_features: [hh7, hv7, hh7_SOBEL, hv7_SOBEL]
+filenames: [hh7_SOBEL, hh7, hv7, hv7_SOBEL]
+new_features: [hh7_SOBEL, hh7, hv7, hv7_SOBEL]
 epochs: 1000
 output_filename: SOBEL_CAE
 min_num_points: 50
