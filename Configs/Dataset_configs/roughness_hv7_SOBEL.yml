@@ -1,0 +1,34 @@
+---
+configuration:
+  smote: False
+  aggregate: True
+  window_size: 7
+
+train_data: 
+  ./data/AEM/20150419_laser_rms.csv:
+    SAR_data: 
+      - ./data/SAR/2015_norm/2015_hv_SOBEL.tif
+    lat: 4
+    lon: 3
+    label: 5
+  ./data/AEM/20160408_laser_rms.csv:
+    SAR_data: 
+      - ./data/SAR/2016_norm/2016_hv_SOBEL.tif
+    lat: 1
+    lon: 2
+    label: 3
+test_data: 
+  ./data/AEM/20180508_laser_rms.csv:
+    SAR_data:
+      - ./data/SAR/2018_norm/2018_hv_SOBEL.tif
+    lat: 4
+    lon: 3
+    label: 5
+
+features:
+  hv_SOBEL: [2015_hv_SOBEL, 2016_hv_SOBEL, 2018_hv_SOBEL]
+
+output_dir:
+  train_data: ./data/rms_tr_data/hv7_SOBEL.csv
+  test_data: ./data/rms_te_data/hv7_SOBEL.csv
+...
