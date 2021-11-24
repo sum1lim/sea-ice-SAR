@@ -7,25 +7,29 @@ configuration:
 train_data: 
   ./data/AEM/20150419_embird_thk.csv:
     SAR_data: 
+      - ./data/SAR/2015_norm/2015_masked.tif
       - ./data/SAR/2015_norm/2015_hv_SOBEL.tif
     lat: 4
     lon: 3
     label: 5
   ./data/AEM/20160408_embird_thk.csv:
     SAR_data: 
+      - ./data/SAR/2016_norm/2016_masked.tif
       - ./data/SAR/2016_norm/2016_hv_SOBEL.tif
     lat: 6
     lon: 7
     label: 9
 test_data: 
   ./data/AEM/20180508_embird_thk.csv:
-    SAR_data:
+    SAR_data: 
+      - ./data/SAR/2018_norm/2018_masked.tif
       - ./data/SAR/2018_norm/2018_hv_SOBEL.tif
     lat: 6
     lon: 7
     label: 9
 
 features:
+  mask: [2015_masked, 2016_masked, 2018_masked]
   hv_SOBEL: [2015_hv_SOBEL, 2016_hv_SOBEL, 2018_hv_SOBEL]
 
 output_dir:

@@ -7,12 +7,14 @@ configuration:
 train_data: 
   ./data/AEM/20150419_laser_rms.csv:
     SAR_data: 
+      - ./data/SAR/2015_norm/2015_masked.tif
       - ./data/SAR/2015_norm/2015_hv_SOBEL.tif
     lat: 4
     lon: 3
     label: 5
   ./data/AEM/20160408_laser_rms.csv:
     SAR_data: 
+      - ./data/SAR/2016_norm/2016_masked.tif
       - ./data/SAR/2016_norm/2016_hv_SOBEL.tif
     lat: 1
     lon: 2
@@ -20,12 +22,14 @@ train_data:
 test_data: 
   ./data/AEM/20180508_laser_rms.csv:
     SAR_data:
+      - ./data/SAR/2018_norm/2018_masked.tif
       - ./data/SAR/2018_norm/2018_hv_SOBEL.tif
     lat: 4
     lon: 3
     label: 5
 
 features:
+  mask: [2015_masked, 2016_masked, 2018_masked]
   hv_SOBEL: [2015_hv_SOBEL, 2016_hv_SOBEL, 2018_hv_SOBEL]
 
 output_dir:
