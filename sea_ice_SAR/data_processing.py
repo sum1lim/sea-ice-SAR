@@ -38,8 +38,12 @@ def configure_features(pixels, feature_li, feature_cfg, window_size):
     return df
 
 
-def organize_data(expert_data, features_files, window_size, is_aggregate):
-    feature_li = ["label", "src_dir", "row", "col", "num_points"]
+def organize_data(expert_data, features_files, window_size, is_aggregate, mask_file):
+    feature_li = ["label", "src_dir", "row", "col", "num_points", "mask"]
+
+    mask_raster = rasterio.open(mask_file)
+    mask_arr = mask_raster.read(1)
+
     for iteration, ff in enumerate(features_files):
         if not ff.endswith(".tif"):
             continue
@@ -68,6 +72,7 @@ def organize_data(expert_data, features_files, window_size, is_aggregate):
                         row,
                         col,
                         1,
+                        int(mask_arr[row, col]),
                     ] + window(band_arr, row, col, window_size)
                 else:
                     if is_aggregate:

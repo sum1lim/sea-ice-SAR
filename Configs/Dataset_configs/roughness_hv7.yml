@@ -6,8 +6,8 @@ configuration:
 
 train_data: 
   ./data/AEM/20150419_laser_rms.csv:
-    SAR_data: 
-      - ./data/SAR/2015/2015_masked.tif
+    Mask: ./data/SAR/2015/2015_masked.tif
+    SAR_data:
       # - ./data/SAR/2015_norm/2015_c5.tif
       # - ./data/SAR/2015_norm/2015_c7.tif
       # - ./data/SAR/2015_norm/2015_c9.tif
@@ -26,8 +26,8 @@ train_data:
     lon: 3
     label: 5
   ./data/AEM/20160408_laser_rms.csv:
-    SAR_data: 
-      - ./data/SAR/2016/2016_masked.tif
+    Mask: ./data/SAR/2016/2016_masked.tif
+    SAR_data:
       # - ./data/SAR/2016_norm/2016_c5.tif
       # - ./data/SAR/2016_norm/2016_c7.tif
       # - ./data/SAR/2016_norm/2016_c9.tif
@@ -47,8 +47,8 @@ train_data:
     label: 3
 test_data: 
   ./data/AEM/20180508_laser_rms.csv:
+    Mask: ./data/SAR/2018/2018_masked.tif
     SAR_data:
-      - ./data/SAR/2018/2018_masked.tif
       # - ./data/SAR/2018_norm/2018_c5.tif
       # - ./data/SAR/2018_norm/2018_c7.tif
       # - ./data/SAR/2018_norm/2018_c9.tif
@@ -68,7 +68,6 @@ test_data:
     label: 5
 
 features:
-  mask: [2015_masked, 2016_masked, 2018_masked]
   # hh: [2015_hh, 2016_hh, 2018_hh]
   hv: [2015_hv, 2016_hv, 2018_hv]
   # ratio: [ratio, ratio, ratio]

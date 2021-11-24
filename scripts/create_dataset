@@ -19,6 +19,7 @@ def create_dataset(config_dict, data_split_type):
         lat_idx = file_info["lat"] - 1
         lon_idx = file_info["lon"] - 1
         label_idx = file_info["label"] - 1
+        mask_file = file_info["Mask"]
 
         with open(file_name) as expert_csv:
             csv_reader = csv.reader(expert_csv)
@@ -32,6 +33,7 @@ def create_dataset(config_dict, data_split_type):
                 sar_data,
                 dataset_cfg["window_size"],
                 dataset_cfg["aggregate"],
+                mask_file,
             )
             dataframes.append(
                 configure_features(
