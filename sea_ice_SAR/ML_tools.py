@@ -49,6 +49,10 @@ def config_parser(ml_config):
             smote = params["smote"]
         else:
             smote = False
+        if "masks" in params.keys():
+            masks = params["masks"]
+        else:
+            masks = [-1, 0, 1, 2, 3]
 
     return (
         train_data,
@@ -60,6 +64,7 @@ def config_parser(ml_config):
         kernel_size,
         min_num_points,
         smote,
+        masks,
     )
 
 
@@ -82,7 +87,12 @@ def calculate_hidden_layer_size(input_layer_size, output_layer_size, user_define
 
 
 def process_data(
-    data_file, ml_config=None, regression=True, min_num_points=0, smote=False
+    data_file,
+    ml_config=None,
+    regression=True,
+    min_num_points=0,
+    masks=[-1, 0, 1, 2, 3],
+    smote=False,
 ):
     """
     Merge labels and/or select feautres for learning
@@ -103,14 +113,19 @@ def process_data(
             if idx == 0:
                 continue
             dataframe = pandas.merge(
-                dataframe, df, on=["label", "src_dir", "row", "col", "num_points"]
+                dataframe,
+                df,
+                on=["label", "src_dir", "row", "col", "num_points", "mask"],
             )
 
     dataframe.drop(
         dataframe[dataframe["num_points"] < min_num_points].index, inplace=True
     )
+    dataframe.drop(dataframe[~dataframe["mask"].isin(masks)].index, inplace=True)
 
-    dataframe.drop(columns=["src_dir", "row", "col", "num_points"], inplace=True)
+    dataframe.drop(
+        columns=["src_dir", "row", "col", "num_points", "mask"], inplace=True
+    )
 
     if config_dict:
         if "labels" in config_dict.keys():

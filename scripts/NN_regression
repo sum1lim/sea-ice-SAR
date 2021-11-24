@@ -57,6 +57,7 @@ def main(args):
         _,
         min_num_points,
         smote,
+        masks,
     ) = config_parser(args.ml_config)
 
     # Set up results directory
@@ -80,6 +81,7 @@ def main(args):
         args.ml_config,
         regression=True,
         min_num_points=min_num_points,
+        masks=masks,
         smote=smote,
     )
 

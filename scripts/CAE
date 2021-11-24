@@ -77,7 +77,7 @@ def CAE_output(encoded_df, input_dir, input_file, output_filename, min_num_point
     original_df.reset_index(drop=True, inplace=True)
     original_df.drop(
         original_df.columns.difference(
-            ["label", "src_dir", "row", "col", "num_points"]
+            ["label", "src_dir", "row", "col", "num_points", "mask"]
         ),
         1,
         inplace=True,
