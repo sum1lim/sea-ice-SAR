@@ -26,7 +26,7 @@ train_data:
     lon: 3
     label: 5
   ./data/AEM/20160408_laser_rms.csv:
-      SAR_data: 
+    SAR_data: 
       - ./data/SAR/2016/2016_masked.tif
       - ./data/SAR/2016_norm/2016_c5.tif
       - ./data/SAR/2016_norm/2016_c7.tif
