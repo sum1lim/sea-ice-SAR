@@ -2,6 +2,7 @@
 import argparse
 from math import sqrt, ceil, floor
 import sys
+import os
 import yaml
 import pandas
 import numpy as np
@@ -16,57 +17,57 @@ from tensorflow.keras.layers import (
     MaxPooling3D,
     Flatten,
 )
-from sea_ice_SAR.ML_tools import process_data, learning_curve
+from tensorflow.keras.models import load_model
+from sea_ice_SAR.ML_tools import process_data
 from sea_ice_SAR.utils import decompose_filepath
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 
 tf.get_logger().setLevel("ERROR")
 
 
-class CAE(Model):
-    def __init__(self, input_dimension, height, padding_2d, padding_height):
-        super(CAE, self).__init__()
-        self.encoder = Sequential(
-            [
-                Input(shape=(input_dimension, input_dimension, height, 1)),
-                ZeroPadding3D(
-                    (
-                        (floor(padding_2d), ceil(padding_2d)),
-                        (floor(padding_2d), ceil(padding_2d)),
-                        (floor(padding_height), ceil(padding_height)),
-                    )
-                ),
-                Conv3D(8, (3, 3, 3), activation="relu", padding="same"),
-                MaxPooling3D(pool_size=(2, 2, 2), padding="same"),
-                Conv3D(4, (3, 3, 3), activation="relu", padding="same"),
-                MaxPooling3D(pool_size=(2, 2, 2), padding="same"),
-                Conv3D(4, (3, 3, 3), activation="relu", padding="same"),
-            ]
+def CAE(input_dimension, height, padding_2d, padding_height):
+    autoencoder = Sequential()
+    autoencoder.add(Input(shape=(input_dimension, input_dimension, height, 1)))
+    autoencoder.add(
+        ZeroPadding3D(
+            (
+                (floor(padding_2d), ceil(padding_2d)),
+                (floor(padding_2d), ceil(padding_2d)),
+                (floor(padding_height), ceil(padding_height)),
+            )
         )
+    )
+    autoencoder.add(Conv3D(8, (3, 3, 3), activation="relu", padding="same"))
+    autoencoder.add(MaxPooling3D(pool_size=(2, 2, 2), padding="same"))
+    autoencoder.add(Conv3D(4, (3, 3, 3), activation="relu", padding="same"))
+    autoencoder.add(MaxPooling3D(pool_size=(2, 2, 2), padding="same"))
+    autoencoder.add(Conv3D(4, (3, 3, 3), activation="relu", padding="same"))
 
-        self.decoder = Sequential(
-            [
-                Input(shape=(2, 2, 1, 4)),
-                Conv3D(4, (3, 3, 3), activation="relu", padding="same"),
-                UpSampling3D((2, 2, 2)),
-                Conv3D(4, (3, 3, 3), activation="relu", padding="same"),
-                UpSampling3D((2, 2, 2)),
-                Conv3D(8, (3, 3, 3), activation="relu", padding="same"),
-                Conv3D(1, kernel_size=(3, 3, 2), activation="sigmoid", padding="same"),
-                Cropping3D(
-                    (
-                        (floor(padding_2d), ceil(padding_2d)),
-                        (floor(padding_2d), ceil(padding_2d)),
-                        (floor(padding_height), ceil(padding_height)),
-                    )
-                ),
-            ]
+    # end of encoding
+    # start of decoding
+
+    autoencoder.add(Conv3D(4, (3, 3, 3), activation="relu", padding="same"))
+    autoencoder.add(UpSampling3D((2, 2, 2)))
+    autoencoder.add(Conv3D(4, (3, 3, 3), activation="relu", padding="same"))
+    autoencoder.add(UpSampling3D((2, 2, 2)))
+    autoencoder.add(Conv3D(8, (3, 3, 3), activation="relu", padding="same"))
+    autoencoder.add(
+        Conv3D(1, kernel_size=(3, 3, 2), activation="sigmoid", padding="same")
+    )
+    autoencoder.add(
+        Cropping3D(
+            (
+                (floor(padding_2d), ceil(padding_2d)),
+                (floor(padding_2d), ceil(padding_2d)),
+                (floor(padding_height), ceil(padding_height)),
+            )
         )
+    )
 
-    def call(self, x):
-        encoded = self.encoder(x)
-        decoded = self.decoder(encoded)
-        return decoded
+    autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
+    autoencoder.summary()
+
+    return autoencoder
 
 
 def CAE_output(encoded_df, input_dir, input_file, output_filename, min_num_points=0):
@@ -99,8 +100,12 @@ def convert_to_vectors(df):
 
 
 def predict(autoencoder, X, dataset_type):
-    encoded = autoencoder.encoder(X)
-    decoded = autoencoder.decoder(encoded)
+    encoder = Model(autoencoder.layers[0].input, autoencoder.layers[5].output)
+    encoder.summary()
+    encoded = encoder(X)
+
+    decoded = autoencoder(X)
+
     print(
         f"Performance on {dataset_type} dataset (mean error): {abs(np.mean(X - decoded))}",
         file=sys.stdout,
@@ -180,11 +185,6 @@ def main(args):
     padding_2d = (8 - input_dimension) / 2
     padding_height = (4 - height) / 2
 
-    autoencoder = CAE(input_dimension, height, padding_2d, padding_height)
-    autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
-    autoencoder.encoder.summary()
-    autoencoder.decoder.summary()
-
     _, filename, _ = decompose_filepath(args.config)
     checkpoint_path = f"./CAE_models/{filename}/ckpt"
     cp_callback = ModelCheckpoint(
@@ -192,15 +192,21 @@ def main(args):
     )
     es_callback = EarlyStopping(monitor="val_loss", mode="min", patience=50)
 
-    model_summary = autoencoder.fit(
-        X_tr,
-        X_tr,
-        epochs=config_dict["epochs"],
-        batch_size=1024,
-        shuffle=True,
-        validation_data=(X_te, X_te),
-        callbacks=[cp_callback, es_callback],
-    )
+    if not os.path.exists(checkpoint_path):
+        autoencoder = CAE(input_dimension, height, padding_2d, padding_height)
+        autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
+
+        model_summary = autoencoder.fit(
+            X_tr,
+            X_tr,
+            epochs=config_dict["epochs"],
+            batch_size=1024,
+            shuffle=True,
+            validation_data=(X_te, X_te),
+            callbacks=[cp_callback, es_callback],
+        )
+
+    autoencoder = load_model(checkpoint_path)
 
     encoded_tr, _ = predict(autoencoder, X_tr, "train")
     encoded_te, _ = predict(autoencoder, X_te, "test")
