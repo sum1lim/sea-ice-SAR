@@ -123,19 +123,21 @@ def process_data(
     )
     dataframe.drop(dataframe[~dataframe["mask"].isin(masks)].index, inplace=True)
 
-    dataframe.drop(
-        columns=["src_dir", "row", "col", "num_points", "mask"], inplace=True
-    )
-
+    label_key = "label"
     if config_dict:
         if "labels" in config_dict.keys():
+            if "label" in config_dict["labels"].keys():
+                label_key = config_dict["labels"]["label"]
+
             try:
                 for idx, data_range in config_dict["labels"].items():
                     min, max = data_range
-                    dataframe["label"] = np.where(
-                        dataframe["label"].between(min, max), -idx, dataframe["label"]
+                    dataframe[label_key] = np.where(
+                        dataframe[label_key].between(min, max),
+                        -idx,
+                        dataframe[label_key],
                     )
-                dataframe["label"] = -dataframe["label"]
+                dataframe[label_key] = -dataframe[label_key]
             except KeyError:
                 print("Error in configuration format", file=sys.stderr)
                 sys.exit(1)
@@ -143,13 +145,17 @@ def process_data(
         if "features" in config_dict.keys():
             try:
                 dataframe.drop(
-                    dataframe.columns.difference(config_dict["features"] + ["label"]),
+                    dataframe.columns.difference(config_dict["features"] + [label_key]),
                     1,
                     inplace=True,
                 )
             except KeyError:
                 print("Error in configuration format", file=sys.stderr)
                 sys.exit(1)
+
+    dataframe.drop(
+        columns=["src_dir", "row", "col", "num_points", "mask"], inplace=True
+    )
 
     # SMOTE over/under-sampling
     if smote:
@@ -163,7 +169,7 @@ def process_data(
         while True:
             try:
                 dataframe = smogn.smoter(
-                    data=dataframe, y="label", samp_method="extreme"
+                    data=dataframe, y=label_key, samp_method="extreme"
                 )
                 break
             except ValueError:
