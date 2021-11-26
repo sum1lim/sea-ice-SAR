@@ -154,7 +154,7 @@ def process_data(
                 print("Error in configuration format", file=sys.stderr)
                 sys.exit(1)
 
-    for col in ["label", "src_dir", "row", "col", "num_points", "mask"]:
+    for col in ["label", "src_dir", "row", "col", "num_points", "mask", "np"]:
         if col == label_key:
             continue
         try:
