@@ -1,0 +1,43 @@
+---
+configuration:
+  train_data: [./data/rms_tr_data/theta_CAE.csv, ./data/rms_tr_data/aggr.csv]
+  test_data: [./data/rms_te_data/theta_CAE.csv, ./data/rms_te_data/aggr.csv]
+  verbosity: 2
+  epochs: 10000
+  K-fold: 10
+  min_num_points: 50
+  smote: False 
+  masks: [3]
+
+features:
+  - "0"
+  - "1"
+  - "2"
+  - "3"
+  - "4"
+  - "5"
+  - "6"
+  - "7"
+  - "8"
+  - "9"
+  - "10"
+  - "11"
+  - "12"
+  - "13"
+  - "14"
+  - "15"
+  - hh
+  - hv
+  - ratio
+  - c5
+  - c7
+  - c9
+  - std_hh5
+  - std_hh7
+  - std_hh9
+  - std_hv5
+  - std_hv7
+  - std_hv9
+  - theta
+  # - np
+...

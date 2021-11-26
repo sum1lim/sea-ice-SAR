@@ -1,8 +1,8 @@
 ---
 train_dir: ./data/thk_tr_data
 test_dir: ./data/thk_te_data
-filenames: [theta, hh7, hv7, theta]
-new_features: [theta, hh7, hv7, theta]
+filenames: [theta7, hh7, hv7, theta7]
+new_features: [theta7, hh7, hv7, theta7]
 epochs: 1000
 output_filename: theta_CAE
 min_num_points: 10
