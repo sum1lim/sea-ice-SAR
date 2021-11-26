@@ -131,12 +131,13 @@ def process_data(
 
             try:
                 for idx, data_range in config_dict["labels"].items():
-                    min, max = data_range
-                    dataframe[label_key] = np.where(
-                        dataframe[label_key].between(min, max),
-                        -idx,
-                        dataframe[label_key],
-                    )
+                    if type(data_range) == list:
+                        min, max = data_range
+                        dataframe[label_key] = np.where(
+                            dataframe[label_key].between(min, max),
+                            -idx,
+                            dataframe[label_key],
+                        )
                 dataframe[label_key] = -dataframe[label_key]
             except KeyError:
                 print("Error in configuration format", file=sys.stderr)
@@ -153,9 +154,13 @@ def process_data(
                 print("Error in configuration format", file=sys.stderr)
                 sys.exit(1)
 
-    dataframe.drop(
-        columns=["src_dir", "row", "col", "num_points", "mask"], inplace=True
-    )
+    for col in ["label", "src_dir", "row", "col", "num_points", "mask"]:
+        if col == label_key:
+            continue
+        try:
+            dataframe.drop(columns=[col], inplace=True)
+        except KeyError:
+            continue
 
     # SMOTE over/under-sampling
     if smote:

@@ -3,6 +3,7 @@ import argparse
 import sys
 import tensorflow as tf
 import numpy as np
+from statistics import stdev
 from sea_ice_SAR.ML_tools import (
     config_parser,
     process_data,
@@ -37,6 +38,7 @@ def main(args):
         masks=masks,
     )
 
+    accuracy_li = []
     for k in range(K):
         print(
             f"*************************** Fold #: {k+1} ***************************",
@@ -50,13 +52,18 @@ def main(args):
         y_pred = np.argmax(
             trained_model.predict(x=X_te, batch_size=1000, verbose=verbosity), axis=1
         )
-        print(f"Test accuracy: {accuracy_score(Y_te, y_pred)}", file=sys.stdout)
+        accuracy = accuracy_score(Y_te, y_pred)
+        accuracy_li.append(accuracy)
+        print(f"Test accuracy: {accuracy}", file=sys.stdout)
         print(classification_report(Y_te, y_pred), file=sys.stdout)
 
         # Construct confusion matrix
         construct_confusion_matrix(
             classes, Y_te, y_pred, f"{args.result_dir}/{cfg_filename}", k
         )
+
+    print(f"\nAverage accuracy: {sum(accuracy_li)/K}", file=sys.stdout)
+    print(f"Standard Deviation (accuracy): {stdev(accuracy_li)}", file=sys.stdout)
 
     # stdout redirection closed
     if verbosity == 2:
