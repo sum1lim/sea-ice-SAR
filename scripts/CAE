@@ -25,9 +25,9 @@ from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 tf.get_logger().setLevel("ERROR")
 
 
-def CAE(input_dimension, height, padding_2d, padding_height):
+def CAE(input_dimension, num_layers, padding_2d, padding_height):
     autoencoder = Sequential()
-    autoencoder.add(Input(shape=(input_dimension, input_dimension, height, 1)))
+    autoencoder.add(Input(shape=(input_dimension, input_dimension, num_layers, 1)))
     autoencoder.add(
         ZeroPadding3D(
             (
@@ -173,17 +173,24 @@ def main(args):
             X_tr = np.concatenate((X_tr, X_tr_2d), axis=-1)
             X_te = np.concatenate((X_te, X_te_2d), axis=-1)
 
-    height = idx + 1
-    X_tr = np.reshape(X_tr, (len(X_tr), input_dimension, input_dimension, height, 1))
-    X_te = np.reshape(X_te, (len(X_te), input_dimension, input_dimension, height, 1))
+    num_layers = idx + 1
+    X_tr = np.reshape(
+        X_tr, (len(X_tr), input_dimension, input_dimension, num_layers, 1)
+    )
+    X_te = np.reshape(
+        X_te, (len(X_te), input_dimension, input_dimension, num_layers, 1)
+    )
 
+    height = 4
     if input_dimension > 8:
         print("2D dimension too big", file=sys.stderr)
-    if height > 4:
-        print("Height dimension too big", file=sys.stderr)
+    if num_layers > height:
+        height = 8
+    if num_layers > 8:
+        print("Number of layers too big", file=sys.stderr)
 
     padding_2d = (8 - input_dimension) / 2
-    padding_height = (4 - height) / 2
+    padding_height = (height - num_layers) / 2
 
     _, filename, _ = decompose_filepath(args.config)
     checkpoint_path = f"./CAE_models/{filename}/ckpt"
@@ -193,7 +200,7 @@ def main(args):
     es_callback = EarlyStopping(monitor="val_loss", mode="min", patience=50)
 
     if not os.path.exists(checkpoint_path):
-        autoencoder = CAE(input_dimension, height, padding_2d, padding_height)
+        autoencoder = CAE(input_dimension, num_layers, padding_2d, padding_height)
         autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
 
         model_summary = autoencoder.fit(
