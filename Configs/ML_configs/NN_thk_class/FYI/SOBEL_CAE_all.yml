@@ -5,10 +5,20 @@ configuration:
   verbosity: 2
   epochs: 10000
   K-fold: 10
-  hidden_size: 30
+  hidden_size: 100
   min_num_points: 10
   smote: False 
   masks: [1, 2]
+
+labels:
+  1: [0, 2]
+  2: [2, 2.5]
+  3: [2.5, 3]
+  4: [3, 3.5]
+  5: [3.5, 4]
+  6: [4, 4.5]
+  7: [4.5, 5]
+  8: [5, 100]
 
 features:
   - "0"

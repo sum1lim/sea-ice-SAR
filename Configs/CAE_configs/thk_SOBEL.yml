@@ -1,8 +1,8 @@
 ---
 train_dir: ./data/thk_tr_data
 test_dir: ./data/thk_te_data
-filenames: [hh7_SOBEL, hh7, hv7, hv7_SOBEL]
-new_features: [hh7_SOBEL, hh7, hv7, hv7_SOBEL]
+filenames: [theta7, hh7_SOBEL, hh7, hv7, hv7_SOBEL, theta7]
+new_features: [theta7, hh7_SOBEL, hh7, hv7, hv7_SOBEL, theta7]
 epochs: 1000
 output_filename: SOBEL_CAE
 min_num_points: 10
