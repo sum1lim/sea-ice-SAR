@@ -28,6 +28,13 @@ def NN(hidden_layer_size, input_layer_size, output_layer_size):
     model.add(Dense(hidden_layer_size, input_dim=input_layer_size, activation="relu"))
     model.add(Dense(hidden_layer_size, input_dim=input_layer_size, activation="relu"))
     model.add(Dense(hidden_layer_size, input_dim=input_layer_size, activation="relu"))
+    model.add(Dense(hidden_layer_size, input_dim=input_layer_size, activation="relu"))
+    model.add(Dense(hidden_layer_size, input_dim=input_layer_size, activation="relu"))
+    model.add(Dense(hidden_layer_size, input_dim=input_layer_size, activation="relu"))
+    model.add(Dense(hidden_layer_size, input_dim=input_layer_size, activation="relu"))
+    model.add(Dense(hidden_layer_size, input_dim=input_layer_size, activation="relu"))
+    model.add(Dense(hidden_layer_size, input_dim=input_layer_size, activation="relu"))
+    model.add(Dense(hidden_layer_size, input_dim=input_layer_size, activation="relu"))
     model.add(Dense(output_layer_size, activation="softmax"))
 
     model.compile(
