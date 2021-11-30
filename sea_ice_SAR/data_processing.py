@@ -1,4 +1,6 @@
 import sys
+import copy
+import math
 import rasterio
 import statistics
 import numpy as np
@@ -35,7 +37,34 @@ def configure_features(pixels, feature_li, feature_cfg, window_size):
     return df
 
 
-def organize_data(expert_data, features_files, window_size, is_aggregate, mask_file):
+def aggr_window(pixels, window_size=1):
+    dup_pixels = copy.deepcopy(pixels)
+    lower_bound = math.ceil(-window_size / 2)
+    upper_bound = math.ceil(window_size / 2)
+
+    for k in tqdm(pixels.keys()):
+        if window_size == 1:
+            break
+        row = k[0]
+        col = k[1]
+
+        for i in range(lower_bound, upper_bound):
+            for j in range(lower_bound, upper_bound):
+                if i != 0 or j != 0:
+                    try:
+                        pixels[k][0] += dup_pixels[(row + i, col + j)][0]
+                        pixels[k][4] += dup_pixels[(row + i, col + j)][4]
+                    except KeyError:
+                        continue
+
+        pixels[k][0] = statistics.mean(pixels[k][0])
+
+    dup_pixels = None
+
+    return pixels
+
+
+def organize_data(expert_data, features_files, window_size, mask_file):
     feature_li = ["label", "src_dir", "row", "col", "num_points", "mask"]
 
     mask_raster = rasterio.open(mask_file)
@@ -72,8 +101,7 @@ def organize_data(expert_data, features_files, window_size, is_aggregate, mask_f
                         int(mask_arr[row, col]),
                     ] + window(band_arr, row, col, window_size)
                 else:
-                    if is_aggregate:
-                        pixels[(row, col)][4] += 1
+                    pixels[(row, col)][4] += 1
                     pixels[(row, col)][0].append(float(datum[2]))
         else:
             for k in pixels.keys():
@@ -81,14 +109,7 @@ def organize_data(expert_data, features_files, window_size, is_aggregate, mask_f
                 col = k[1]
                 pixels[k] = pixels[k] + window(band_arr, row, col, window_size)
 
-    if is_aggregate:
-        for k in pixels.keys():
-            pixels[k][0] = statistics.mean(pixels[k][0])
-    else:
-        pixels = {
-            k: [[label] + pixels[k][1:] for label in pixels[k][0]]
-            for k in pixels.keys()
-        }
+    pixels = aggr_window(pixels, window_size)
 
     return pixels, feature_li
 

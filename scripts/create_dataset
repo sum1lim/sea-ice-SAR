@@ -32,7 +32,6 @@ def create_dataset(config_dict, data_split_type):
                 expert_data,
                 sar_data,
                 dataset_cfg["window_size"],
-                dataset_cfg["aggregate"],
                 mask_file,
             )
             dataframes.append(
