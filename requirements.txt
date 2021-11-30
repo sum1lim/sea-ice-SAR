@@ -8,5 +8,7 @@ pandas
 seaborn
 imblearn
 scikit-learn
+scikit-image
 pyyaml
 smogn
+tensorflow

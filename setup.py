@@ -20,5 +20,6 @@ setup(
         ./scripts/crosspol_ratio
         ./scripts/CAE
         ./scripts/SOBEL
+        ./scripts/GLCM
     """.split(),
 )
