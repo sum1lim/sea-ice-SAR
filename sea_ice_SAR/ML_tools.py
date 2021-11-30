@@ -113,7 +113,7 @@ def process_data(
             if idx == 0:
                 continue
             # use labels and num_points from the very first dataframe
-            df.drop(["label", "num_points"])
+            df.drop(columns=["label", "num_points"])
             dataframe = pandas.merge(
                 dataframe,
                 df,
