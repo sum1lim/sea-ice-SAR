@@ -145,10 +145,10 @@ def process_data(
                 print("Error in configuration format", file=sys.stderr)
                 sys.exit(1)
 
-        if "features" in config_dict.keys():
+        if "drop_features" in config_dict.keys():
             try:
                 dataframe.drop(
-                    dataframe.columns.difference(config_dict["features"] + [label_key]),
+                    config_dict["drop_features"] + [label_key],
                     1,
                     inplace=True,
                 )

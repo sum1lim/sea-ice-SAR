@@ -1,7 +1,7 @@
 ---
 configuration:
-  train_data: [./data/rms_tr_data/CAE.csv, ./data/rms_tr_data/aggr.csv]
-  test_data: [./data/rms_te_data/CAE.csv, ./data/rms_te_data/aggr.csv]
+  train_data: [./data/rms_tr_data/aggr.csv, ./data/rms_tr_data/CAE.csv]
+  test_data: [./data/rms_te_data/aggr.csv, ./data/rms_te_data/CAE.csv]
   verbosity: 2
   epochs: 10000
   K-fold: 10
