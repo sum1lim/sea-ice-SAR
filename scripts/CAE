@@ -3,6 +3,7 @@ import argparse
 from math import sqrt, ceil, floor
 import sys
 import os
+import gc
 import yaml
 import pandas
 import numpy as np
@@ -235,6 +236,9 @@ def main(args):
         config_dict["output_filename"],
         config_dict["min_num_points"],
     )
+
+    # garbage collection
+    gc.collect()
 
 
 if __name__ == "__main__":
