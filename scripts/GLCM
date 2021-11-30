@@ -3,27 +3,10 @@ import argparse
 import numpy as np
 
 from tqdm import tqdm
-from sea_ice_SAR.data_processing import decompose_filepath, tr_min_max
+from sea_ice_SAR.utils import decompose_filepath, output_tif
+from sea_ice_SAR.data_processing import tr_min_max
 from osgeo import gdal
 from skimage.feature import greycomatrix, greycoprops
-
-
-def output_tif(output_filepath, image, ds):
-
-    [rows, cols] = image.shape
-    driver = gdal.GetDriverByName("GTiff")
-    outdata = driver.Create(
-        output_filepath,
-        cols,
-        rows,
-        1,
-        gdal.GDT_Float64,
-    )
-    outdata.SetGeoTransform(ds.GetGeoTransform())
-    outdata.SetProjection(ds.GetProjection())
-    outdata.GetRasterBand(1).WriteArray(image)
-    outdata.FlushCache()
-    outdata = None
 
 
 def main(args):

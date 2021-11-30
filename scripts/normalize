@@ -3,7 +3,7 @@ import argparse
 import sys
 import os
 import yaml
-from sea_ice_SAR.utils import decompose_filepath
+from sea_ice_SAR.utils import decompose_filepath, output_tif
 from sea_ice_SAR.data_processing import tr_min_max
 from osgeo import gdal
 
@@ -19,7 +19,6 @@ def main(args):
     te_cfg = config_dict["test_data"]
     output_dirs = config_dict["output_dir"]
 
-    print(tr_cfg)
     min_max_li = [tr_min_max(tr_data) for tr_data in tr_cfg]
 
     feature_files = tr_cfg[:]
@@ -43,20 +42,8 @@ def main(args):
 
             normalized_arr = (band_arr - min) / (max - min)
 
-            [rows, cols] = band_arr.shape
-            driver = gdal.GetDriverByName("GTiff")
-            outdata = driver.Create(
-                f"{output_dirs[output_idx]}/{filename}.tif",
-                cols,
-                rows,
-                1,
-                gdal.GDT_Float64,
-            )
-            outdata.SetGeoTransform(ds.GetGeoTransform())
-            outdata.SetProjection(ds.GetProjection())
-            outdata.GetRasterBand(1).WriteArray(normalized_arr)
-            outdata.FlushCache()
-            outdata = None
+            output_tif(f"{output_dirs[output_idx]}/{filename}.tif", normalized_arr, ds)
+
             band = None
             ds = None
 

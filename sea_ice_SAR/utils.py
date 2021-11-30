@@ -1,6 +1,7 @@
 import sys
 import math
 from osgeo import osr
+from osgeo import gdal
 
 wgs84_wkt = """
 GEOGCS["WGS 84",
@@ -87,3 +88,21 @@ def window(raster, row, col, size=1):
     else:
         print("Invalid window size", file=sys.stderr)
         sys.exit(1)
+
+
+def output_tif(output_filepath, image, ds):
+
+    [rows, cols] = image.shape
+    driver = gdal.GetDriverByName("GTiff")
+    outdata = driver.Create(
+        output_filepath,
+        cols,
+        rows,
+        1,
+        gdal.GDT_Float64,
+    )
+    outdata.SetGeoTransform(ds.GetGeoTransform())
+    outdata.SetProjection(ds.GetProjection())
+    outdata.GetRasterBand(1).WriteArray(image)
+    outdata.FlushCache()
+    outdata = None
