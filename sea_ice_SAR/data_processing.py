@@ -1,12 +1,9 @@
 import sys
 import rasterio
 import statistics
-import smogn
 import numpy as np
 import pandas as pd
-import seaborn as sns
 
-import matplotlib.pyplot as plt
 from tqdm import tqdm
 from osgeo import gdal
 from .utils import get_pixel, window, decompose_filepath
@@ -94,3 +91,23 @@ def organize_data(expert_data, features_files, window_size, is_aggregate, mask_f
         }
 
     return pixels, feature_li
+
+
+def tr_min_max(tr_datasets):
+    tr_max = None
+    tr_min = None
+    for f in tr_datasets:
+        ds = gdal.Open(f)
+        band = ds.GetRasterBand(1)
+        band_arr = band.ReadAsArray()
+
+        if tr_max == None and tr_min == None:
+            tr_max = np.max(band_arr)
+            tr_min = np.min(band_arr)
+        else:
+            if tr_max < np.max(band_arr):
+                tr_max = np.max(band_arr)
+            if tr_min > np.min(band_arr):
+                tr_min = np.min(band_arr)
+
+    return tr_min, tr_max
