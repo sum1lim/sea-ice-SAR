@@ -112,10 +112,12 @@ def process_data(
         for idx, df in enumerate(df_li):
             if idx == 0:
                 continue
+            # use labels and num_points from the very first dataframe
+            df.drop(["labels", "num_points"])
             dataframe = pandas.merge(
                 dataframe,
                 df,
-                on=["label", "src_dir", "row", "col", "num_points", "mask"],
+                on=["src_dir", "row", "col", "mask"],
             )
 
     dataframe.drop(
