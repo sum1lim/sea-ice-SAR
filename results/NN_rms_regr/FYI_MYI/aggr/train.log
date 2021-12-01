@@ -1,0 +1,261 @@
+*************************** Fold #: 1 ***************************
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+dense (Dense)                (None, 30)                420       
+_________________________________________________________________
+dense_1 (Dense)              (None, 30)                930       
+_________________________________________________________________
+dense_2 (Dense)              (None, 30)                930       
+_________________________________________________________________
+dense_3 (Dense)              (None, 30)                930       
+_________________________________________________________________
+dense_4 (Dense)              (None, 30)                930       
+_________________________________________________________________
+dense_5 (Dense)              (None, 1)                 31        
+=================================================================
+Total params: 4,171
+Trainable params: 4,171
+Non-trainable params: 0
+_________________________________________________________________
+Epoch 1/10000
+8/8 - 0s - loss: 37584.3398 - val_loss: 34875.7812
+
+Epoch 00001: val_loss improved from inf to 34875.78125, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 2/10000
+8/8 - 0s - loss: 37579.8320 - val_loss: 34870.6953
+
+Epoch 00002: val_loss improved from 34875.78125 to 34870.69531, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 3/10000
+8/8 - 0s - loss: 37573.8398 - val_loss: 34863.4219
+
+Epoch 00003: val_loss improved from 34870.69531 to 34863.42188, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 4/10000
+8/8 - 0s - loss: 37564.6836 - val_loss: 34851.3555
+
+Epoch 00004: val_loss improved from 34863.42188 to 34851.35547, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 5/10000
+8/8 - 0s - loss: 37548.5508 - val_loss: 34828.4609
+
+Epoch 00005: val_loss improved from 34851.35547 to 34828.46094, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 6/10000
+8/8 - 0s - loss: 37516.2227 - val_loss: 34780.8281
+
+Epoch 00006: val_loss improved from 34828.46094 to 34780.82812, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 7/10000
+8/8 - 0s - loss: 37447.7969 - val_loss: 34678.0469
+
+Epoch 00007: val_loss improved from 34780.82812 to 34678.04688, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 8/10000
+8/8 - 0s - loss: 37299.8477 - val_loss: 34456.6602
+
+Epoch 00008: val_loss improved from 34678.04688 to 34456.66016, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 9/10000
+8/8 - 0s - loss: 36985.0430 - val_loss: 33991.4648
+
+Epoch 00009: val_loss improved from 34456.66016 to 33991.46484, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 10/10000
+8/8 - 0s - loss: 36331.0547 - val_loss: 33052.8750
+
+Epoch 00010: val_loss improved from 33991.46484 to 33052.87500, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 11/10000
+8/8 - 0s - loss: 35058.2344 - val_loss: 31255.6055
+
+Epoch 00011: val_loss improved from 33052.87500 to 31255.60547, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 12/10000
+8/8 - 0s - loss: 32665.4453 - val_loss: 28044.1289
+
+Epoch 00012: val_loss improved from 31255.60547 to 28044.12891, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 13/10000
+8/8 - 0s - loss: 28572.2031 - val_loss: 22846.7266
+
+Epoch 00013: val_loss improved from 28044.12891 to 22846.72656, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 14/10000
+8/8 - 0s - loss: 22365.9980 - val_loss: 15759.7949
+
+Epoch 00014: val_loss improved from 22846.72656 to 15759.79492, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 15/10000
+8/8 - 0s - loss: 14844.3057 - val_loss: 9263.1660
+
+Epoch 00015: val_loss improved from 15759.79492 to 9263.16602, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 16/10000
+8/8 - 0s - loss: 10003.1230 - val_loss: 8419.2812
+
+Epoch 00016: val_loss improved from 9263.16602 to 8419.28125, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 17/10000
+8/8 - 0s - loss: 10186.1309 - val_loss: 8791.6172
+
+Epoch 00017: val_loss did not improve from 8419.28125
+Epoch 18/10000
+8/8 - 0s - loss: 9759.4062 - val_loss: 7962.5254
+
+Epoch 00018: val_loss improved from 8419.28125 to 7962.52539, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 19/10000
+8/8 - 0s - loss: 9541.9336 - val_loss: 7976.6191
+
+Epoch 00019: val_loss did not improve from 7962.52539
+Epoch 20/10000
+8/8 - 0s - loss: 9549.7744 - val_loss: 7927.6318
+
+Epoch 00020: val_loss improved from 7962.52539 to 7927.63184, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 21/10000
+8/8 - 0s - loss: 9466.7051 - val_loss: 7957.7109
+
+Epoch 00021: val_loss did not improve from 7927.63184
+Epoch 22/10000
+8/8 - 0s - loss: 9457.8975 - val_loss: 7967.8193
+
+Epoch 00022: val_loss did not improve from 7927.63184
+Epoch 23/10000
+8/8 - 0s - loss: 9439.0410 - val_loss: 7916.7202
+
+Epoch 00023: val_loss improved from 7927.63184 to 7916.72021, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 24/10000
+8/8 - 0s - loss: 9422.9609 - val_loss: 7896.0664
+
+Epoch 00024: val_loss improved from 7916.72021 to 7896.06641, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 25/10000
+8/8 - 0s - loss: 9410.9346 - val_loss: 7892.0859
+
+Epoch 00025: val_loss improved from 7896.06641 to 7892.08594, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 26/10000
+8/8 - 0s - loss: 9397.2852 - val_loss: 7897.2378
+
+Epoch 00026: val_loss did not improve from 7892.08594
+Epoch 27/10000
+8/8 - 0s - loss: 9386.4854 - val_loss: 7881.7290
+
+Epoch 00027: val_loss improved from 7892.08594 to 7881.72900, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 28/10000
+8/8 - 0s - loss: 9373.8535 - val_loss: 7872.4956
+
+Epoch 00028: val_loss improved from 7881.72900 to 7872.49561, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 29/10000
+8/8 - 0s - loss: 9363.4580 - val_loss: 7867.9873
+
+Epoch 00029: val_loss improved from 7872.49561 to 7867.98730, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 30/10000
+8/8 - 0s - loss: 9349.5371 - val_loss: 7855.0527
+
+Epoch 00030: val_loss improved from 7867.98730 to 7855.05273, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 31/10000
+8/8 - 0s - loss: 9337.6904 - val_loss: 7841.1904
+
+Epoch 00031: val_loss improved from 7855.05273 to 7841.19043, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 32/10000
+8/8 - 0s - loss: 9325.8535 - val_loss: 7837.1763
+
+Epoch 00032: val_loss improved from 7841.19043 to 7837.17627, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 33/10000
+8/8 - 0s - loss: 9313.9297 - val_loss: 7832.8149
+
+Epoch 00033: val_loss improved from 7837.17627 to 7832.81494, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 34/10000
+8/8 - 0s - loss: 9301.1328 - val_loss: 7817.8018
+
+Epoch 00034: val_loss improved from 7832.81494 to 7817.80176, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 35/10000
+8/8 - 0s - loss: 9289.4824 - val_loss: 7807.8291
+
+Epoch 00035: val_loss improved from 7817.80176 to 7807.82910, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 36/10000
+8/8 - 0s - loss: 9277.7539 - val_loss: 7803.7212
+
+Epoch 00036: val_loss improved from 7807.82910 to 7803.72119, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 37/10000
+8/8 - 0s - loss: 9265.4434 - val_loss: 7789.7666
+
+Epoch 00037: val_loss improved from 7803.72119 to 7789.76660, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 38/10000
+8/8 - 0s - loss: 9252.4512 - val_loss: 7784.2017
+
+Epoch 00038: val_loss improved from 7789.76660 to 7784.20166, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 39/10000
+8/8 - 0s - loss: 9240.8652 - val_loss: 7781.1045
+
+Epoch 00039: val_loss improved from 7784.20166 to 7781.10449, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 40/10000
+8/8 - 0s - loss: 9227.8057 - val_loss: 7763.2764
+
+Epoch 00040: val_loss improved from 7781.10449 to 7763.27637, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 41/10000
+8/8 - 0s - loss: 9216.4873 - val_loss: 7751.6846
+
+Epoch 00041: val_loss improved from 7763.27637 to 7751.68457, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 42/10000
+8/8 - 0s - loss: 9202.7002 - val_loss: 7751.2051
+
+Epoch 00042: val_loss improved from 7751.68457 to 7751.20508, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 43/10000
+8/8 - 0s - loss: 9191.8789 - val_loss: 7747.4707
+
+Epoch 00043: val_loss improved from 7751.20508 to 7747.47070, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 44/10000
+8/8 - 0s - loss: 9178.8164 - val_loss: 7732.7480
+
+Epoch 00044: val_loss improved from 7747.47070 to 7732.74805, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 45/10000
+8/8 - 0s - loss: 9168.9727 - val_loss: 7713.8418
+
+Epoch 00045: val_loss improved from 7732.74805 to 7713.84180, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 46/10000
+8/8 - 0s - loss: 9154.5752 - val_loss: 7715.9116
+
+Epoch 00046: val_loss did not improve from 7713.84180
+Epoch 47/10000
+8/8 - 0s - loss: 9141.1494 - val_loss: 7707.3599
+
+Epoch 00047: val_loss improved from 7713.84180 to 7707.35986, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 48/10000
+8/8 - 0s - loss: 9129.6191 - val_loss: 7697.1304
+
+Epoch 00048: val_loss improved from 7707.35986 to 7697.13037, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 49/10000
+8/8 - 0s - loss: 9118.6572 - val_loss: 7686.2510
+
+Epoch 00049: val_loss improved from 7697.13037 to 7686.25098, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 50/10000
+8/8 - 0s - loss: 9103.2588 - val_loss: 7674.3188
+
+Epoch 00050: val_loss improved from 7686.25098 to 7674.31885, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 51/10000
+8/8 - 0s - loss: 9091.4951 - val_loss: 7667.9746
+
+Epoch 00051: val_loss improved from 7674.31885 to 7667.97461, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 52/10000
+8/8 - 0s - loss: 9079.2373 - val_loss: 7657.2988
+
+Epoch 00052: val_loss improved from 7667.97461 to 7657.29883, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 53/10000
+8/8 - 0s - loss: 9065.8975 - val_loss: 7655.8652
+
+Epoch 00053: val_loss improved from 7657.29883 to 7655.86523, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 54/10000
+8/8 - 0s - loss: 9053.3135 - val_loss: 7642.4341
+
+Epoch 00054: val_loss improved from 7655.86523 to 7642.43408, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 55/10000
+8/8 - 0s - loss: 9041.4521 - val_loss: 7631.0688
+
+Epoch 00055: val_loss improved from 7642.43408 to 7631.06885, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 56/10000
+8/8 - 0s - loss: 9027.0059 - val_loss: 7629.1953
+
+Epoch 00056: val_loss improved from 7631.06885 to 7629.19531, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 57/10000
+8/8 - 0s - loss: 9014.7246 - val_loss: 7620.6138
+
+Epoch 00057: val_loss improved from 7629.19531 to 7620.61377, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 58/10000
+8/8 - 0s - loss: 9002.7793 - val_loss: 7610.4453
+
+Epoch 00058: val_loss improved from 7620.61377 to 7610.44531, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 59/10000
+8/8 - 0s - loss: 8988.6299 - val_loss: 7597.4629
+
+Epoch 00059: val_loss improved from 7610.44531 to 7597.46289, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
+Epoch 60/10000
+8/8 - 0s - loss: 8976.3643 - val_loss: 7584.2314
+
+Epoch 00060: val_loss improved from 7597.46289 to 7584.23145, saving model to ./results/NN_rms_regr/FYI_MYI/aggr/ckpt_1
