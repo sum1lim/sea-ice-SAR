@@ -155,7 +155,9 @@ def process_data(
             except KeyError:
                 print("Error in configuration format", file=sys.stderr)
                 sys.exit(1)
-
+            except TypeError:
+                None
+                
     for col in ["label", "src_dir", "row", "col", "num_points", "mask", "np"]:
         if col == label_key:
             continue
