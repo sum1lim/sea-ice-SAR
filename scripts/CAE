@@ -154,6 +154,14 @@ def main(args):
     stream = open(args.config, "r")
     config_dict = yaml.safe_load(stream)
 
+    _, filename, _ = decompose_filepath(args.config)
+
+    # Verbosity == 1 --> sys.stdout
+    # Verbosity == 2 --> .log file
+    if config_dict["verbosity"] == 2:
+        log_file = open(f"./CAE_models/train.log", "w")
+        sys.stdout = log_file
+
     encoded_df_tr = []
     encoded_df_te = []
     for idx, f in enumerate(config_dict["filenames"]):
@@ -193,12 +201,16 @@ def main(args):
     padding_2d = (8 - input_dimension) / 2
     padding_height = (height - num_layers) / 2
 
-    _, filename, _ = decompose_filepath(args.config)
     checkpoint_path = f"./CAE_models/{filename}/ckpt"
     cp_callback = ModelCheckpoint(
-        filepath=checkpoint_path, save_best_only=True, mode="min"
+        filepath=checkpoint_path,
+        save_best_only=True,
+        mode="min",
+        verbose=config_dict["verbosity"],
     )
-    es_callback = EarlyStopping(monitor="val_loss", mode="min", patience=50)
+    es_callback = EarlyStopping(
+        monitor="val_loss", mode="min", patience=50, verbose=config_dict["verbosity"]
+    )
 
     if not os.path.exists(checkpoint_path):
         autoencoder = CAE(input_dimension, num_layers, padding_2d, padding_height)
@@ -212,6 +224,7 @@ def main(args):
             shuffle=True,
             validation_data=(X_te, X_te),
             callbacks=[cp_callback, es_callback],
+            verbose=config_dict["verbosity"],
         )
 
     autoencoder = load_model(checkpoint_path)
@@ -236,6 +249,10 @@ def main(args):
         config_dict["output_filename"],
         config_dict["min_num_points"],
     )
+
+    # stdout redirection closed
+    if verbosity == 2:
+        log_file.close()
 
     # garbage collection
     gc.collect()

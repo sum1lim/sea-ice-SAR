@@ -6,4 +6,5 @@ new_features: [theta7, hh7_SOBEL, hh7, hv7, hv7_SOBEL, theta7]
 epochs: 1000
 output_filename: SOBEL_CAE
 min_num_points: 10
+verbosity: 2
 ...

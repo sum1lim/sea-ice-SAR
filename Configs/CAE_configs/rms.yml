@@ -6,4 +6,5 @@ new_features: [hh7, hv7]
 epochs: 1000
 output_filename: CAE
 min_num_points: 50
+verbosity: 2
 ...

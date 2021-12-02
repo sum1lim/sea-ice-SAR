@@ -6,4 +6,5 @@ new_features: [theta7, hh7, hv7, theta7]
 epochs: 1000
 output_filename: theta_CAE
 min_num_points: 10
+verbosity: 2
 ...
