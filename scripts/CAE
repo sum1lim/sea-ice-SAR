@@ -251,7 +251,7 @@ def main(args):
     )
 
     # stdout redirection closed
-    if verbosity == 2:
+    if config_dict["verbosity"] == 2:
         log_file.close()
 
     # garbage collection
