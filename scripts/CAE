@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 from math import sqrt, ceil, floor
+import shutil
 import sys
 import os
 import gc
@@ -155,6 +156,12 @@ def main(args):
     config_dict = yaml.safe_load(stream)
 
     _, filename, _ = decompose_filepath(args.config)
+
+    try:
+        os.mkdir(f"./CAE_models/{filename}")
+    except FileExistsError:
+        shutil.rmtree(f"./CAE_models/{filename}")
+        os.mkdir(f"./CAE_models/{filename}")
 
     # Verbosity == 1 --> sys.stdout
     # Verbosity == 2 --> .log file
