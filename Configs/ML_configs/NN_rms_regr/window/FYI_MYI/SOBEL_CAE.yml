@@ -1,0 +1,11 @@
+---
+configuration:
+  train_data: [./data/rms_tr_data/SOBEL_CAE.csv, ./data/rms_tr_data/aggr.csv]
+  test_data: [./data/rms_te_data/SOBEL_CAE.csv, ./data/rms_te_data/aggr.csv]
+  verbosity: 2
+  epochs: 10000
+  K-fold: 10
+  # hidden_size: 100
+  min_num_points: 500
+  smote: False 
+...

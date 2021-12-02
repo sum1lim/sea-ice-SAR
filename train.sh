@@ -1,5 +1,5 @@
 #!/bin/bash
-for parent_dir in init SMOTE; do 
+for parent_dir in init window; do 
     for child_dir in FYI FYI_MYI MYI; do 
         for file in ./Configs/ML_configs/NN_rms_regr/"$parent_dir"/"$child_dir"/*; do
             if [ -f "$file" ]; then
@@ -11,7 +11,7 @@ for parent_dir in init SMOTE; do
     done
 done
 
-for parent_dir in init SMOTE; do 
+for parent_dir in init window; do 
     for child_dir in FYI FYI_MYI MYI; do 
         for file in ./Configs/ML_configs/NN_thk_regr/"$parent_dir"/"$child_dir"/*; do
             if [ -f "$file" ]; then
