@@ -159,7 +159,7 @@ def main(args):
     # Verbosity == 1 --> sys.stdout
     # Verbosity == 2 --> .log file
     if config_dict["verbosity"] == 2:
-        log_file = open(f"./CAE_models/train.log", "w")
+        log_file = open(f"./CAE_models/{filename}/train.log", "w")
         sys.stdout = log_file
 
     encoded_df_tr = []
