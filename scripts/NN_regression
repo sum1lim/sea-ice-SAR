@@ -5,6 +5,9 @@ import gc
 import shutil
 import argparse
 import tensorflow as tf
+import numpy as np
+
+from math import ceil, floor
 from sea_ice_SAR.utils import decompose_filepath
 from sea_ice_SAR.ML_tools import (
     config_parser,
@@ -12,40 +15,126 @@ from sea_ice_SAR.ML_tools import (
     process_data,
     learning_curve,
     tr_val_split,
+    CNN_stack_shape,
 )
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras import Input
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import (
+    Dense,
+    ZeroPadding3D,
+    Conv3D,
+    MaxPooling3D,
+    Flatten,
+    concatenate,
+)
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 
 tf.get_logger().setLevel("ERROR")
 
 
-def NN(hidden_layer_size, input_layer_size, output_layer_size):
-    # Construct Neural Network
-    model = Sequential()
-    model.add(
-        Dense(
-            hidden_layer_size,
-            input_dim=input_layer_size,
-            kernel_initializer="normal",
-            activation="relu",
-        )
+def NN(
+    hidden_layer_size,
+    input_layer_size,
+    output_layer_size,
+    size_2d=None,
+    num_layers=None,
+    padding_2d=None,
+    padding_height=None,
+    is_CNN=False,
+):
+    if is_CNN and num_layers > 4:
+        cat_layer_size = input_layer_size + 32
+    elif is_CNN and num_layers <= 4:
+        cat_layer_size = input_layer_size + 16
+    else:
+        cat_layer_size = input_layer_size
+
+    hidden_layer_size = calculate_hidden_layer_size(
+        cat_layer_size, output_layer_size, hidden_layer_size
     )
-    model.add(Dense(hidden_layer_size, kernel_initializer="normal", activation="relu"))
-    model.add(Dense(hidden_layer_size, kernel_initializer="normal", activation="relu"))
-    model.add(Dense(hidden_layer_size, kernel_initializer="normal", activation="relu"))
-    model.add(Dense(hidden_layer_size, kernel_initializer="normal", activation="relu"))
-    model.add(
-        Dense(
-            output_layer_size,
-            kernel_initializer="normal",
-        )
-    )
+
+    conv_input = Input(shape=(size_2d, size_2d, num_layers, 1), name="conv")
+    cat_input = Input(shape=(input_layer_size), name="cat")
+
+    if is_CNN:
+        conv_layer = ZeroPadding3D(
+            (
+                (floor(padding_2d), ceil(padding_2d)),
+                (floor(padding_2d), ceil(padding_2d)),
+                (floor(padding_height), ceil(padding_height)),
+            )
+        )(conv_input)
+        conv_layer = Conv3D(8, (3, 3, 3), activation="relu", padding="same")(conv_layer)
+        conv_layer = MaxPooling3D(pool_size=(2, 2, 2), padding="same")(conv_layer)
+        conv_layer = Conv3D(4, (3, 3, 3), activation="relu", padding="same")(conv_layer)
+        conv_layer = MaxPooling3D(pool_size=(2, 2, 2), padding="same")(conv_layer)
+        conv_layer = Conv3D(4, (3, 3, 3), activation="relu", padding="same")(conv_layer)
+        conv_layer = Flatten()(conv_layer)
+
+    if is_CNN:
+        cat_layer = concatenate([cat_input, conv_layer])
+        hidden_layer = Dense(
+            hidden_layer_size, kernel_initializer="normal", activation="relu"
+        )(cat_layer)
+    else:
+        hidden_layer = Dense(
+            hidden_layer_size, kernel_initializer="normal", activation="relu"
+        )(cat_input)
+
+    hidden_layer = Dense(
+        hidden_layer_size, kernel_initializer="normal", activation="relu"
+    )(hidden_layer)
+    hidden_layer = Dense(
+        hidden_layer_size, kernel_initializer="normal", activation="relu"
+    )(hidden_layer)
+    hidden_layer = Dense(
+        hidden_layer_size, kernel_initializer="normal", activation="relu"
+    )(hidden_layer)
+    hidden_layer = Dense(
+        hidden_layer_size, kernel_initializer="normal", activation="relu"
+    )(hidden_layer)
+    output_layer = Dense(
+        output_layer_size,
+        kernel_initializer="normal",
+    )(hidden_layer)
+
+    if is_CNN:
+        model = Model(inputs=[conv_input, cat_input], outputs=[output_layer])
+    else:
+        model = Model(inputs=[cat_input], outputs=[output_layer])
 
     model.compile(loss="mean_squared_error", optimizer="adam")
     model.summary()
 
     return model
+
+
+# def NN(hidden_layer_size, input_layer_size, output_layer_size, is_CNN = False):
+#     # Construct Neural Network
+#     model = Sequential()
+#     model.add(
+#         Dense(
+#             hidden_layer_size,
+#             input_dim=input_layer_size,
+#             kernel_initializer="normal",
+#             activation="relu",
+#         )
+#     )
+#     model.add(Dense(hidden_layer_size, kernel_initializer="normal", activation="relu"))
+#     model.add(Dense(hidden_layer_size, kernel_initializer="normal", activation="relu"))
+#     model.add(Dense(hidden_layer_size, kernel_initializer="normal", activation="relu"))
+#     model.add(Dense(hidden_layer_size, kernel_initializer="normal", activation="relu"))
+#     model.add(
+#         Dense(
+#             output_layer_size,
+#             kernel_initializer="normal",
+#         )
+#     )
+
+#     model.compile(loss="mean_squared_error", optimizer="adam")
+#     model.summary()
+
+#     return model
 
 
 def main(args):
@@ -61,6 +150,7 @@ def main(args):
         min_num_points,
         smote,
         masks,
+        CNN_layers,
     ) = config_parser(args.ml_config)
 
     # Set up results directory
@@ -79,22 +169,26 @@ def main(args):
         sys.stdout = log_file
 
     # Modify train dataset
-    X_tr, Y_tr = process_data(
+    X_tr, CNN_stacks, Y_tr = process_data(
         train_data,
         args.ml_config,
         regression=True,
         min_num_points=min_num_points,
         masks=masks,
         smote=smote,
+        CNN_layers=CNN_layers,
     )
 
     # Define hidden layer size
     input_layer_size = X_tr.shape[1]
     output_layer_size = 1
-    if not hidden_size:
-        hidden_size = calculate_hidden_layer_size(
-            input_layer_size, output_layer_size, hidden_size
-        )
+
+    size_2d, num_layers, padding_2d, padding_height = CNN_stack_shape(CNN_stacks)
+
+    if type(CNN_stacks) == np.ndarray:
+        is_CNN = True
+    else:
+        is_CNN = False
 
     # K-fold classification
     tr_val_pairs = tr_val_split(K, X_tr, Y_tr)
@@ -112,16 +206,35 @@ def main(args):
             monitor="val_loss", mode="min", verbose=verbosity, patience=200
         )
 
-        model = NN(hidden_size, input_layer_size, output_layer_size)
+        model = NN(
+            hidden_size,
+            input_layer_size,
+            output_layer_size,
+            size_2d=size_2d,
+            num_layers=num_layers,
+            padding_2d=padding_2d,
+            padding_height=padding_height,
+            is_CNN=is_CNN,
+        )
+
+        if is_CNN:
+            x = {"conv": CNN_stacks[train], "cat": X_tr[train]}
+            validation_data = (
+                {"conv": CNN_stacks[validation], "cat": X_tr[validation]},
+                Y_tr[validation],
+            )
+        else:
+            x = X_tr[train]
+            validation_data = (X_tr[validation], Y_tr[validation])
 
         # Train the model
         model_summary = model.fit(
-            x=X_tr[train],
+            x=x,
             y=Y_tr[train],
             epochs=num_epochs,
             batch_size=1024,
             verbose=verbosity,
-            validation_data=(X_tr[validation], Y_tr[validation]),
+            validation_data=validation_data,
             callbacks=[cp_callback, es_callback],
         )
 
