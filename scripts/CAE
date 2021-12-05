@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import argparse
-from math import sqrt, ceil, floor
+from math import ceil, floor
 import shutil
 import sys
 import os
@@ -20,7 +20,7 @@ from tensorflow.keras.layers import (
     Flatten,
 )
 from tensorflow.keras.models import load_model
-from sea_ice_SAR.ML_tools import process_data
+from sea_ice_SAR.ML_tools import process_data, CNN_stack_shape
 from sea_ice_SAR.utils import decompose_filepath
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 
@@ -147,18 +147,7 @@ def main(args):
         CNN_layers=config_dict["filenames"],
     )
 
-    input_dimension = X_tr.shape[1]
-    num_layers = X_tr.shape[3]
-    height = 4
-    if input_dimension > 8:
-        print("2D dimension too big", file=sys.stderr)
-    if num_layers > height:
-        height = 8
-    if num_layers > 8:
-        print("Number of layers too big", file=sys.stderr)
-
-    padding_2d = (8 - input_dimension) / 2
-    padding_height = (height - num_layers) / 2
+    size_2d, num_layers, padding_2d, padding_height = CNN_stack_shape(X_tr)
 
     checkpoint_path = f"./CAE_models/{filename}/ckpt"
     cp_callback = ModelCheckpoint(
@@ -172,7 +161,7 @@ def main(args):
     )
 
     if not os.path.exists(checkpoint_path):
-        autoencoder = CAE(input_dimension, num_layers, padding_2d, padding_height)
+        autoencoder = CAE(size_2d, num_layers, padding_2d, padding_height)
         autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
 
         model_summary = autoencoder.fit(

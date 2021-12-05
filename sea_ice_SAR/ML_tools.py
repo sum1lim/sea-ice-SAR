@@ -360,3 +360,23 @@ def regression_plots(Y_expert, Y_pred, abs_error, result_dir, iter):
     sns.kdeplot(data=err_df, x="expert", y="error", color="red")
     plt.savefig(f"{result_dir}/abs_errs_{iter+1}.png")
     plt.clf()
+
+
+def CNN_stack_shape(CNN_stacks):
+    if type(CNN_stacks) != np.ndarray:
+        return None, None, None, None
+
+    size_2d = CNN_stacks.shape[1]
+    num_layers = CNN_stacks.shape[3]
+    height = 4
+    if size_2d > 8:
+        print("2D dimension too big", file=sys.stderr)
+    if num_layers > height:
+        height = 8
+    if num_layers > 8:
+        print("Number of layers too big", file=sys.stderr)
+
+    padding_2d = (8 - size_2d) / 2
+    padding_height = (height - num_layers) / 2
+
+    return size_2d, num_layers, padding_2d, padding_height
