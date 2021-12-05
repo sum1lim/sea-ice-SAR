@@ -2,6 +2,7 @@
 import argparse
 import sys
 import tensorflow as tf
+import numpy as np
 
 from statistics import stdev
 from sea_ice_SAR.ML_tools import (
@@ -18,9 +19,19 @@ tf.get_logger().setLevel("ERROR")
 
 def main(args):
     # Parse configuration
-    _, test_data, _, _, verbosity, K, _, min_num_points, smote, masks = config_parser(
-        args.ml_config
-    )
+    (
+        _,
+        test_data,
+        _,
+        _,
+        verbosity,
+        K,
+        _,
+        min_num_points,
+        _,
+        masks,
+        CNN_layers,
+    ) = config_parser(args.ml_config)
     _, cfg_filename, _ = decompose_filepath(args.ml_config)
 
     # Verbosity == 1 --> sys.stdout
@@ -30,13 +41,19 @@ def main(args):
         sys.stdout = log_file
 
     # Modify test dataset
-    X_te, Y_te = process_data(
+    X_te, CNN_stacks, Y_te = process_data(
         test_data,
         args.ml_config,
         regression=True,
         min_num_points=min_num_points,
         masks=masks,
+        CNN_layers=CNN_layers,
     )
+
+    if type(CNN_stacks) == np.ndarray:
+        is_CNN = True
+    else:
+        is_CNN = False
 
     error_li = []
     pearsonr_li = []
@@ -48,6 +65,9 @@ def main(args):
         # Call checkpoint
         checkpoint_path = f"{args.result_dir}/{cfg_filename}/ckpt_{k+1}"
         trained_model = load_model(checkpoint_path)
+
+        if is_CNN:
+            X_te = {"conv": CNN_stacks, "cat": X_te}
 
         # Predict the test dataset
         y_pred = trained_model.predict(X_te, verbose=verbosity).flatten()
