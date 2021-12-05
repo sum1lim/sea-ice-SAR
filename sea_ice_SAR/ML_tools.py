@@ -7,6 +7,8 @@ import pandas
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+from math import sqrt
+from sea_ice_SAR.utils import decompose_filepath
 from collections import Counter
 from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import LabelEncoder
@@ -53,6 +55,10 @@ def config_parser(ml_config):
             masks = params["masks"]
         else:
             masks = [-1, 0, 1, 2, 3]
+        if "CNN_layers" in params.keys():
+            CNN_layers = params["CNN_layers"]
+        else:
+            CNN_layers = []
 
     return (
         train_data,
@@ -65,6 +71,7 @@ def config_parser(ml_config):
         min_num_points,
         smote,
         masks,
+        CNN_layers,
     )
 
 
@@ -86,6 +93,33 @@ def calculate_hidden_layer_size(input_layer_size, output_layer_size, user_define
     return hidden_layer_size
 
 
+def arrange_2d_arrays(df):
+    df = df.drop(columns=["src_dir", "row", "col", "mask"])
+
+    input_dimension = sqrt(df.shape[1])
+    if int(input_dimension) != input_dimension:
+        print("Window should be square", file=sys.stderr)
+        sys.exit(1)
+    else:
+        input_dimension = int(input_dimension)
+
+    layer_2d = np.asarray(
+        [
+            [
+                sample[i * input_dimension : (i + 1) * input_dimension]
+                for i in range(input_dimension)
+            ]
+            for sample in df.values
+        ]
+    )
+
+    layer_2d = np.reshape(
+        layer_2d, (len(layer_2d), input_dimension, input_dimension, 1)
+    )
+
+    return layer_2d, input_dimension
+
+
 def process_data(
     data_file,
     ml_config=None,
@@ -93,6 +127,7 @@ def process_data(
     min_num_points=0,
     masks=[-1, 0, 1, 2, 3],
     smote=False,
+    CNN_layers=[],
 ):
     """
     Merge labels and/or select feautres for learning
@@ -105,20 +140,39 @@ def process_data(
         config_dict = None
 
     if type(data_file) != list:
-        dataframe = pandas.read_csv(data_file, header=0, index_col=False)
-    else:
-        df_li = [pandas.read_csv(df, header=0, index_col=False) for df in data_file]
-        dataframe = df_li[0]
-        for idx, df in enumerate(df_li):
-            if idx == 0:
-                continue
-            # use labels and num_points from the very first dataframe
-            df = df.drop(columns=["label", "num_points"])
+        data_file = [data_file]
+
+    df_li = [pandas.read_csv(df, header=0, index_col=False) for df in data_file]
+    num_CNN_layers = 0
+    CNN_stack = None
+    for idx, df in enumerate(df_li):
+        if idx == 0:
+            dataframe = df
+
+        # use labels and num_points from the very first dataframe
+        df = df.drop(columns=["label", "num_points"])
+
+        _, filename, _ = decompose_filepath(data_file[idx])
+        if filename in CNN_layers:
+            layer_2d, input_dimension = arrange_2d_arrays(df)
+            if num_CNN_layers == 0:
+                CNN_stack = layer_2d
+            else:
+                CNN_stack = np.concatenate((CNN_stack, layer_2d), axis=-1)
+            num_CNN_layers += 1
+        elif idx > 0:
             dataframe = pandas.merge(
                 dataframe,
                 df,
                 on=["src_dir", "row", "col", "mask"],
             )
+
+    if type(CNN_stack) == np.ndarray:
+        CNN_stack = np.reshape(
+            CNN_stack,
+            (len(CNN_stack), input_dimension, input_dimension, num_CNN_layers, 1),
+        )
+        dataframe["CNN"] = CNN_stack.tolist()
 
     dataframe.drop(
         dataframe[dataframe["num_points"] < min_num_points].index, inplace=True
@@ -157,7 +211,7 @@ def process_data(
                 sys.exit(1)
             except TypeError:
                 None
-                
+
     for col in ["label", "src_dir", "row", "col", "num_points", "mask", "np"]:
         if col == label_key:
             continue
@@ -191,13 +245,18 @@ def process_data(
         )
         print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
 
+    CNN_dataset = None
+    if type(CNN_stack) == np.ndarray:
+        CNN_dataset = np.array([np.array(v) for v in dataframe["CNN"].values])
+        dataframe = dataframe.drop(columns=["CNN"])
+
     dataset = dataframe.values
     print(f"Size of dataset: {dataset.shape}", file=sys.stderr)
     X = dataset[:, 1:].astype(float)
     Y = dataset[:, 0]
 
     if regression:
-        return X, Y
+        return X, CNN_dataset, Y
     else:
         print(f"Before oversampling: {Counter(Y)}", file=sys.stdout)
         oversample = RandomOverSampler(sampling_strategy="not majority")
@@ -209,7 +268,7 @@ def process_data(
         encoded_Y = encoder.transform(Y)
         print(f"Classes: {encoder.classes_}", file=sys.stdout)
 
-        return X, encoded_Y, encoder.classes_
+        return X, CNN_dataset, encoded_Y, encoder.classes_
 
 
 def learning_curve(model_hist, result_dir, iter):

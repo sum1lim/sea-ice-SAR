@@ -115,42 +115,6 @@ def predict(autoencoder, X, dataset_type):
     return encoded, decoded
 
 
-def arrange_2d_arrays(X_tr, X_te):
-    input_dimension = sqrt(X_tr.shape[1])
-    if int(input_dimension) != input_dimension:
-        print("Window should be square", file=sys.stderr)
-        sys.exit(1)
-    elif int(input_dimension) != sqrt(X_te.shape[1]):
-        print("Different train and test sample dimensions", file=sys.stderr)
-        sys.exit(1)
-    else:
-        input_dimension = int(input_dimension)
-
-    X_tr = np.asarray(
-        [
-            [
-                sample[i * input_dimension : (i + 1) * input_dimension]
-                for i in range(input_dimension)
-            ]
-            for sample in X_tr
-        ]
-    )
-    X_te = np.asarray(
-        [
-            [
-                sample[i * input_dimension : (i + 1) * input_dimension]
-                for i in range(input_dimension)
-            ]
-            for sample in X_te
-        ]
-    )
-
-    X_tr = np.reshape(X_tr, (len(X_tr), input_dimension, input_dimension, 1))
-    X_te = np.reshape(X_te, (len(X_te), input_dimension, input_dimension, 1))
-
-    return X_tr, X_te, input_dimension
-
-
 def main(args):
     stream = open(args.config, "r")
     config_dict = yaml.safe_load(stream)
@@ -171,32 +135,20 @@ def main(args):
 
     encoded_df_tr = []
     encoded_df_te = []
-    for idx, f in enumerate(config_dict["filenames"]):
-        X_tr_vector, _ = process_data(
-            f"{config_dict['train_dir']}/{f}.csv",
-            min_num_points=config_dict["min_num_points"],
-        )
-        X_te_vector, _ = process_data(
-            f"{config_dict['test_dir']}/{f}.csv",
-            min_num_points=config_dict["min_num_points"],
-        )
 
-        X_tr_2d, X_te_2d, input_dimension = arrange_2d_arrays(X_tr_vector, X_te_vector)
-        if idx == 0:
-            X_tr = X_tr_2d
-            X_te = X_te_2d
-        else:
-            X_tr = np.concatenate((X_tr, X_tr_2d), axis=-1)
-            X_te = np.concatenate((X_te, X_te_2d), axis=-1)
-
-    num_layers = idx + 1
-    X_tr = np.reshape(
-        X_tr, (len(X_tr), input_dimension, input_dimension, num_layers, 1)
+    _, X_tr, _ = process_data(
+        [f"{config_dict['train_dir']}/{f}.csv" for f in config_dict["filenames"]],
+        min_num_points=config_dict["min_num_points"],
+        CNN_layers=config_dict["filenames"],
     )
-    X_te = np.reshape(
-        X_te, (len(X_te), input_dimension, input_dimension, num_layers, 1)
+    _, X_te, _ = process_data(
+        [f"{config_dict['test_dir']}/{f}.csv" for f in config_dict["filenames"]],
+        min_num_points=config_dict["min_num_points"],
+        CNN_layers=config_dict["filenames"],
     )
 
+    input_dimension = X_tr.shape[1]
+    num_layers = X_tr.shape[3]
     height = 4
     if input_dimension > 8:
         print("2D dimension too big", file=sys.stderr)
