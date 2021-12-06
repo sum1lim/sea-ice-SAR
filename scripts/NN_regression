@@ -162,11 +162,8 @@ def main(args):
         shutil.rmtree(result_dir)
         os.mkdir(result_dir)
 
-    # Verbosity == 1 --> sys.stdout
-    # Verbosity == 2 --> .log file
-    if verbosity == 2:
-        log_file = open(f"{result_dir}/train.log", "w")
-        sys.stdout = log_file
+    log_file = open(f"{result_dir}/train.log", "w")
+    sys.stdout = log_file
 
     # Modify train dataset
     X_tr, CNN_stacks, Y_tr = process_data(
@@ -244,9 +241,7 @@ def main(args):
         if K == 1:
             break
 
-    # stdout redirection closed
-    if verbosity == 2:
-        log_file.close()
+    log_file.close()
 
     # garbage collection
     gc.collect()

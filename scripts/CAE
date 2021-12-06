@@ -127,11 +127,8 @@ def main(args):
         shutil.rmtree(f"./CAE_models/{filename}")
         os.mkdir(f"./CAE_models/{filename}")
 
-    # Verbosity == 1 --> sys.stdout
-    # Verbosity == 2 --> .log file
-    if config_dict["verbosity"] == 2:
-        log_file = open(f"./CAE_models/{filename}/train.log", "w")
-        sys.stdout = log_file
+    log_file = open(f"./CAE_models/{filename}/train.log", "w")
+    sys.stdout = log_file
 
     encoded_df_tr = []
     encoded_df_te = []
@@ -198,9 +195,7 @@ def main(args):
         config_dict["min_num_points"],
     )
 
-    # stdout redirection closed
-    if config_dict["verbosity"] == 2:
-        log_file.close()
+    log_file.close()
 
     # garbage collection
     gc.collect()

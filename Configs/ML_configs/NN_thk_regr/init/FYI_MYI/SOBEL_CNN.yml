@@ -3,7 +3,7 @@ configuration:
   train_data: [./data/thk_tr_data/aggr.csv, ./data/thk_tr_data/theta7.csv, ./data/thk_tr_data/hh7_SOBEL.csv, ./data/thk_tr_data/hh7.csv, ./data/thk_tr_data/hv7.csv, ./data/thk_tr_data/theta7.csv, ./data/thk_tr_data/hv7_SOBEL.csv]
   test_data: [./data/thk_te_data/aggr.csv, ./data/thk_te_data/theta7.csv, ./data/thk_te_data/hh7_SOBEL.csv, ./data/thk_te_data/hv7.csv, ./data/thk_te_data/theta7.csv, ./data/thk_te_data/hv7_SOBEL.csv]
   CNN_layers: [theta7, hh7_SOBEL, hh7, hv7, hv7_SOBEL]
-  verbosity: 2
+  verbosity: 0
   epochs: 10000
   K-fold: 10
   # hidden_size: 100
