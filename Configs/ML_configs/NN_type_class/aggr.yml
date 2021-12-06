@@ -3,7 +3,7 @@ configuration:
   train_data: ./data/thk_tr_data/aggr.csv
   test_data: ./data/thk_te_data/aggr.csv
   epochs: 10000
-  verbosity: 2
+  verbosity: 0
   K-fold: 10
   # hidden_size: 100
   min_num_points: 10
