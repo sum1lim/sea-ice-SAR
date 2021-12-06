@@ -51,9 +51,7 @@ def main(args):
     )
 
     if type(CNN_stacks) == np.ndarray:
-        is_CNN = True
-    else:
-        is_CNN = False
+        X_te = {"conv": CNN_stacks, "cat": X_te}
 
     error_li = []
     pearsonr_li = []
@@ -65,9 +63,6 @@ def main(args):
         # Call checkpoint
         checkpoint_path = f"{args.result_dir}/{cfg_filename}/ckpt_{k+1}"
         trained_model = load_model(checkpoint_path)
-
-        if is_CNN:
-            X_te = {"conv": CNN_stacks, "cat": X_te}
 
         # Predict the test dataset
         y_pred = trained_model.predict(X_te, verbose=verbosity).flatten()
