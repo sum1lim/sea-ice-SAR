@@ -34,11 +34,8 @@ def main(args):
     ) = config_parser(args.ml_config)
     _, cfg_filename, _ = decompose_filepath(args.ml_config)
 
-    # Verbosity == 1 --> sys.stdout
-    # Verbosity == 2 --> .log file
-    if verbosity == 2:
-        log_file = open(f"{args.result_dir}/{cfg_filename}/test.log", "w")
-        sys.stdout = log_file
+    log_file = open(f"{args.result_dir}/{cfg_filename}/test.log", "w")
+    sys.stdout = log_file
 
     # Modify test dataset
     X_te, CNN_stacks, Y_te = process_data(
@@ -84,9 +81,7 @@ def main(args):
     print(f"\nAverage Pearson's r: {sum(pearsonr_li)/K}", file=sys.stdout)
     print(f"Standard Deviation (Pearson's r): {stdev(pearsonr_li)}", file=sys.stdout)
 
-    # stdout redirection closed
-    if verbosity == 2:
-        log_file.close()
+    log_file.close()
 
 
 if __name__ == "__main__":
