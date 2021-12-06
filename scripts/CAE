@@ -127,8 +127,8 @@ def main(args):
         shutil.rmtree(f"./CAE_models/{filename}")
         os.mkdir(f"./CAE_models/{filename}")
 
-    log_file = open(f"./CAE_models/{filename}/train.log", "w")
-    sys.stdout = log_file
+    # log_file = open(f"./CAE_models/{filename}/train.log", "w")
+    # sys.stdout = log_file
 
     encoded_df_tr = []
     encoded_df_te = []
@@ -195,7 +195,7 @@ def main(args):
         config_dict["min_num_points"],
     )
 
-    log_file.close()
+    # log_file.close()
 
     # garbage collection
     gc.collect()
