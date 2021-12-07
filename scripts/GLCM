@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 import argparse
+import sys
+import pandas
+import yaml
 import numpy as np
 
 from tqdm import tqdm
@@ -10,83 +13,83 @@ from skimage.feature import greycomatrix, greycoprops
 
 
 def main(args):
-    tr_min, tr_max = tr_min_max(args.tr_images)
+    df = pandas.read_csv(args.input, header=0, index_col=False)
 
-    for f in args.tr_images + args.te_images:
-        print(f"Processing {f}")
-        ds = gdal.Open(f)
-        band = ds.GetRasterBand(1)
-        img = band.ReadAsArray()
+    stream = open(args.config, "r")
+    config_dict = yaml.safe_load(stream)
 
-        image = ((img - tr_min) / (tr_max - tr_min) * 255).astype(int)
+    files_dir = {column: config_dict["features"][column] for column in args.columns}
 
-        PATCH_SIZE = 7
-        bottom_thresh = image.shape[0] - 6
-        right_thresh = image.shape[1] - 6
+    img_dir = {}
+    for dir in df["src_dir"].unique():
+        for column, filenames in files_dir.items():
+            for filename in filenames:
+                try:
+                    ds = gdal.Open(f"{dir}/{filename}.tif")
+                    band = ds.GetRasterBand(1)
+                    img = band.ReadAsArray()
+                except AttributeError as e:
+                    continue
 
-        contrast_img = np.zeros(image.shape)
-        dissimilarity_img = np.zeros(image.shape)
-        homogeneity_img = np.zeros(image.shape)
-        ASM_img = np.zeros(image.shape)
-        energy_img = np.zeros(image.shape)
-        correlation_img = np.zeros(image.shape)
+                img_dir[(dir, column)] = (img * 255).astype(int)
 
-        for row in tqdm(range(0, bottom_thresh)):
-            for col in range(0, right_thresh):
-                patch = image[row : row + PATCH_SIZE, col : col + PATCH_SIZE]
-                glcm = greycomatrix(
-                    patch,
-                    distances=[1],
-                    angles=[
-                        0,
-                        np.pi / 8,
-                        2 * np.pi / 8,
-                        3 * np.pi / 8,
-                        4 * np.pi / 8,
-                        5 * np.pi / 8,
-                        6 * np.pi / 8,
-                        7 * np.pi / 8,
-                    ],
-                    levels=256,
-                )
+    GLCM_products = [
+        "contrast",
+        "dissimilarity",
+        "homogeneity",
+        "ASM",
+        "energy",
+        "correlation",
+    ]
 
-                contrast_img[row + 3][col + 3] = sum(greycoprops(glcm, "contrast")[0])
-                dissimilarity_img[row + 3][col + 3] = sum(
-                    greycoprops(glcm, "dissimilarity")[0]
-                )
-                homogeneity_img[row + 3][col + 3] = sum(
-                    greycoprops(glcm, "homogeneity")[0]
-                )
-                ASM_img[row + 3][col + 3] = sum(greycoprops(glcm, "ASM")[0])
-                energy_img[row + 3][col + 3] = sum(greycoprops(glcm, "energy")[0])
-                correlation_img[row + 3][col + 3] = sum(
-                    greycoprops(glcm, "correlation")[0]
-                )
+    for column in args.columns:
+        for gp in GLCM_products:
+            df[f"{column}_{gp}"] = np.nan
 
-        output_dir, filename, _ = decompose_filepath(f)
-        output_tif(f"{output_dir}/{filename}_contrast.tif", contrast_img, ds)
-        output_tif(f"{output_dir}/{filename}_dissimilarity.tif", dissimilarity_img, ds)
-        output_tif(f"{output_dir}/{filename}_homogeniety.tif", homogeneity_img, ds)
-        output_tif(f"{output_dir}/{filename}_ASM.tif", ASM_img, ds)
-        output_tif(f"{output_dir}/{filename}_energy.tif", energy_img, ds)
-        output_tif(f"{output_dir}/{filename}_correlation.tif", correlation_img, ds)
+        for idx, src_dir in enumerate(tqdm(df["src_dir"])):
+            image = img_dir[(src_dir, column)]
 
-        band = None
-        ds = None
+            PATCH_SIZE = 7
+            bottom_thresh = image.shape[0] - 6
+            right_thresh = image.shape[1] - 6
+
+            row = df["row"][idx]
+            col = df["col"][idx]
+            patch = image[row : row + PATCH_SIZE, col : col + PATCH_SIZE]
+            glcm = greycomatrix(
+                patch,
+                distances=[1],
+                angles=[
+                    0,
+                    np.pi / 8,
+                    2 * np.pi / 8,
+                    3 * np.pi / 8,
+                    4 * np.pi / 8,
+                    5 * np.pi / 8,
+                    6 * np.pi / 8,
+                    7 * np.pi / 8,
+                ],
+                levels=256,
+            )
+
+            for gp in GLCM_products:
+                df[f"{column}_{gp}"][idx] = sum(greycoprops(glcm, gp)[0])
+
+    output_dir, filename, _ = decompose_filepath(args.input)
+    df.to_csv(f"{output_dir}/{filename}_GLCM.csv", index=False)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
+    parser.add_argument("--input", type=str, help="Input CSV file")
     parser.add_argument(
-        "--tr-images", type=str, nargs="+", help="Training data image(s)"
+        "--config", type=str, help="Configuration file used to creat the input CSV file"
     )
-    parser.add_argument("--te-images", type=str, help="Test data image(s)")
-    args = parser.parse_args()
+    parser.add_argument("--columns", type=str, nargs="+", help="Input CSV file")
 
-    if type(args.tr_images) == str:
-        args.tr_images = [args.tr_images]
-    if type(args.te_images) == str:
-        args.te_images = [args.te_images]
+    args = parser.parse_args()
+    if type(args.columns) == str:
+        args.columns = [args.columns]
 
     main(args)
