@@ -21,5 +21,6 @@ setup(
         ./scripts/CAE
         ./scripts/SOBEL
         ./scripts/GLCM
+        ./scripts/normalize_csv
     """.split(),
 )
