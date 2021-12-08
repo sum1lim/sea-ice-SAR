@@ -202,7 +202,9 @@ def process_data(
         if "drop_features" in config_dict.keys():
             try:
                 dataframe.drop(
-                    config_dict["drop_features"] + [label_key],
+                    config_dict["drop_features"]
+                    + ["label", "src_dir", "row", "col", "mask", "num_points", "np"]
+                    - [label_key],
                     1,
                     inplace=True,
                 )
