@@ -30,7 +30,7 @@ def main(args):
         sys.stdout = log_file
 
     # Modify test dataset
-    X_te, Y_te, classes = process_data(
+    X_te, _, Y_te, classes = process_data(
         test_data,
         args.ml_config,
         regression=False,
