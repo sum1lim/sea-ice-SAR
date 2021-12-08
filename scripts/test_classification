@@ -18,7 +18,7 @@ tf.get_logger().setLevel("ERROR")
 
 def main(args):
     # Parse configuration
-    _, test_data, _, _, verbosity, K, _, min_num_points, smote, masks = config_parser(
+    _, test_data, _, _, verbosity, K, _, min_num_points, _, masks, _ = config_parser(
         args.ml_config
     )
     _, cfg_filename, _ = decompose_filepath(args.ml_config)

@@ -15,7 +15,8 @@ from sea_ice_SAR.ML_tools import (
     learning_curve,
     tr_val_split,
 )
-from tensorflow.keras.models import Sequential
+from tensorflow.keras import Input
+from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
@@ -25,13 +26,25 @@ tf.get_logger().setLevel("ERROR")
 
 def NN(hidden_layer_size, input_layer_size, output_layer_size):
     # Construct Neural Network
-    model = Sequential()
-    model.add(Dense(hidden_layer_size, input_dim=input_layer_size, activation="relu"))
-    model.add(Dense(hidden_layer_size, input_dim=input_layer_size, activation="relu"))
-    model.add(Dense(hidden_layer_size, input_dim=input_layer_size, activation="relu"))
-    model.add(Dense(hidden_layer_size, input_dim=input_layer_size, activation="relu"))
-    model.add(Dense(hidden_layer_size, input_dim=input_layer_size, activation="relu"))
-    model.add(Dense(output_layer_size, activation="softmax"))
+    input = Input(shape=(input_layer_size))
+    hidden_layer = Dense(
+        hidden_layer_size, input_dim=input_layer_size, activation="relu"
+    )(input)
+    hidden_layer = Dense(
+        hidden_layer_size, input_dim=input_layer_size, activation="relu"
+    )(hidden_layer)
+    hidden_layer = Dense(
+        hidden_layer_size, input_dim=input_layer_size, activation="relu"
+    )(hidden_layer)
+    hidden_layer = Dense(
+        hidden_layer_size, input_dim=input_layer_size, activation="relu"
+    )(hidden_layer)
+    hidden_layer = Dense(
+        hidden_layer_size, input_dim=input_layer_size, activation="relu"
+    )(hidden_layer)
+    output_layer = Dense(output_layer_size, activation="softmax")(hidden_layer)
+
+    model = Model(inputs=[input], outputs=[output_layer])
 
     model.compile(
         loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"]
@@ -54,6 +67,7 @@ def main(args):
         min_num_points,
         smote,
         masks,
+        _,
     ) = config_parser(args.ml_config)
 
     # Set up results directory
@@ -74,6 +88,7 @@ def main(args):
         args.ml_config,
         regression=False,
         min_num_points=min_num_points,
+        smote=smote,
         masks=masks,
     )
 
