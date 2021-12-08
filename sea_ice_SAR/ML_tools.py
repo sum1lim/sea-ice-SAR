@@ -336,11 +336,14 @@ def tr_val_split(K, X_tr, Y_tr):
 
 
 def regression_plots(Y_expert, Y_pred, abs_error, result_dir, iter):
+    sns.set_theme(style="dark")
+
     maximum_val = max([max(Y_expert), max(Y_pred)])
 
     # pred vs expert
     pred_df = {"expert": Y_expert, "pred": Y_pred}
-    plt.scatter(Y_expert, Y_pred)
+    sns.scatterplot(x=Y_expert, y=Y_pred, s=5, color=".15")
+    # sns.histplot(x=Y_expert, y=Y_pred, bins=50, pthresh=.1, cmap="mako")
     plt.title(f"Prediction VS Expert (Fold #: {iter+1})")
     plt.ylabel("Predcited Value")
     plt.xlabel("Expert Value")
@@ -354,7 +357,8 @@ def regression_plots(Y_expert, Y_pred, abs_error, result_dir, iter):
     plt.clf()
 
     # absolute errors
-    plt.scatter(Y_expert, abs_error)
+    plt.scatter(x=Y_expert, y=abs_error, s=5, color=".15")
+    # sns.histplot(x=Y_expert, y=abs_error, bins=50, pthresh=.1, cmap="mako")
     plt.title(f"Absolute Errors (Fold #: {iter+1})")
     plt.ylabel("Absolute Error")
     plt.xlabel("Expert Value")

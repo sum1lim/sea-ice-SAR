@@ -77,7 +77,8 @@ def main(args):
         corr_coefficient = pearsonr(Y_te, y_pred)[0]
         pearsonr_li.append(corr_coefficient)
 
-        print(f"Mean Asolute Error: {mean_absolute_error}", file=sys.stdout)
+        print(f"Mean Absolute Error: {mean_absolute_error}", file=sys.stdout)
+        print(f"RMSE: {rmse}", file=sys.stdout)
         print(f"R2 Score: {r2}", file=sys.stdout)
         print(f"Pearson's r: {corr_coefficient}", file=sys.stdout)
         regression_plots(

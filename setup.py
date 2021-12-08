@@ -22,5 +22,6 @@ setup(
         ./scripts/SOBEL
         ./scripts/GLCM
         ./scripts/normalize_csv
+        ./scripts/boxplot
     """.split(),
 )

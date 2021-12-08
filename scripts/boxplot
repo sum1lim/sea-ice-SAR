@@ -1,0 +1,96 @@
+#!/usr/bin/env python3
+import argparse
+import seaborn as sns
+import os
+import pandas as pd
+import numpy as np
+
+import matplotlib.pyplot as plt
+
+
+def main(args):
+    if args.model_type == "regression":
+        metrics = ["Mean Absolute Error: ", "RMSE: ", "R2 Score: ", "Pearson's r: "]
+    else:
+        metrics = ["Test accuracy: "]
+
+    result_dict = {metric: {} for metric in metrics}
+    if args.methods != None:
+        result_dirs = args.methods
+    else:
+        result_dirs = os.listdir(args.result_dir)
+
+    for result_dir in result_dirs:
+        try:
+            with open(
+                f"{args.result_dir}/{result_dir}/test.log", "r"
+            ) as test_result_file:
+                lines = test_result_file.readlines()
+                for line in lines:
+                    for metric in metrics:
+                        if line.startswith(metric):
+                            if result_dir in result_dict[metric].keys():
+                                result_dict[metric][result_dir].append(
+                                    float(line[len(metric) : -1])
+                                )
+                            else:
+                                result_dict[metric][result_dir] = [
+                                    float(line[len(metric) : -1])
+                                ]
+
+        except NotADirectoryError:
+            continue
+
+    for metric, sub_dict in result_dict.items():
+        methods = []
+        results = []
+        for key, values in sub_dict.items():
+            methods += [key for _ in values]
+            results += [value for value in values]
+
+        df = pd.DataFrame(
+            np.transpose(np.array([methods, results])), columns=["method", "value"]
+        )
+        df["value"] = df["value"].astype(float)
+
+        f, ax = plt.subplots(figsize=(7, 6))
+        sns.boxplot(
+            x="method", y="value", data=df, whis=[0, 100], width=0.6, palette="vlag"
+        )
+        sns.stripplot(x="method", y="value", data=df, size=4, color=".3", linewidth=0)
+
+        ax.yaxis.grid(True)
+        ax.set(xlabel="Method")
+        sns.despine(trim=True, left=True)
+
+        plt.title(f"{metric[:-2]}")
+        plt.savefig(f"{args.result_dir}/{metric[:-2]}.png")
+        plt.clf()
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--result-dir",
+        type=str,
+        help="Result directory path",
+    )
+    parser.add_argument(
+        "--model-type",
+        type=str,
+        help="Select one of ['regression', 'classification']",
+        choices=["regression", "classification"],
+    )
+    parser.add_argument(
+        "--methods",
+        nargs="+",
+        type=str,
+        help="",
+    )
+
+    args = parser.parse_args()
+    if type(args.methods) == str:
+        args.methods = [args.methods]
+
+    main(args)
