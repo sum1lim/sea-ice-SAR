@@ -1,0 +1,115 @@
+*************************** Fold #: 1 ***************************
+Model: "model"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+cat (InputLayer)             [(None, 3)]               0         
+_________________________________________________________________
+dense (Dense)                (None, 6)                 24        
+_________________________________________________________________
+dense_1 (Dense)              (None, 6)                 42        
+_________________________________________________________________
+dense_2 (Dense)              (None, 6)                 42        
+_________________________________________________________________
+dense_3 (Dense)              (None, 6)                 42        
+_________________________________________________________________
+dense_4 (Dense)              (None, 6)                 42        
+_________________________________________________________________
+dense_5 (Dense)              (None, 1)                 7         
+=================================================================
+Total params: 199
+Trainable params: 199
+Non-trainable params: 0
+_________________________________________________________________
+Epoch 1/10000
+4/4 - 0s - loss: 0.1910 - val_loss: 0.1918
+
+Epoch 00001: val_loss improved from inf to 0.19178, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 2/10000
+4/4 - 0s - loss: 0.1873 - val_loss: 0.1881
+
+Epoch 00002: val_loss improved from 0.19178 to 0.18810, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 3/10000
+4/4 - 0s - loss: 0.1837 - val_loss: 0.1844
+
+Epoch 00003: val_loss improved from 0.18810 to 0.18443, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 4/10000
+4/4 - 0s - loss: 0.1800 - val_loss: 0.1808
+
+Epoch 00004: val_loss improved from 0.18443 to 0.18076, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 5/10000
+4/4 - 0s - loss: 0.1764 - val_loss: 0.1771
+
+Epoch 00005: val_loss improved from 0.18076 to 0.17710, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 6/10000
+4/4 - 0s - loss: 0.1728 - val_loss: 0.1734
+
+Epoch 00006: val_loss improved from 0.17710 to 0.17345, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 7/10000
+4/4 - 0s - loss: 0.1691 - val_loss: 0.1698
+
+Epoch 00007: val_loss improved from 0.17345 to 0.16979, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 8/10000
+4/4 - 0s - loss: 0.1655 - val_loss: 0.1661
+
+Epoch 00008: val_loss improved from 0.16979 to 0.16613, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 9/10000
+4/4 - 0s - loss: 0.1619 - val_loss: 0.1625
+
+Epoch 00009: val_loss improved from 0.16613 to 0.16248, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 10/10000
+4/4 - 0s - loss: 0.1583 - val_loss: 0.1588
+
+Epoch 00010: val_loss improved from 0.16248 to 0.15881, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 11/10000
+4/4 - 0s - loss: 0.1546 - val_loss: 0.1551
+
+Epoch 00011: val_loss improved from 0.15881 to 0.15514, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 12/10000
+4/4 - 0s - loss: 0.1510 - val_loss: 0.1515
+
+Epoch 00012: val_loss improved from 0.15514 to 0.15145, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 13/10000
+4/4 - 0s - loss: 0.1474 - val_loss: 0.1478
+
+Epoch 00013: val_loss improved from 0.15145 to 0.14776, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 14/10000
+4/4 - 0s - loss: 0.1437 - val_loss: 0.1441
+
+Epoch 00014: val_loss improved from 0.14776 to 0.14406, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 15/10000
+4/4 - 0s - loss: 0.1400 - val_loss: 0.1403
+
+Epoch 00015: val_loss improved from 0.14406 to 0.14034, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 16/10000
+4/4 - 0s - loss: 0.1363 - val_loss: 0.1366
+
+Epoch 00016: val_loss improved from 0.14034 to 0.13661, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 17/10000
+4/4 - 0s - loss: 0.1327 - val_loss: 0.1329
+
+Epoch 00017: val_loss improved from 0.13661 to 0.13287, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 18/10000
+4/4 - 0s - loss: 0.1289 - val_loss: 0.1291
+
+Epoch 00018: val_loss improved from 0.13287 to 0.12911, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 19/10000
+4/4 - 0s - loss: 0.1252 - val_loss: 0.1253
+
+Epoch 00019: val_loss improved from 0.12911 to 0.12534, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 20/10000
+4/4 - 0s - loss: 0.1215 - val_loss: 0.1216
+
+Epoch 00020: val_loss improved from 0.12534 to 0.12156, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 21/10000
+4/4 - 0s - loss: 0.1178 - val_loss: 0.1178
+
+Epoch 00021: val_loss improved from 0.12156 to 0.11777, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 22/10000
+4/4 - 0s - loss: 0.1140 - val_loss: 0.1140
+
+Epoch 00022: val_loss improved from 0.11777 to 0.11397, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1
+Epoch 23/10000
+4/4 - 0s - loss: 0.1102 - val_loss: 0.1102
+
+Epoch 00023: val_loss improved from 0.11397 to 0.11017, saving model to ./results/NN_rms_regr/FYI/original/ckpt_1

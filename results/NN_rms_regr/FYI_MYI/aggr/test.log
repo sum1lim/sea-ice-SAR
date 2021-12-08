@@ -1,46 +1,46 @@
 *************************** Fold #: 1 ***************************
 102/102 - 0s
-Mean Asolute Error: 49.88064222443048
-Pearson's r: 0.4600270552767783
+Mean Asolute Error: 66.29469343431552
+Pearson's r: nan
 *************************** Fold #: 2 ***************************
 102/102 - 0s
-Mean Asolute Error: 46.41669576381456
-Pearson's r: 0.5177766654753073
+Mean Asolute Error: 49.41197772870355
+Pearson's r: 0.4574261940060735
 *************************** Fold #: 3 ***************************
 102/102 - 0s
-Mean Asolute Error: 59.18980833166795
-Pearson's r: 0.5085816535512744
+Mean Asolute Error: 49.389466061457384
+Pearson's r: 0.47799310064322664
 *************************** Fold #: 4 ***************************
 102/102 - 0s
-Mean Asolute Error: 50.68454939682808
-Pearson's r: 0.45634333124727944
+Mean Asolute Error: 54.60735874042055
+Pearson's r: 0.500123237649728
 *************************** Fold #: 5 ***************************
 102/102 - 0s
-Mean Asolute Error: 50.06942884672439
-Pearson's r: 0.45011186600617425
+Mean Asolute Error: 49.36064934868187
+Pearson's r: 0.4878780404476611
 *************************** Fold #: 6 ***************************
 102/102 - 0s
-Mean Asolute Error: 48.67266384299257
-Pearson's r: 0.47173687987811186
+Mean Asolute Error: 48.94011134069149
+Pearson's r: 0.4638399583807793
 *************************** Fold #: 7 ***************************
 102/102 - 0s
-Mean Asolute Error: 49.154667411279156
-Pearson's r: 0.4562135290222347
+Mean Asolute Error: 54.65320150912965
+Pearson's r: 0.5208866295651964
 *************************** Fold #: 8 ***************************
 102/102 - 0s
-Mean Asolute Error: 51.021553572928006
-Pearson's r: 0.4377980295526664
+Mean Asolute Error: 57.19899427509696
+Pearson's r: 0.3986531315840742
 *************************** Fold #: 9 ***************************
 102/102 - 0s
-Mean Asolute Error: 66.18731551981857
-Pearson's r: nan
+Mean Asolute Error: 63.20454126232196
+Pearson's r: 0.46702257758735133
 *************************** Fold #: 10 ***************************
 102/102 - 0s
-Mean Asolute Error: 48.90372563105473
-Pearson's r: 0.47368035933683805
+Mean Asolute Error: 48.68964659520116
+Pearson's r: 0.4748421102382559
 
-Average MAE: 52.01810505415385
-Standard Deviation (MAE): 5.998183264193596
+Average MAE: 54.175064029602005
+Standard Deviation (MAE): 6.361678553188532
 
 Average Pearson's r: nan
 Standard Deviation (Pearson's r): nan
