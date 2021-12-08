@@ -13,6 +13,7 @@ from sea_ice_SAR.ML_tools import (
 from sea_ice_SAR.utils import decompose_filepath
 from tensorflow.keras.models import load_model
 from scipy.stats import pearsonr
+from sklearn.metrics import r2_score, mean_squared_error
 
 tf.get_logger().setLevel("ERROR")
 
@@ -51,6 +52,8 @@ def main(args):
         X_te = {"conv": CNN_stacks, "cat": X_te}
 
     error_li = []
+    rmse_li = []
+    r2_li = []
     pearsonr_li = []
     for k in range(K):
         print(
@@ -67,10 +70,15 @@ def main(args):
         absolute_errors = abs(Y_te - y_pred)
         mean_absolute_error = sum(abs(Y_te - y_pred)) / len(Y_te)
         error_li.append(mean_absolute_error)
+        rmse = mean_squared_error(Y_te, y_pred, squared=False)
+        rmse_li.append(rmse)
+        r2 = r2_score(Y_te, y_pred, multioutput="variance_weighted")
+        r2_li.append(r2)
         corr_coefficient = pearsonr(Y_te, y_pred)[0]
         pearsonr_li.append(corr_coefficient)
 
         print(f"Mean Asolute Error: {mean_absolute_error}", file=sys.stdout)
+        print(f"R2 Score: {r2}", file=sys.stdout)
         print(f"Pearson's r: {corr_coefficient}", file=sys.stdout)
         regression_plots(
             Y_te, y_pred, absolute_errors, f"{args.result_dir}/{cfg_filename}", k
@@ -78,6 +86,10 @@ def main(args):
 
     print(f"\nAverage MAE: {sum(error_li)/K}", file=sys.stdout)
     print(f"Standard Deviation (MAE): {stdev(error_li)}", file=sys.stdout)
+    print(f"\nAverage RMSE Score: {sum(rmse_li)/K}", file=sys.stdout)
+    print(f"Standard Deviation (RMSE): {stdev(rmse_li)}", file=sys.stdout)
+    print(f"\nAverage R2 Score: {sum(r2_li)/K}", file=sys.stdout)
+    print(f"Standard Deviation (R2 Score): {stdev(r2_li)}", file=sys.stdout)
     print(f"\nAverage Pearson's r: {sum(pearsonr_li)/K}", file=sys.stdout)
     print(f"Standard Deviation (Pearson's r): {stdev(pearsonr_li)}", file=sys.stdout)
 
