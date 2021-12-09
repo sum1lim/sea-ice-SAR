@@ -53,14 +53,14 @@ def main(args):
         )
         df["value"] = df["value"].astype(float)
 
-        f, ax = plt.subplots(figsize=(7, 6))
+        f, ax = plt.subplots(figsize=(5, 3))
         sns.boxplot(
             x="method", y="value", data=df, whis=[0, 100], width=0.6, palette="vlag"
         )
         sns.stripplot(x="method", y="value", data=df, size=4, color=".3", linewidth=0)
 
         ax.yaxis.grid(True)
-        ax.set(xlabel="Method")
+        ax.set(xlabel="")
         sns.despine(trim=True, left=True)
 
         plt.title(f"{metric[:-2]}")
