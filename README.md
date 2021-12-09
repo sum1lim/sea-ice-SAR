@@ -1,4 +1,4 @@
-# Sea Ice Remote Sensing
+# Deep Learning for Sea Ice Roughness/Thickness Prediction
 
 **Author**: [Sangwon Lim](https://github.com/sum1lim)
 
