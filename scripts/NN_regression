@@ -68,7 +68,6 @@ def NN(
         conv_layer = MaxPooling3D(pool_size=(2, 2, 2), padding="same")(conv_layer)
         conv_layer = Conv3D(4, (3, 3, 3), activation="relu", padding="same")(conv_layer)
         conv_layer = MaxPooling3D(pool_size=(2, 2, 2), padding="same")(conv_layer)
-        conv_layer = Conv3D(4, (3, 3, 3), activation="relu", padding="same")(conv_layer)
         conv_layer = Flatten()(conv_layer)
 
     if is_CNN:
