@@ -23,5 +23,6 @@ setup(
         ./scripts/GLCM
         ./scripts/normalize_csv
         ./scripts/boxplot
+        ./scripts/canny
     """.split(),
 )

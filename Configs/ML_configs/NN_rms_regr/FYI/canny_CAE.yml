@@ -1,0 +1,12 @@
+---
+configuration:
+  train_data: [./data/rms_tr_data/aggr.csv, ./data/rms_tr_data/canny_CAE.csv]
+  test_data: [./data/rms_te_data/aggr.csv, ./data/rms_te_data/canny_CAE.csv]
+  verbosity: 2
+  epochs: 10000
+  K-fold: 10
+  # hidden_size: 100
+  min_num_points: 50
+  smote: False 
+  masks: [1, 2]
+...

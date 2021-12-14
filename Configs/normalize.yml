@@ -16,6 +16,8 @@ train_data:
   - [./data/SAR/2015/ratio.tif, ./data/SAR/2016/ratio.tif]
   - [./data/SAR/2015/2015_hh_SOBEL.tif, ./data/SAR/2016/2016_hh_SOBEL.tif]
   - [./data/SAR/2015/2015_hv_SOBEL.tif, ./data/SAR/2016/2016_hv_SOBEL.tif]
+  - [./data/SAR/2015/2015_hh_canny.tif, ./data/SAR/2016/2016_hh_canny.tif]
+  - [./data/SAR/2015/2015_hv_canny.tif, ./data/SAR/2016/2016_hv_canny.tif]
 
 test_data: 
   - [./data/SAR/2018/2018_c5.tif]
@@ -34,6 +36,8 @@ test_data:
   - [./data/SAR/2018/ratio.tif]
   - [./data/SAR/2018/2018_hh_SOBEL.tif]
   - [./data/SAR/2018/2018_hv_SOBEL.tif]
+  - [./data/SAR/2018/2018_hh_canny.tif]
+  - [./data/SAR/2018/2018_hv_canny.tif]
 
 output_dir: [./data/SAR/2015_norm, ./data/SAR/2016_norm, ./data/SAR/2018_norm]
 ...

@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+import argparse
+from osgeo import gdal
+from skimage import feature
+from sea_ice_SAR.utils import decompose_filepath
+
+
+def main(args):
+    ds = gdal.Open(args.input)
+    band = ds.GetRasterBand(1)
+    band_arr = band.ReadAsArray()
+
+    processed = feature.canny(band_arr)
+
+    dir, filename, _ = decompose_filepath(args.input)
+
+    [rows, cols] = band_arr.shape
+    driver = gdal.GetDriverByName("GTiff")
+    outdata = driver.Create(
+        f"{dir}/{filename}_canny.tif",
+        cols,
+        rows,
+        1,
+        gdal.GDT_Float64,
+    )
+    outdata.SetGeoTransform(ds.GetGeoTransform())
+    outdata.SetProjection(ds.GetProjection())
+    outdata.GetRasterBand(1).WriteArray(processed)
+    outdata.FlushCache()
+    outdata = None
+    band = None
+    ds = None
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--input",
+        type=str,
+        help="Input file path",
+    )
+
+    args = parser.parse_args()
+
+    main(args)
