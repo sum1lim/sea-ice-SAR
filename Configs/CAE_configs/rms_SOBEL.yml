@@ -3,7 +3,7 @@ train_dir: ./data/rms_tr_data
 test_dir: ./data/rms_te_data
 filenames: [hh7_SOBEL, theta7, hh7, hv7, theta7, hv7_SOBEL]
 new_features: [hh7_SOBEL, theta7, hh7, hv7, theta7, hv7_SOBEL]
-epochs: 1000
+epochs: 10000
 output_filename: SOBEL_CAE
 min_num_points: 50
 verbosity: 2
