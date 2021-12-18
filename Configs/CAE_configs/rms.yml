@@ -4,7 +4,7 @@ test_dir: ./data/rms_te_data
 filenames: [theta7, hh7, hv7, theta7]
 new_features: [theta7, hh7, hv7, theta7]
 epochs: 1000
-output_filename: theta_CAE
+output_filename: CAE
 min_num_points: 50
 verbosity: 2
 ...

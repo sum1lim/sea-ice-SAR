@@ -1,8 +1,8 @@
 ---
 train_dir: ./data/rms_tr_data
 test_dir: ./data/rms_te_data
-filenames: [theta7, hh7_canny, hh7, hv7, hv7_canny, theta7]
-new_features: [theta7, hh7_canny, hh7, hv7, hv7_canny, theta7]
+filenames: [hh7_canny, theta7, hh7, hv7, theta7, hv7_canny]
+new_features: [hh7_canny, theta7, hh7, hv7, theta7, hv7_canny]
 epochs: 1000
 output_filename: canny_CAE
 min_num_points: 50

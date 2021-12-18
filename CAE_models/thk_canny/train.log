@@ -1,595 +1,915 @@
-Model: "sequential"
+Model: "sequential_15"
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 =================================================================
-zero_padding3d (ZeroPadding3 (None, 8, 8, 8, 1)        0         
+zero_padding3d_5 (ZeroPaddin (None, 8, 8, 8, 1)        0         
 _________________________________________________________________
-conv3d (Conv3D)              (None, 8, 8, 8, 8)        224       
+conv3d_30 (Conv3D)           (None, 8, 8, 8, 8)        224       
 _________________________________________________________________
-max_pooling3d (MaxPooling3D) (None, 4, 4, 4, 8)        0         
+max_pooling3d_10 (MaxPooling (None, 4, 4, 4, 8)        0         
 _________________________________________________________________
-conv3d_1 (Conv3D)            (None, 4, 4, 4, 4)        868       
+conv3d_31 (Conv3D)           (None, 4, 4, 4, 4)        868       
 _________________________________________________________________
-max_pooling3d_1 (MaxPooling3 (None, 2, 2, 2, 4)        0         
+max_pooling3d_11 (MaxPooling (None, 2, 2, 2, 4)        0         
 _________________________________________________________________
-conv3d_2 (Conv3D)            (None, 2, 2, 2, 4)        436       
+conv3d_32 (Conv3D)           (None, 2, 2, 2, 4)        436       
 _________________________________________________________________
-up_sampling3d (UpSampling3D) (None, 4, 4, 4, 4)        0         
+up_sampling3d_10 (UpSampling (None, 4, 4, 4, 4)        0         
 _________________________________________________________________
-conv3d_3 (Conv3D)            (None, 4, 4, 4, 4)        436       
+conv3d_33 (Conv3D)           (None, 4, 4, 4, 4)        436       
 _________________________________________________________________
-up_sampling3d_1 (UpSampling3 (None, 8, 8, 8, 4)        0         
+up_sampling3d_11 (UpSampling (None, 8, 8, 8, 4)        0         
 _________________________________________________________________
-conv3d_4 (Conv3D)            (None, 8, 8, 8, 8)        872       
+conv3d_34 (Conv3D)           (None, 8, 8, 8, 8)        872       
 _________________________________________________________________
-conv3d_5 (Conv3D)            (None, 8, 8, 8, 1)        217       
+conv3d_35 (Conv3D)           (None, 8, 8, 8, 1)        217       
 _________________________________________________________________
-cropping3d (Cropping3D)      (None, 7, 7, 6, 1)        0         
+cropping3d_5 (Cropping3D)    (None, 7, 7, 6, 1)        0         
 =================================================================
 Total params: 3,053
 Trainable params: 3,053
 Non-trainable params: 0
 _________________________________________________________________
 Epoch 1/1000
-14/14 - 7s - loss: 0.1015 - val_loss: 0.2281
+14/14 - 7s - loss: 0.1047 - val_loss: 0.1789
 
-Epoch 00001: val_loss improved from inf to 0.22809, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00001: val_loss improved from inf to 0.17895, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 2/1000
-14/14 - 7s - loss: 0.0947 - val_loss: 0.2112
+14/14 - 7s - loss: 0.0976 - val_loss: 0.2111
 
-Epoch 00002: val_loss improved from 0.22809 to 0.21122, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00002: val_loss did not improve from 0.17895
 Epoch 3/1000
-14/14 - 7s - loss: 0.0929 - val_loss: 0.2136
+14/14 - 7s - loss: 0.0928 - val_loss: 0.2121
 
-Epoch 00003: val_loss did not improve from 0.21122
+Epoch 00003: val_loss did not improve from 0.17895
 Epoch 4/1000
-14/14 - 7s - loss: 0.0914 - val_loss: 0.2157
+14/14 - 7s - loss: 0.0889 - val_loss: 0.2010
 
-Epoch 00004: val_loss did not improve from 0.21122
+Epoch 00004: val_loss did not improve from 0.17895
 Epoch 5/1000
-14/14 - 7s - loss: 0.0892 - val_loss: 0.2233
+14/14 - 7s - loss: 0.0865 - val_loss: 0.1953
 
-Epoch 00005: val_loss did not improve from 0.21122
+Epoch 00005: val_loss did not improve from 0.17895
 Epoch 6/1000
-14/14 - 7s - loss: 0.0858 - val_loss: 0.2196
+14/14 - 7s - loss: 0.0849 - val_loss: 0.1942
 
-Epoch 00006: val_loss did not improve from 0.21122
+Epoch 00006: val_loss did not improve from 0.17895
 Epoch 7/1000
-14/14 - 7s - loss: 0.0831 - val_loss: 0.2092
+14/14 - 7s - loss: 0.0833 - val_loss: 0.1947
 
-Epoch 00007: val_loss improved from 0.21122 to 0.20922, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00007: val_loss did not improve from 0.17895
 Epoch 8/1000
-14/14 - 7s - loss: 0.0809 - val_loss: 0.1936
+14/14 - 7s - loss: 0.0819 - val_loss: 0.1894
 
-Epoch 00008: val_loss improved from 0.20922 to 0.19363, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00008: val_loss did not improve from 0.17895
 Epoch 9/1000
-14/14 - 7s - loss: 0.0793 - val_loss: 0.1823
+14/14 - 7s - loss: 0.0805 - val_loss: 0.1832
 
-Epoch 00009: val_loss improved from 0.19363 to 0.18234, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00009: val_loss did not improve from 0.17895
 Epoch 10/1000
-14/14 - 7s - loss: 0.0779 - val_loss: 0.1697
+14/14 - 7s - loss: 0.0790 - val_loss: 0.1792
 
-Epoch 00010: val_loss improved from 0.18234 to 0.16968, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00010: val_loss did not improve from 0.17895
 Epoch 11/1000
-14/14 - 7s - loss: 0.0765 - val_loss: 0.1635
+14/14 - 7s - loss: 0.0765 - val_loss: 0.1657
 
-Epoch 00011: val_loss improved from 0.16968 to 0.16348, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00011: val_loss improved from 0.17895 to 0.16570, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 12/1000
-14/14 - 7s - loss: 0.0753 - val_loss: 0.1569
+14/14 - 7s - loss: 0.0743 - val_loss: 0.1561
 
-Epoch 00012: val_loss improved from 0.16348 to 0.15686, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00012: val_loss improved from 0.16570 to 0.15608, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 13/1000
-14/14 - 7s - loss: 0.0738 - val_loss: 0.1404
+14/14 - 7s - loss: 0.0732 - val_loss: 0.1461
 
-Epoch 00013: val_loss improved from 0.15686 to 0.14036, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00013: val_loss improved from 0.15608 to 0.14608, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 14/1000
-14/14 - 7s - loss: 0.0725 - val_loss: 0.1305
+14/14 - 7s - loss: 0.0723 - val_loss: 0.1364
 
-Epoch 00014: val_loss improved from 0.14036 to 0.13049, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00014: val_loss improved from 0.14608 to 0.13644, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 15/1000
-14/14 - 7s - loss: 0.0717 - val_loss: 0.1258
+14/14 - 7s - loss: 0.0716 - val_loss: 0.1305
 
-Epoch 00015: val_loss improved from 0.13049 to 0.12579, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00015: val_loss improved from 0.13644 to 0.13053, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 16/1000
-14/14 - 7s - loss: 0.0711 - val_loss: 0.1198
+14/14 - 7s - loss: 0.0712 - val_loss: 0.1273
 
-Epoch 00016: val_loss improved from 0.12579 to 0.11976, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00016: val_loss improved from 0.13053 to 0.12734, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 17/1000
-14/14 - 7s - loss: 0.0707 - val_loss: 0.1166
+14/14 - 7s - loss: 0.0709 - val_loss: 0.1252
 
-Epoch 00017: val_loss improved from 0.11976 to 0.11662, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00017: val_loss improved from 0.12734 to 0.12518, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 18/1000
-14/14 - 7s - loss: 0.0704 - val_loss: 0.1149
+14/14 - 7s - loss: 0.0705 - val_loss: 0.1238
 
-Epoch 00018: val_loss improved from 0.11662 to 0.11487, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00018: val_loss improved from 0.12518 to 0.12382, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 19/1000
-14/14 - 7s - loss: 0.0702 - val_loss: 0.1135
+14/14 - 7s - loss: 0.0702 - val_loss: 0.1230
 
-Epoch 00019: val_loss improved from 0.11487 to 0.11351, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00019: val_loss improved from 0.12382 to 0.12297, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 20/1000
-14/14 - 7s - loss: 0.0700 - val_loss: 0.1127
+14/14 - 7s - loss: 0.0699 - val_loss: 0.1208
 
-Epoch 00020: val_loss improved from 0.11351 to 0.11269, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00020: val_loss improved from 0.12297 to 0.12081, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 21/1000
-14/14 - 7s - loss: 0.0698 - val_loss: 0.1113
+14/14 - 7s - loss: 0.0696 - val_loss: 0.1195
 
-Epoch 00021: val_loss improved from 0.11269 to 0.11128, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00021: val_loss improved from 0.12081 to 0.11947, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 22/1000
-14/14 - 7s - loss: 0.0696 - val_loss: 0.1099
+14/14 - 7s - loss: 0.0693 - val_loss: 0.1181
 
-Epoch 00022: val_loss improved from 0.11128 to 0.10990, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00022: val_loss improved from 0.11947 to 0.11809, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 23/1000
-14/14 - 7s - loss: 0.0694 - val_loss: 0.1091
+14/14 - 7s - loss: 0.0689 - val_loss: 0.1173
 
-Epoch 00023: val_loss improved from 0.10990 to 0.10907, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00023: val_loss improved from 0.11809 to 0.11728, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 24/1000
-14/14 - 7s - loss: 0.0692 - val_loss: 0.1077
+14/14 - 7s - loss: 0.0686 - val_loss: 0.1163
 
-Epoch 00024: val_loss improved from 0.10907 to 0.10774, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00024: val_loss improved from 0.11728 to 0.11633, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 25/1000
-14/14 - 7s - loss: 0.0689 - val_loss: 0.1057
+14/14 - 7s - loss: 0.0684 - val_loss: 0.1154
 
-Epoch 00025: val_loss improved from 0.10774 to 0.10571, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00025: val_loss improved from 0.11633 to 0.11543, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 26/1000
-14/14 - 7s - loss: 0.0687 - val_loss: 0.1049
+14/14 - 7s - loss: 0.0680 - val_loss: 0.1150
 
-Epoch 00026: val_loss improved from 0.10571 to 0.10494, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00026: val_loss improved from 0.11543 to 0.11505, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 27/1000
-14/14 - 7s - loss: 0.0685 - val_loss: 0.1044
+14/14 - 7s - loss: 0.0677 - val_loss: 0.1144
 
-Epoch 00027: val_loss improved from 0.10494 to 0.10442, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00027: val_loss improved from 0.11505 to 0.11442, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 28/1000
-14/14 - 7s - loss: 0.0683 - val_loss: 0.1034
+14/14 - 7s - loss: 0.0675 - val_loss: 0.1142
 
-Epoch 00028: val_loss improved from 0.10442 to 0.10345, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00028: val_loss improved from 0.11442 to 0.11423, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 29/1000
-14/14 - 7s - loss: 0.0680 - val_loss: 0.1031
+14/14 - 7s - loss: 0.0672 - val_loss: 0.1134
 
-Epoch 00029: val_loss improved from 0.10345 to 0.10305, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00029: val_loss improved from 0.11423 to 0.11345, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 30/1000
-14/14 - 7s - loss: 0.0678 - val_loss: 0.1028
+14/14 - 7s - loss: 0.0669 - val_loss: 0.1137
 
-Epoch 00030: val_loss improved from 0.10305 to 0.10275, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00030: val_loss did not improve from 0.11345
 Epoch 31/1000
-14/14 - 7s - loss: 0.0676 - val_loss: 0.1013
+14/14 - 7s - loss: 0.0667 - val_loss: 0.1137
 
-Epoch 00031: val_loss improved from 0.10275 to 0.10130, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00031: val_loss did not improve from 0.11345
 Epoch 32/1000
-14/14 - 7s - loss: 0.0674 - val_loss: 0.1007
+14/14 - 7s - loss: 0.0664 - val_loss: 0.1132
 
-Epoch 00032: val_loss improved from 0.10130 to 0.10068, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00032: val_loss improved from 0.11345 to 0.11315, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 33/1000
-14/14 - 7s - loss: 0.0672 - val_loss: 0.0996
+14/14 - 7s - loss: 0.0662 - val_loss: 0.1144
 
-Epoch 00033: val_loss improved from 0.10068 to 0.09960, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00033: val_loss did not improve from 0.11315
 Epoch 34/1000
-14/14 - 7s - loss: 0.0670 - val_loss: 0.0984
+14/14 - 7s - loss: 0.0659 - val_loss: 0.1134
 
-Epoch 00034: val_loss improved from 0.09960 to 0.09845, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00034: val_loss did not improve from 0.11315
 Epoch 35/1000
-14/14 - 7s - loss: 0.0669 - val_loss: 0.0975
+14/14 - 7s - loss: 0.0657 - val_loss: 0.1148
 
-Epoch 00035: val_loss improved from 0.09845 to 0.09750, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00035: val_loss did not improve from 0.11315
 Epoch 36/1000
-14/14 - 7s - loss: 0.0667 - val_loss: 0.0968
+14/14 - 7s - loss: 0.0655 - val_loss: 0.1123
 
-Epoch 00036: val_loss improved from 0.09750 to 0.09677, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00036: val_loss improved from 0.11315 to 0.11226, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 37/1000
-14/14 - 7s - loss: 0.0665 - val_loss: 0.0959
+14/14 - 7s - loss: 0.0653 - val_loss: 0.1120
 
-Epoch 00037: val_loss improved from 0.09677 to 0.09590, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00037: val_loss improved from 0.11226 to 0.11201, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 38/1000
-14/14 - 7s - loss: 0.0664 - val_loss: 0.0950
+14/14 - 7s - loss: 0.0651 - val_loss: 0.1137
 
-Epoch 00038: val_loss improved from 0.09590 to 0.09499, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00038: val_loss did not improve from 0.11201
 Epoch 39/1000
-14/14 - 7s - loss: 0.0662 - val_loss: 0.0947
+14/14 - 7s - loss: 0.0649 - val_loss: 0.1119
 
-Epoch 00039: val_loss improved from 0.09499 to 0.09468, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00039: val_loss improved from 0.11201 to 0.11191, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 40/1000
-14/14 - 7s - loss: 0.0661 - val_loss: 0.0939
+14/14 - 7s - loss: 0.0646 - val_loss: 0.1101
 
-Epoch 00040: val_loss improved from 0.09468 to 0.09391, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00040: val_loss improved from 0.11191 to 0.11005, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 41/1000
-14/14 - 7s - loss: 0.0660 - val_loss: 0.0939
+14/14 - 7s - loss: 0.0645 - val_loss: 0.1110
 
-Epoch 00041: val_loss did not improve from 0.09391
+Epoch 00041: val_loss did not improve from 0.11005
 Epoch 42/1000
-14/14 - 7s - loss: 0.0658 - val_loss: 0.0929
+14/14 - 7s - loss: 0.0643 - val_loss: 0.1101
 
-Epoch 00042: val_loss improved from 0.09391 to 0.09290, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00042: val_loss did not improve from 0.11005
 Epoch 43/1000
-14/14 - 7s - loss: 0.0656 - val_loss: 0.0925
+14/14 - 7s - loss: 0.0641 - val_loss: 0.1084
 
-Epoch 00043: val_loss improved from 0.09290 to 0.09255, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00043: val_loss improved from 0.11005 to 0.10844, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 44/1000
-14/14 - 7s - loss: 0.0655 - val_loss: 0.0919
+14/14 - 7s - loss: 0.0639 - val_loss: 0.1092
 
-Epoch 00044: val_loss improved from 0.09255 to 0.09190, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00044: val_loss did not improve from 0.10844
 Epoch 45/1000
-14/14 - 7s - loss: 0.0653 - val_loss: 0.0917
+14/14 - 7s - loss: 0.0637 - val_loss: 0.1079
 
-Epoch 00045: val_loss improved from 0.09190 to 0.09165, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00045: val_loss improved from 0.10844 to 0.10793, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 46/1000
-14/14 - 7s - loss: 0.0651 - val_loss: 0.0914
+14/14 - 7s - loss: 0.0636 - val_loss: 0.1069
 
-Epoch 00046: val_loss improved from 0.09165 to 0.09137, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00046: val_loss improved from 0.10793 to 0.10694, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 47/1000
-14/14 - 7s - loss: 0.0649 - val_loss: 0.0908
+14/14 - 7s - loss: 0.0635 - val_loss: 0.1071
 
-Epoch 00047: val_loss improved from 0.09137 to 0.09079, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00047: val_loss did not improve from 0.10694
 Epoch 48/1000
-14/14 - 7s - loss: 0.0649 - val_loss: 0.0909
+14/14 - 7s - loss: 0.0633 - val_loss: 0.1082
 
-Epoch 00048: val_loss did not improve from 0.09079
+Epoch 00048: val_loss did not improve from 0.10694
 Epoch 49/1000
-14/14 - 7s - loss: 0.0645 - val_loss: 0.0903
+14/14 - 7s - loss: 0.0632 - val_loss: 0.1078
 
-Epoch 00049: val_loss improved from 0.09079 to 0.09028, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00049: val_loss did not improve from 0.10694
 Epoch 50/1000
-14/14 - 7s - loss: 0.0643 - val_loss: 0.0899
+14/14 - 7s - loss: 0.0630 - val_loss: 0.1078
 
-Epoch 00050: val_loss improved from 0.09028 to 0.08994, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00050: val_loss did not improve from 0.10694
 Epoch 51/1000
-14/14 - 7s - loss: 0.0642 - val_loss: 0.0900
+14/14 - 7s - loss: 0.0629 - val_loss: 0.1066
 
-Epoch 00051: val_loss did not improve from 0.08994
+Epoch 00051: val_loss improved from 0.10694 to 0.10663, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 52/1000
-14/14 - 7s - loss: 0.0640 - val_loss: 0.0895
+14/14 - 7s - loss: 0.0628 - val_loss: 0.1096
 
-Epoch 00052: val_loss improved from 0.08994 to 0.08951, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00052: val_loss did not improve from 0.10663
 Epoch 53/1000
-14/14 - 7s - loss: 0.0638 - val_loss: 0.0891
+14/14 - 7s - loss: 0.0626 - val_loss: 0.1086
 
-Epoch 00053: val_loss improved from 0.08951 to 0.08914, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00053: val_loss did not improve from 0.10663
 Epoch 54/1000
-14/14 - 7s - loss: 0.0636 - val_loss: 0.0890
+14/14 - 7s - loss: 0.0625 - val_loss: 0.1089
 
-Epoch 00054: val_loss improved from 0.08914 to 0.08896, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00054: val_loss did not improve from 0.10663
 Epoch 55/1000
-14/14 - 7s - loss: 0.0635 - val_loss: 0.0889
+14/14 - 7s - loss: 0.0624 - val_loss: 0.1076
 
-Epoch 00055: val_loss improved from 0.08896 to 0.08885, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00055: val_loss did not improve from 0.10663
 Epoch 56/1000
-14/14 - 7s - loss: 0.0633 - val_loss: 0.0887
+14/14 - 7s - loss: 0.0623 - val_loss: 0.1083
 
-Epoch 00056: val_loss improved from 0.08885 to 0.08868, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00056: val_loss did not improve from 0.10663
 Epoch 57/1000
-14/14 - 7s - loss: 0.0631 - val_loss: 0.0882
+14/14 - 7s - loss: 0.0621 - val_loss: 0.1077
 
-Epoch 00057: val_loss improved from 0.08868 to 0.08817, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00057: val_loss did not improve from 0.10663
 Epoch 58/1000
-14/14 - 7s - loss: 0.0630 - val_loss: 0.0879
+14/14 - 7s - loss: 0.0620 - val_loss: 0.1060
 
-Epoch 00058: val_loss improved from 0.08817 to 0.08794, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00058: val_loss improved from 0.10663 to 0.10599, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 59/1000
-14/14 - 7s - loss: 0.0628 - val_loss: 0.0875
+14/14 - 7s - loss: 0.0619 - val_loss: 0.1079
 
-Epoch 00059: val_loss improved from 0.08794 to 0.08753, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00059: val_loss did not improve from 0.10599
 Epoch 60/1000
-14/14 - 7s - loss: 0.0627 - val_loss: 0.0874
+14/14 - 7s - loss: 0.0618 - val_loss: 0.1080
 
-Epoch 00060: val_loss improved from 0.08753 to 0.08741, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00060: val_loss did not improve from 0.10599
 Epoch 61/1000
-14/14 - 7s - loss: 0.0626 - val_loss: 0.0873
+14/14 - 7s - loss: 0.0616 - val_loss: 0.1070
 
-Epoch 00061: val_loss improved from 0.08741 to 0.08732, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00061: val_loss did not improve from 0.10599
 Epoch 62/1000
-14/14 - 7s - loss: 0.0624 - val_loss: 0.0870
+14/14 - 7s - loss: 0.0615 - val_loss: 0.1070
 
-Epoch 00062: val_loss improved from 0.08732 to 0.08702, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00062: val_loss did not improve from 0.10599
 Epoch 63/1000
-14/14 - 7s - loss: 0.0622 - val_loss: 0.0866
+14/14 - 7s - loss: 0.0616 - val_loss: 0.1058
 
-Epoch 00063: val_loss improved from 0.08702 to 0.08661, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00063: val_loss improved from 0.10599 to 0.10580, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 64/1000
-14/14 - 7s - loss: 0.0620 - val_loss: 0.0861
+14/14 - 7s - loss: 0.0615 - val_loss: 0.1072
 
-Epoch 00064: val_loss improved from 0.08661 to 0.08612, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00064: val_loss did not improve from 0.10580
 Epoch 65/1000
-14/14 - 7s - loss: 0.0619 - val_loss: 0.0860
+14/14 - 7s - loss: 0.0613 - val_loss: 0.1069
 
-Epoch 00065: val_loss improved from 0.08612 to 0.08604, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00065: val_loss did not improve from 0.10580
 Epoch 66/1000
-14/14 - 7s - loss: 0.0617 - val_loss: 0.0857
+14/14 - 7s - loss: 0.0612 - val_loss: 0.1056
 
-Epoch 00066: val_loss improved from 0.08604 to 0.08569, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00066: val_loss improved from 0.10580 to 0.10561, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 67/1000
-14/14 - 7s - loss: 0.0616 - val_loss: 0.0855
+14/14 - 7s - loss: 0.0611 - val_loss: 0.1042
 
-Epoch 00067: val_loss improved from 0.08569 to 0.08550, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00067: val_loss improved from 0.10561 to 0.10423, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 68/1000
-14/14 - 7s - loss: 0.0614 - val_loss: 0.0851
+14/14 - 7s - loss: 0.0610 - val_loss: 0.1038
 
-Epoch 00068: val_loss improved from 0.08550 to 0.08509, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00068: val_loss improved from 0.10423 to 0.10379, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 69/1000
-14/14 - 7s - loss: 0.0613 - val_loss: 0.0846
+14/14 - 7s - loss: 0.0609 - val_loss: 0.1036
 
-Epoch 00069: val_loss improved from 0.08509 to 0.08459, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00069: val_loss improved from 0.10379 to 0.10356, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 70/1000
-14/14 - 7s - loss: 0.0611 - val_loss: 0.0842
+14/14 - 7s - loss: 0.0609 - val_loss: 0.1027
 
-Epoch 00070: val_loss improved from 0.08459 to 0.08416, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00070: val_loss improved from 0.10356 to 0.10265, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 71/1000
-14/14 - 7s - loss: 0.0609 - val_loss: 0.0841
+14/14 - 7s - loss: 0.0609 - val_loss: 0.1033
 
-Epoch 00071: val_loss improved from 0.08416 to 0.08407, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00071: val_loss did not improve from 0.10265
 Epoch 72/1000
-14/14 - 7s - loss: 0.0608 - val_loss: 0.0838
+14/14 - 7s - loss: 0.0608 - val_loss: 0.1036
 
-Epoch 00072: val_loss improved from 0.08407 to 0.08381, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00072: val_loss did not improve from 0.10265
 Epoch 73/1000
-14/14 - 7s - loss: 0.0607 - val_loss: 0.0841
+14/14 - 7s - loss: 0.0607 - val_loss: 0.1013
 
-Epoch 00073: val_loss did not improve from 0.08381
+Epoch 00073: val_loss improved from 0.10265 to 0.10134, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 74/1000
-14/14 - 7s - loss: 0.0605 - val_loss: 0.0837
+14/14 - 7s - loss: 0.0607 - val_loss: 0.1020
 
-Epoch 00074: val_loss improved from 0.08381 to 0.08371, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00074: val_loss did not improve from 0.10134
 Epoch 75/1000
-14/14 - 7s - loss: 0.0604 - val_loss: 0.0835
+14/14 - 7s - loss: 0.0605 - val_loss: 0.1012
 
-Epoch 00075: val_loss improved from 0.08371 to 0.08349, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00075: val_loss improved from 0.10134 to 0.10124, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 76/1000
-14/14 - 7s - loss: 0.0602 - val_loss: 0.0830
+14/14 - 7s - loss: 0.0605 - val_loss: 0.1006
 
-Epoch 00076: val_loss improved from 0.08349 to 0.08304, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00076: val_loss improved from 0.10124 to 0.10057, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 77/1000
-14/14 - 7s - loss: 0.0601 - val_loss: 0.0831
+14/14 - 7s - loss: 0.0604 - val_loss: 0.1009
 
-Epoch 00077: val_loss did not improve from 0.08304
+Epoch 00077: val_loss did not improve from 0.10057
 Epoch 78/1000
-14/14 - 7s - loss: 0.0599 - val_loss: 0.0826
+14/14 - 7s - loss: 0.0603 - val_loss: 0.1006
 
-Epoch 00078: val_loss improved from 0.08304 to 0.08261, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00078: val_loss did not improve from 0.10057
 Epoch 79/1000
-14/14 - 7s - loss: 0.0598 - val_loss: 0.0826
+14/14 - 7s - loss: 0.0603 - val_loss: 0.0995
 
-Epoch 00079: val_loss improved from 0.08261 to 0.08257, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 00079: val_loss improved from 0.10057 to 0.09949, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 80/1000
-14/14 - 7s - loss: 0.0596 - val_loss: 0.0827
+14/14 - 7s - loss: 0.0603 - val_loss: 0.0996
 
-Epoch 00080: val_loss did not improve from 0.08257
+Epoch 00080: val_loss did not improve from 0.09949
 Epoch 81/1000
-14/14 - 7s - loss: 0.0595 - val_loss: 0.0828
+14/14 - 7s - loss: 0.0602 - val_loss: 0.0997
 
-Epoch 00081: val_loss did not improve from 0.08257
+Epoch 00081: val_loss did not improve from 0.09949
 Epoch 82/1000
-14/14 - 7s - loss: 0.0594 - val_loss: 0.0829
+14/14 - 7s - loss: 0.0601 - val_loss: 0.1006
 
-Epoch 00082: val_loss did not improve from 0.08257
+Epoch 00082: val_loss did not improve from 0.09949
 Epoch 83/1000
-14/14 - 7s - loss: 0.0592 - val_loss: 0.0832
+14/14 - 7s - loss: 0.0602 - val_loss: 0.0996
 
-Epoch 00083: val_loss did not improve from 0.08257
+Epoch 00083: val_loss did not improve from 0.09949
 Epoch 84/1000
-14/14 - 7s - loss: 0.0591 - val_loss: 0.0834
+14/14 - 7s - loss: 0.0600 - val_loss: 0.0989
 
-Epoch 00084: val_loss did not improve from 0.08257
+Epoch 00084: val_loss improved from 0.09949 to 0.09886, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 85/1000
-14/14 - 7s - loss: 0.0589 - val_loss: 0.0831
+14/14 - 7s - loss: 0.0599 - val_loss: 0.0988
 
-Epoch 00085: val_loss did not improve from 0.08257
+Epoch 00085: val_loss improved from 0.09886 to 0.09881, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 86/1000
-14/14 - 7s - loss: 0.0588 - val_loss: 0.0834
+14/14 - 7s - loss: 0.0598 - val_loss: 0.0991
 
-Epoch 00086: val_loss did not improve from 0.08257
+Epoch 00086: val_loss did not improve from 0.09881
 Epoch 87/1000
-14/14 - 7s - loss: 0.0587 - val_loss: 0.0836
+14/14 - 7s - loss: 0.0598 - val_loss: 0.0990
 
-Epoch 00087: val_loss did not improve from 0.08257
+Epoch 00087: val_loss did not improve from 0.09881
 Epoch 88/1000
-14/14 - 7s - loss: 0.0586 - val_loss: 0.0835
+14/14 - 7s - loss: 0.0597 - val_loss: 0.0986
 
-Epoch 00088: val_loss did not improve from 0.08257
+Epoch 00088: val_loss improved from 0.09881 to 0.09864, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 89/1000
-14/14 - 7s - loss: 0.0584 - val_loss: 0.0836
+14/14 - 7s - loss: 0.0597 - val_loss: 0.0993
 
-Epoch 00089: val_loss did not improve from 0.08257
+Epoch 00089: val_loss did not improve from 0.09864
 Epoch 90/1000
-14/14 - 7s - loss: 0.0585 - val_loss: 0.0846
+14/14 - 7s - loss: 0.0597 - val_loss: 0.0983
 
-Epoch 00090: val_loss did not improve from 0.08257
+Epoch 00090: val_loss improved from 0.09864 to 0.09830, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 91/1000
-14/14 - 7s - loss: 0.0582 - val_loss: 0.0844
+14/14 - 7s - loss: 0.0596 - val_loss: 0.0993
 
-Epoch 00091: val_loss did not improve from 0.08257
+Epoch 00091: val_loss did not improve from 0.09830
 Epoch 92/1000
-14/14 - 7s - loss: 0.0582 - val_loss: 0.0844
+14/14 - 7s - loss: 0.0596 - val_loss: 0.0982
 
-Epoch 00092: val_loss did not improve from 0.08257
+Epoch 00092: val_loss improved from 0.09830 to 0.09816, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 93/1000
-14/14 - 7s - loss: 0.0581 - val_loss: 0.0850
+14/14 - 7s - loss: 0.0596 - val_loss: 0.0995
 
-Epoch 00093: val_loss did not improve from 0.08257
+Epoch 00093: val_loss did not improve from 0.09816
 Epoch 94/1000
-14/14 - 7s - loss: 0.0579 - val_loss: 0.0850
+14/14 - 7s - loss: 0.0594 - val_loss: 0.0982
 
-Epoch 00094: val_loss did not improve from 0.08257
+Epoch 00094: val_loss did not improve from 0.09816
 Epoch 95/1000
-14/14 - 7s - loss: 0.0577 - val_loss: 0.0848
+14/14 - 7s - loss: 0.0593 - val_loss: 0.0978
 
-Epoch 00095: val_loss did not improve from 0.08257
+Epoch 00095: val_loss improved from 0.09816 to 0.09784, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 96/1000
-14/14 - 7s - loss: 0.0576 - val_loss: 0.0848
+14/14 - 7s - loss: 0.0593 - val_loss: 0.0976
 
-Epoch 00096: val_loss did not improve from 0.08257
+Epoch 00096: val_loss improved from 0.09784 to 0.09757, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 97/1000
-14/14 - 7s - loss: 0.0575 - val_loss: 0.0851
+14/14 - 7s - loss: 0.0592 - val_loss: 0.0979
 
-Epoch 00097: val_loss did not improve from 0.08257
+Epoch 00097: val_loss did not improve from 0.09757
 Epoch 98/1000
-14/14 - 7s - loss: 0.0575 - val_loss: 0.0853
+14/14 - 7s - loss: 0.0591 - val_loss: 0.0973
 
-Epoch 00098: val_loss did not improve from 0.08257
+Epoch 00098: val_loss improved from 0.09757 to 0.09728, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 99/1000
-14/14 - 7s - loss: 0.0574 - val_loss: 0.0857
+14/14 - 7s - loss: 0.0590 - val_loss: 0.0975
 
-Epoch 00099: val_loss did not improve from 0.08257
+Epoch 00099: val_loss did not improve from 0.09728
 Epoch 100/1000
-14/14 - 7s - loss: 0.0572 - val_loss: 0.0861
+14/14 - 7s - loss: 0.0589 - val_loss: 0.0969
 
-Epoch 00100: val_loss did not improve from 0.08257
+Epoch 00100: val_loss improved from 0.09728 to 0.09692, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 101/1000
-14/14 - 7s - loss: 0.0571 - val_loss: 0.0864
+14/14 - 7s - loss: 0.0589 - val_loss: 0.0972
 
-Epoch 00101: val_loss did not improve from 0.08257
+Epoch 00101: val_loss did not improve from 0.09692
 Epoch 102/1000
-14/14 - 7s - loss: 0.0570 - val_loss: 0.0865
+14/14 - 7s - loss: 0.0589 - val_loss: 0.0984
 
-Epoch 00102: val_loss did not improve from 0.08257
+Epoch 00102: val_loss did not improve from 0.09692
 Epoch 103/1000
-14/14 - 7s - loss: 0.0568 - val_loss: 0.0872
+14/14 - 7s - loss: 0.0588 - val_loss: 0.0971
 
-Epoch 00103: val_loss did not improve from 0.08257
+Epoch 00103: val_loss did not improve from 0.09692
 Epoch 104/1000
-14/14 - 7s - loss: 0.0567 - val_loss: 0.0871
+14/14 - 7s - loss: 0.0586 - val_loss: 0.0971
 
-Epoch 00104: val_loss did not improve from 0.08257
+Epoch 00104: val_loss did not improve from 0.09692
 Epoch 105/1000
-14/14 - 7s - loss: 0.0567 - val_loss: 0.0875
+14/14 - 7s - loss: 0.0585 - val_loss: 0.0969
 
-Epoch 00105: val_loss did not improve from 0.08257
+Epoch 00105: val_loss did not improve from 0.09692
 Epoch 106/1000
-14/14 - 7s - loss: 0.0565 - val_loss: 0.0883
+14/14 - 7s - loss: 0.0585 - val_loss: 0.0967
 
-Epoch 00106: val_loss did not improve from 0.08257
+Epoch 00106: val_loss improved from 0.09692 to 0.09675, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 107/1000
-14/14 - 7s - loss: 0.0564 - val_loss: 0.0876
+14/14 - 7s - loss: 0.0584 - val_loss: 0.0967
 
-Epoch 00107: val_loss did not improve from 0.08257
+Epoch 00107: val_loss improved from 0.09675 to 0.09669, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 108/1000
-14/14 - 7s - loss: 0.0563 - val_loss: 0.0879
+14/14 - 7s - loss: 0.0583 - val_loss: 0.0967
 
-Epoch 00108: val_loss did not improve from 0.08257
+Epoch 00108: val_loss improved from 0.09669 to 0.09668, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 109/1000
-14/14 - 7s - loss: 0.0562 - val_loss: 0.0878
+14/14 - 7s - loss: 0.0582 - val_loss: 0.0969
 
-Epoch 00109: val_loss did not improve from 0.08257
+Epoch 00109: val_loss did not improve from 0.09668
 Epoch 110/1000
-14/14 - 7s - loss: 0.0560 - val_loss: 0.0881
+14/14 - 7s - loss: 0.0582 - val_loss: 0.0968
 
-Epoch 00110: val_loss did not improve from 0.08257
+Epoch 00110: val_loss did not improve from 0.09668
 Epoch 111/1000
-14/14 - 7s - loss: 0.0559 - val_loss: 0.0879
+14/14 - 7s - loss: 0.0581 - val_loss: 0.0969
 
-Epoch 00111: val_loss did not improve from 0.08257
+Epoch 00111: val_loss did not improve from 0.09668
 Epoch 112/1000
-14/14 - 7s - loss: 0.0558 - val_loss: 0.0885
+14/14 - 7s - loss: 0.0580 - val_loss: 0.0964
 
-Epoch 00112: val_loss did not improve from 0.08257
+Epoch 00112: val_loss improved from 0.09668 to 0.09642, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 113/1000
-14/14 - 7s - loss: 0.0557 - val_loss: 0.0882
+14/14 - 7s - loss: 0.0581 - val_loss: 0.0971
 
-Epoch 00113: val_loss did not improve from 0.08257
+Epoch 00113: val_loss did not improve from 0.09642
 Epoch 114/1000
-14/14 - 7s - loss: 0.0556 - val_loss: 0.0896
+14/14 - 7s - loss: 0.0578 - val_loss: 0.0969
 
-Epoch 00114: val_loss did not improve from 0.08257
+Epoch 00114: val_loss did not improve from 0.09642
 Epoch 115/1000
-14/14 - 7s - loss: 0.0555 - val_loss: 0.0895
+14/14 - 7s - loss: 0.0577 - val_loss: 0.0965
 
-Epoch 00115: val_loss did not improve from 0.08257
+Epoch 00115: val_loss did not improve from 0.09642
 Epoch 116/1000
-14/14 - 7s - loss: 0.0554 - val_loss: 0.0900
+14/14 - 7s - loss: 0.0577 - val_loss: 0.0966
 
-Epoch 00116: val_loss did not improve from 0.08257
+Epoch 00116: val_loss did not improve from 0.09642
 Epoch 117/1000
-14/14 - 7s - loss: 0.0551 - val_loss: 0.0901
+14/14 - 7s - loss: 0.0577 - val_loss: 0.0962
 
-Epoch 00117: val_loss did not improve from 0.08257
+Epoch 00117: val_loss improved from 0.09642 to 0.09619, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 118/1000
-14/14 - 7s - loss: 0.0551 - val_loss: 0.0905
+14/14 - 7s - loss: 0.0575 - val_loss: 0.0968
 
-Epoch 00118: val_loss did not improve from 0.08257
+Epoch 00118: val_loss did not improve from 0.09619
 Epoch 119/1000
-14/14 - 7s - loss: 0.0549 - val_loss: 0.0907
+14/14 - 7s - loss: 0.0576 - val_loss: 0.0978
 
-Epoch 00119: val_loss did not improve from 0.08257
+Epoch 00119: val_loss did not improve from 0.09619
 Epoch 120/1000
-14/14 - 7s - loss: 0.0547 - val_loss: 0.0897
+14/14 - 7s - loss: 0.0573 - val_loss: 0.0965
 
-Epoch 00120: val_loss did not improve from 0.08257
+Epoch 00120: val_loss did not improve from 0.09619
 Epoch 121/1000
-14/14 - 7s - loss: 0.0546 - val_loss: 0.0903
+14/14 - 7s - loss: 0.0573 - val_loss: 0.0962
 
-Epoch 00121: val_loss did not improve from 0.08257
+Epoch 00121: val_loss improved from 0.09619 to 0.09619, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 122/1000
-14/14 - 7s - loss: 0.0547 - val_loss: 0.0910
+14/14 - 7s - loss: 0.0572 - val_loss: 0.0965
 
-Epoch 00122: val_loss did not improve from 0.08257
+Epoch 00122: val_loss did not improve from 0.09619
 Epoch 123/1000
-14/14 - 7s - loss: 0.0546 - val_loss: 0.0923
+14/14 - 7s - loss: 0.0570 - val_loss: 0.0965
 
-Epoch 00123: val_loss did not improve from 0.08257
+Epoch 00123: val_loss did not improve from 0.09619
 Epoch 124/1000
-14/14 - 7s - loss: 0.0543 - val_loss: 0.0907
+14/14 - 7s - loss: 0.0571 - val_loss: 0.0968
 
-Epoch 00124: val_loss did not improve from 0.08257
+Epoch 00124: val_loss did not improve from 0.09619
 Epoch 125/1000
-14/14 - 7s - loss: 0.0542 - val_loss: 0.0907
+14/14 - 7s - loss: 0.0571 - val_loss: 0.0967
 
-Epoch 00125: val_loss did not improve from 0.08257
+Epoch 00125: val_loss did not improve from 0.09619
 Epoch 126/1000
-14/14 - 7s - loss: 0.0541 - val_loss: 0.0897
+14/14 - 7s - loss: 0.0568 - val_loss: 0.0967
 
-Epoch 00126: val_loss did not improve from 0.08257
+Epoch 00126: val_loss did not improve from 0.09619
 Epoch 127/1000
-14/14 - 7s - loss: 0.0540 - val_loss: 0.0897
+14/14 - 7s - loss: 0.0568 - val_loss: 0.0969
 
-Epoch 00127: val_loss did not improve from 0.08257
+Epoch 00127: val_loss did not improve from 0.09619
 Epoch 128/1000
-14/14 - 7s - loss: 0.0539 - val_loss: 0.0893
+14/14 - 7s - loss: 0.0567 - val_loss: 0.0956
 
-Epoch 00128: val_loss did not improve from 0.08257
+Epoch 00128: val_loss improved from 0.09619 to 0.09565, saving model to ./CAE_models/thk_canny/ckpt
 Epoch 129/1000
-14/14 - 7s - loss: 0.0538 - val_loss: 0.0895
+14/14 - 7s - loss: 0.0566 - val_loss: 0.0962
 
-Epoch 00129: val_loss did not improve from 0.08257
-Epoch 00129: early stopping
-Model: "model"
+Epoch 00129: val_loss did not improve from 0.09565
+Epoch 130/1000
+14/14 - 7s - loss: 0.0566 - val_loss: 0.0962
+
+Epoch 00130: val_loss did not improve from 0.09565
+Epoch 131/1000
+14/14 - 7s - loss: 0.0565 - val_loss: 0.0960
+
+Epoch 00131: val_loss did not improve from 0.09565
+Epoch 132/1000
+14/14 - 7s - loss: 0.0564 - val_loss: 0.0955
+
+Epoch 00132: val_loss improved from 0.09565 to 0.09546, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 133/1000
+14/14 - 7s - loss: 0.0564 - val_loss: 0.0962
+
+Epoch 00133: val_loss did not improve from 0.09546
+Epoch 134/1000
+14/14 - 7s - loss: 0.0563 - val_loss: 0.0953
+
+Epoch 00134: val_loss improved from 0.09546 to 0.09526, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 135/1000
+14/14 - 7s - loss: 0.0563 - val_loss: 0.0962
+
+Epoch 00135: val_loss did not improve from 0.09526
+Epoch 136/1000
+14/14 - 7s - loss: 0.0562 - val_loss: 0.0963
+
+Epoch 00136: val_loss did not improve from 0.09526
+Epoch 137/1000
+14/14 - 7s - loss: 0.0562 - val_loss: 0.0966
+
+Epoch 00137: val_loss did not improve from 0.09526
+Epoch 138/1000
+14/14 - 7s - loss: 0.0560 - val_loss: 0.0957
+
+Epoch 00138: val_loss did not improve from 0.09526
+Epoch 139/1000
+14/14 - 7s - loss: 0.0559 - val_loss: 0.0957
+
+Epoch 00139: val_loss did not improve from 0.09526
+Epoch 140/1000
+14/14 - 7s - loss: 0.0560 - val_loss: 0.0958
+
+Epoch 00140: val_loss did not improve from 0.09526
+Epoch 141/1000
+14/14 - 7s - loss: 0.0558 - val_loss: 0.0959
+
+Epoch 00141: val_loss did not improve from 0.09526
+Epoch 142/1000
+14/14 - 7s - loss: 0.0558 - val_loss: 0.0957
+
+Epoch 00142: val_loss did not improve from 0.09526
+Epoch 143/1000
+14/14 - 7s - loss: 0.0557 - val_loss: 0.0953
+
+Epoch 00143: val_loss did not improve from 0.09526
+Epoch 144/1000
+14/14 - 7s - loss: 0.0558 - val_loss: 0.0970
+
+Epoch 00144: val_loss did not improve from 0.09526
+Epoch 145/1000
+14/14 - 7s - loss: 0.0558 - val_loss: 0.0965
+
+Epoch 00145: val_loss did not improve from 0.09526
+Epoch 146/1000
+14/14 - 7s - loss: 0.0556 - val_loss: 0.0955
+
+Epoch 00146: val_loss did not improve from 0.09526
+Epoch 147/1000
+14/14 - 7s - loss: 0.0554 - val_loss: 0.0953
+
+Epoch 00147: val_loss did not improve from 0.09526
+Epoch 148/1000
+14/14 - 7s - loss: 0.0554 - val_loss: 0.0957
+
+Epoch 00148: val_loss did not improve from 0.09526
+Epoch 149/1000
+14/14 - 7s - loss: 0.0555 - val_loss: 0.0957
+
+Epoch 00149: val_loss did not improve from 0.09526
+Epoch 150/1000
+14/14 - 7s - loss: 0.0555 - val_loss: 0.0964
+
+Epoch 00150: val_loss did not improve from 0.09526
+Epoch 151/1000
+14/14 - 7s - loss: 0.0553 - val_loss: 0.0958
+
+Epoch 00151: val_loss did not improve from 0.09526
+Epoch 152/1000
+14/14 - 7s - loss: 0.0552 - val_loss: 0.0957
+
+Epoch 00152: val_loss did not improve from 0.09526
+Epoch 153/1000
+14/14 - 7s - loss: 0.0552 - val_loss: 0.0953
+
+Epoch 00153: val_loss did not improve from 0.09526
+Epoch 154/1000
+14/14 - 7s - loss: 0.0551 - val_loss: 0.0949
+
+Epoch 00154: val_loss improved from 0.09526 to 0.09489, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 155/1000
+14/14 - 7s - loss: 0.0551 - val_loss: 0.0955
+
+Epoch 00155: val_loss did not improve from 0.09489
+Epoch 156/1000
+14/14 - 7s - loss: 0.0551 - val_loss: 0.0963
+
+Epoch 00156: val_loss did not improve from 0.09489
+Epoch 157/1000
+14/14 - 7s - loss: 0.0550 - val_loss: 0.0960
+
+Epoch 00157: val_loss did not improve from 0.09489
+Epoch 158/1000
+14/14 - 7s - loss: 0.0550 - val_loss: 0.0964
+
+Epoch 00158: val_loss did not improve from 0.09489
+Epoch 159/1000
+14/14 - 7s - loss: 0.0549 - val_loss: 0.0949
+
+Epoch 00159: val_loss improved from 0.09489 to 0.09485, saving model to ./CAE_models/thk_canny/ckpt
+Epoch 160/1000
+14/14 - 7s - loss: 0.0548 - val_loss: 0.0956
+
+Epoch 00160: val_loss did not improve from 0.09485
+Epoch 161/1000
+14/14 - 7s - loss: 0.0548 - val_loss: 0.0951
+
+Epoch 00161: val_loss did not improve from 0.09485
+Epoch 162/1000
+14/14 - 7s - loss: 0.0548 - val_loss: 0.0960
+
+Epoch 00162: val_loss did not improve from 0.09485
+Epoch 163/1000
+14/14 - 7s - loss: 0.0548 - val_loss: 0.0956
+
+Epoch 00163: val_loss did not improve from 0.09485
+Epoch 164/1000
+14/14 - 7s - loss: 0.0547 - val_loss: 0.0956
+
+Epoch 00164: val_loss did not improve from 0.09485
+Epoch 165/1000
+14/14 - 7s - loss: 0.0545 - val_loss: 0.0951
+
+Epoch 00165: val_loss did not improve from 0.09485
+Epoch 166/1000
+14/14 - 7s - loss: 0.0546 - val_loss: 0.0955
+
+Epoch 00166: val_loss did not improve from 0.09485
+Epoch 167/1000
+14/14 - 7s - loss: 0.0545 - val_loss: 0.0954
+
+Epoch 00167: val_loss did not improve from 0.09485
+Epoch 168/1000
+14/14 - 7s - loss: 0.0545 - val_loss: 0.0954
+
+Epoch 00168: val_loss did not improve from 0.09485
+Epoch 169/1000
+14/14 - 7s - loss: 0.0545 - val_loss: 0.0964
+
+Epoch 00169: val_loss did not improve from 0.09485
+Epoch 170/1000
+14/14 - 7s - loss: 0.0544 - val_loss: 0.0958
+
+Epoch 00170: val_loss did not improve from 0.09485
+Epoch 171/1000
+14/14 - 7s - loss: 0.0544 - val_loss: 0.0970
+
+Epoch 00171: val_loss did not improve from 0.09485
+Epoch 172/1000
+14/14 - 7s - loss: 0.0546 - val_loss: 0.0963
+
+Epoch 00172: val_loss did not improve from 0.09485
+Epoch 173/1000
+14/14 - 7s - loss: 0.0544 - val_loss: 0.0964
+
+Epoch 00173: val_loss did not improve from 0.09485
+Epoch 174/1000
+14/14 - 7s - loss: 0.0543 - val_loss: 0.0971
+
+Epoch 00174: val_loss did not improve from 0.09485
+Epoch 175/1000
+14/14 - 7s - loss: 0.0542 - val_loss: 0.0956
+
+Epoch 00175: val_loss did not improve from 0.09485
+Epoch 176/1000
+14/14 - 7s - loss: 0.0543 - val_loss: 0.0967
+
+Epoch 00176: val_loss did not improve from 0.09485
+Epoch 177/1000
+14/14 - 7s - loss: 0.0542 - val_loss: 0.0960
+
+Epoch 00177: val_loss did not improve from 0.09485
+Epoch 178/1000
+14/14 - 7s - loss: 0.0542 - val_loss: 0.0966
+
+Epoch 00178: val_loss did not improve from 0.09485
+Epoch 179/1000
+14/14 - 7s - loss: 0.0541 - val_loss: 0.0963
+
+Epoch 00179: val_loss did not improve from 0.09485
+Epoch 180/1000
+14/14 - 7s - loss: 0.0540 - val_loss: 0.0964
+
+Epoch 00180: val_loss did not improve from 0.09485
+Epoch 181/1000
+14/14 - 7s - loss: 0.0541 - val_loss: 0.0976
+
+Epoch 00181: val_loss did not improve from 0.09485
+Epoch 182/1000
+14/14 - 7s - loss: 0.0540 - val_loss: 0.0958
+
+Epoch 00182: val_loss did not improve from 0.09485
+Epoch 183/1000
+14/14 - 6s - loss: 0.0540 - val_loss: 0.0955
+
+Epoch 00183: val_loss did not improve from 0.09485
+Epoch 184/1000
+14/14 - 7s - loss: 0.0541 - val_loss: 0.0972
+
+Epoch 00184: val_loss did not improve from 0.09485
+Epoch 185/1000
+14/14 - 7s - loss: 0.0540 - val_loss: 0.0977
+
+Epoch 00185: val_loss did not improve from 0.09485
+Epoch 186/1000
+14/14 - 7s - loss: 0.0538 - val_loss: 0.0973
+
+Epoch 00186: val_loss did not improve from 0.09485
+Epoch 187/1000
+14/14 - 7s - loss: 0.0538 - val_loss: 0.0961
+
+Epoch 00187: val_loss did not improve from 0.09485
+Epoch 188/1000
+14/14 - 7s - loss: 0.0539 - val_loss: 0.0967
+
+Epoch 00188: val_loss did not improve from 0.09485
+Epoch 189/1000
+14/14 - 7s - loss: 0.0538 - val_loss: 0.0964
+
+Epoch 00189: val_loss did not improve from 0.09485
+Epoch 190/1000
+14/14 - 7s - loss: 0.0539 - val_loss: 0.0976
+
+Epoch 00190: val_loss did not improve from 0.09485
+Epoch 191/1000
+14/14 - 7s - loss: 0.0537 - val_loss: 0.0978
+
+Epoch 00191: val_loss did not improve from 0.09485
+Epoch 192/1000
+14/14 - 7s - loss: 0.0537 - val_loss: 0.0986
+
+Epoch 00192: val_loss did not improve from 0.09485
+Epoch 193/1000
+14/14 - 7s - loss: 0.0539 - val_loss: 0.0998
+
+Epoch 00193: val_loss did not improve from 0.09485
+Epoch 194/1000
+14/14 - 7s - loss: 0.0539 - val_loss: 0.0988
+
+Epoch 00194: val_loss did not improve from 0.09485
+Epoch 195/1000
+14/14 - 7s - loss: 0.0537 - val_loss: 0.0985
+
+Epoch 00195: val_loss did not improve from 0.09485
+Epoch 196/1000
+14/14 - 7s - loss: 0.0536 - val_loss: 0.0996
+
+Epoch 00196: val_loss did not improve from 0.09485
+Epoch 197/1000
+14/14 - 7s - loss: 0.0536 - val_loss: 0.0990
+
+Epoch 00197: val_loss did not improve from 0.09485
+Epoch 198/1000
+14/14 - 7s - loss: 0.0535 - val_loss: 0.0979
+
+Epoch 00198: val_loss did not improve from 0.09485
+Epoch 199/1000
+14/14 - 7s - loss: 0.0536 - val_loss: 0.0986
+
+Epoch 00199: val_loss did not improve from 0.09485
+Epoch 200/1000
+14/14 - 7s - loss: 0.0535 - val_loss: 0.0973
+
+Epoch 00200: val_loss did not improve from 0.09485
+Epoch 201/1000
+14/14 - 7s - loss: 0.0536 - val_loss: 0.0982
+
+Epoch 00201: val_loss did not improve from 0.09485
+Epoch 202/1000
+14/14 - 7s - loss: 0.0535 - val_loss: 0.0983
+
+Epoch 00202: val_loss did not improve from 0.09485
+Epoch 203/1000
+14/14 - 7s - loss: 0.0534 - val_loss: 0.0999
+
+Epoch 00203: val_loss did not improve from 0.09485
+Epoch 204/1000
+14/14 - 7s - loss: 0.0535 - val_loss: 0.1003
+
+Epoch 00204: val_loss did not improve from 0.09485
+Epoch 205/1000
+14/14 - 7s - loss: 0.0533 - val_loss: 0.0978
+
+Epoch 00205: val_loss did not improve from 0.09485
+Epoch 206/1000
+14/14 - 7s - loss: 0.0535 - val_loss: 0.0990
+
+Epoch 00206: val_loss did not improve from 0.09485
+Epoch 207/1000
+14/14 - 7s - loss: 0.0534 - val_loss: 0.1000
+
+Epoch 00207: val_loss did not improve from 0.09485
+Epoch 208/1000
+14/14 - 7s - loss: 0.0533 - val_loss: 0.0997
+
+Epoch 00208: val_loss did not improve from 0.09485
+Epoch 209/1000
+14/14 - 7s - loss: 0.0533 - val_loss: 0.0991
+
+Epoch 00209: val_loss did not improve from 0.09485
+Epoch 00209: early stopping
+Model: "model_10"
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 =================================================================
-input_1 (InputLayer)         [(None, 7, 7, 6, 1)]      0         
+input_16 (InputLayer)        [(None, 7, 7, 6, 1)]      0         
 _________________________________________________________________
-zero_padding3d (ZeroPadding3 (None, 8, 8, 8, 1)        0         
+zero_padding3d_5 (ZeroPaddin (None, 8, 8, 8, 1)        0         
 _________________________________________________________________
-conv3d (Conv3D)              (None, 8, 8, 8, 8)        224       
+conv3d_30 (Conv3D)           (None, 8, 8, 8, 8)        224       
 _________________________________________________________________
-max_pooling3d (MaxPooling3D) (None, 4, 4, 4, 8)        0         
+max_pooling3d_10 (MaxPooling (None, 4, 4, 4, 8)        0         
 _________________________________________________________________
-conv3d_1 (Conv3D)            (None, 4, 4, 4, 4)        868       
+conv3d_31 (Conv3D)           (None, 4, 4, 4, 4)        868       
 _________________________________________________________________
-max_pooling3d_1 (MaxPooling3 (None, 2, 2, 2, 4)        0         
+max_pooling3d_11 (MaxPooling (None, 2, 2, 2, 4)        0         
 _________________________________________________________________
-conv3d_2 (Conv3D)            (None, 2, 2, 2, 4)        436       
+conv3d_32 (Conv3D)           (None, 2, 2, 2, 4)        436       
 =================================================================
 Total params: 1,528
 Trainable params: 1,528
 Non-trainable params: 0
 _________________________________________________________________
-Performance on train dataset (mean error): 0.004520051181316376
-Model: "model_1"
+Performance on train dataset (mean error): 0.0007812802214175463
+Model: "model_11"
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 =================================================================
-input_1 (InputLayer)         [(None, 7, 7, 6, 1)]      0         
+input_16 (InputLayer)        [(None, 7, 7, 6, 1)]      0         
 _________________________________________________________________
-zero_padding3d (ZeroPadding3 (None, 8, 8, 8, 1)        0         
+zero_padding3d_5 (ZeroPaddin (None, 8, 8, 8, 1)        0         
 _________________________________________________________________
-conv3d (Conv3D)              (None, 8, 8, 8, 8)        224       
+conv3d_30 (Conv3D)           (None, 8, 8, 8, 8)        224       
 _________________________________________________________________
-max_pooling3d (MaxPooling3D) (None, 4, 4, 4, 8)        0         
+max_pooling3d_10 (MaxPooling (None, 4, 4, 4, 8)        0         
 _________________________________________________________________
-conv3d_1 (Conv3D)            (None, 4, 4, 4, 4)        868       
+conv3d_31 (Conv3D)           (None, 4, 4, 4, 4)        868       
 _________________________________________________________________
-max_pooling3d_1 (MaxPooling3 (None, 2, 2, 2, 4)        0         
+max_pooling3d_11 (MaxPooling (None, 2, 2, 2, 4)        0         
 _________________________________________________________________
-conv3d_2 (Conv3D)            (None, 2, 2, 2, 4)        436       
+conv3d_32 (Conv3D)           (None, 2, 2, 2, 4)        436       
 =================================================================
 Total params: 1,528
 Trainable params: 1,528
 Non-trainable params: 0
 _________________________________________________________________
-Performance on test dataset (mean error): 0.06423317641019821
+Performance on test dataset (mean error): 0.06567353755235672

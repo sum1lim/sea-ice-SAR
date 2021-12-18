@@ -27,6 +27,7 @@ def normalize(input, std_data):
             continue
         df[col] = (df[col] - minimums[col]) / (maximums[col] - minimums[col])
 
+    df = df.dropna(axis=1)
     return df
 
 

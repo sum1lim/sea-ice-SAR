@@ -55,7 +55,7 @@ def main(args):
         iqr = q3 - q1
 
         df["value"] = df["value"].astype(float)
-        f, ax = plt.subplots(figsize=(16, 9))
+        f, ax = plt.subplots(figsize=(7, 4))
         sns.boxplot(
             x="method",
             y="value",
@@ -69,6 +69,7 @@ def main(args):
 
         ax.yaxis.grid(True)
         ax.set(xlabel="")
+        ax.set(ylabel="")
         ax.set_ylim(q1 - 1.5 * iqr, q3 + 1.5 * iqr)
         sns.despine(trim=True, left=True)
 
