@@ -59,6 +59,7 @@ def main(args):
             classes, Y_te, y_pred, f"{args.result_dir}/{cfg_filename}", k
         )
 
+    print(f"\nMaximum accuracy: {max(accuracy_li)}", file=sys.stdout)
     print(f"\nAverage accuracy: {sum(accuracy_li)/K}", file=sys.stdout)
     print(f"Standard Deviation (accuracy): {stdev(accuracy_li)}", file=sys.stdout)
 

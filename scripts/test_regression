@@ -85,13 +85,20 @@ def main(args):
             Y_te, y_pred, absolute_errors, f"{args.result_dir}/{cfg_filename}", k
         )
 
-    print(f"\nAverage MAE: {sum(error_li)/K}", file=sys.stdout)
+    print(f"\nMimimum MAE: {min(error_li)}", file=sys.stdout)
+    print(f"Average MAE: {sum(error_li)/K}", file=sys.stdout)
     print(f"Standard Deviation (MAE): {stdev(error_li)}", file=sys.stdout)
-    print(f"\nAverage RMSE Score: {sum(rmse_li)/K}", file=sys.stdout)
+
+    print(f"\nMinimum RMSE Score: {min(rmse_li)}", file=sys.stdout)
+    print(f"Average RMSE Score: {sum(rmse_li)/K}", file=sys.stdout)
     print(f"Standard Deviation (RMSE): {stdev(rmse_li)}", file=sys.stdout)
-    print(f"\nAverage R2 Score: {sum(r2_li)/K}", file=sys.stdout)
+
+    print(f"\nMaximum R2 Score: {max(r2_li)}", file=sys.stdout)
+    print(f"Average R2 Score: {sum(r2_li)/K}", file=sys.stdout)
     print(f"Standard Deviation (R2 Score): {stdev(r2_li)}", file=sys.stdout)
-    print(f"\nAverage Pearson's r: {sum(pearsonr_li)/K}", file=sys.stdout)
+
+    print(f"\nMaximum Pearson's r: {max(pearsonr_li)}", file=sys.stdout)
+    print(f"Average Pearson's r: {sum(pearsonr_li)/K}", file=sys.stdout)
     print(f"Standard Deviation (Pearson's r): {stdev(pearsonr_li)}", file=sys.stdout)
 
     log_file.close()
