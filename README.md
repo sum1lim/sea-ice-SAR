@@ -83,6 +83,8 @@ CAE --config ./Configs/CAE_configs/*
 # To run specific configuration
 CAE --config ./Configs/CAE_configs/rms.yml
 ```
+![alt text](https://github.com/sum1lim/sea-ice-SAR/blob/master/images/layer_stacks.png)
+![alt text](https://github.com/sum1lim/sea-ice-SAR/blob/master/images/CAE.png)
 
 #### NN_regression / NN_classification
 Training processes for Deep Neural Network regression and classification.
@@ -90,6 +92,7 @@ Training processes for Deep Neural Network regression and classification.
 NN_regression --ml-config ./Configs/ML_configs/NN_rms_regr/FYI/CAE.yml --result-dir ./results/NN_rms_regr/FYI
 NN_classification --ml-config ./Configs/ML_configs/NN_type_class/CAE.yml --result-dir ./results/NN_type_class
 ```
+![alt text](https://github.com/sum1lim/sea-ice-SAR/blob/master/images/NN.png)
 
 #### test_regression / test_classification
 Testing processes for regression and classification models.
@@ -104,3 +107,4 @@ Box plots to summarize test results.
 boxplot --result-dir ./results/NN_rms_regr/FYI --model-type regression --methods backscatter corr_std GLCM CAE SOBEL_CAE canny_CAE
 boxplot --result-dir ./results/NN_type_class/ --model-type classification --methods backscatter corr_std GLCM CAE SOBEL_CAE canny_CAE
 ```
+![alt text](https://github.com/sum1lim/sea-ice-SAR/blob/master/results/NN_type_class/Test%20accuracy.png)
