@@ -2,6 +2,7 @@
 import argparse
 from osgeo import gdal
 from scipy import ndimage
+from skimage import feature
 from sea_ice_SAR.utils import decompose_filepath
 
 
@@ -10,14 +11,17 @@ def main(args):
     band = ds.GetRasterBand(1)
     band_arr = band.ReadAsArray()
 
-    processed = ndimage.sobel(band_arr)
+    if args.method == "sobel":
+        processed = ndimage.sobel(band_arr)
+    if args.method == "canny":
+        processed = feature.canny(band_arr)
 
     dir, filename, _ = decompose_filepath(args.input)
 
     [rows, cols] = band_arr.shape
     driver = gdal.GetDriverByName("GTiff")
     outdata = driver.Create(
-        f"{dir}/{filename}_SOBEL.tif",
+        f"{dir}/{filename}_{args.method}.tif",
         cols,
         rows,
         1,
@@ -39,6 +43,12 @@ if __name__ == "__main__":
         "--input",
         type=str,
         help="Input file path",
+    )
+    parser.add_argument(
+        "--method",
+        type=str,
+        help="Edge detection method ['SOBEL', 'canny']",
+        choices=["SOBEL", "canny"],
     )
 
     args = parser.parse_args()
