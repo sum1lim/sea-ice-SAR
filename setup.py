@@ -11,17 +11,17 @@ setup(
     packages=["sea_ice_SAR"],
     include_package_data=True,
     scripts="""
-        ./scripts/edge_detection
-        ./scripts/create_dataset
-        ./scripts/NN_regression
-        ./scripts/NN_classification
-        ./scripts/normalize
-        ./scripts/test_regression
-        ./scripts/test_classification
         ./scripts/crosspol_ratio
-        ./scripts/CAE
+        ./scripts/edge_detection
+        ./scripts/normalize
+        ./scripts/create_dataset
         ./scripts/GLCM
         ./scripts/normalize_csv
+        ./scripts/CAE
+        ./scripts/NN_regression
+        ./scripts/NN_classification
+        ./scripts/test_regression
+        ./scripts/test_classification
         ./scripts/boxplot
     """.split(),
 )
