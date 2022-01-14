@@ -120,14 +120,12 @@ def main(args):
 
     _, filename, _ = decompose_filepath(args.config)
 
+    log_file = open(f"./CAE_models/{filename}/train.log", "w")
     try:
         os.mkdir(f"./CAE_models/{filename}")
+        sys.stdout = log_file
     except FileExistsError:
-        shutil.rmtree(f"./CAE_models/{filename}")
-        os.mkdir(f"./CAE_models/{filename}")
-
-    log_file = open(f"./CAE_models/{filename}/train.log", "w")
-    sys.stdout = log_file
+        None
 
     encoded_df_tr = []
     encoded_df_te = []
@@ -146,17 +144,20 @@ def main(args):
     size_2d, num_layers, padding_2d, padding_height = CNN_stack_shape(X_tr)
 
     checkpoint_path = f"./CAE_models/{filename}/ckpt"
-    cp_callback = ModelCheckpoint(
-        filepath=checkpoint_path,
-        save_best_only=True,
-        mode="min",
-        verbose=config_dict["verbosity"],
-    )
-    es_callback = EarlyStopping(
-        monitor="val_loss", mode="min", patience=50, verbose=config_dict["verbosity"]
-    )
 
     if not os.path.exists(checkpoint_path):
+        cp_callback = ModelCheckpoint(
+            filepath=checkpoint_path,
+            save_best_only=True,
+            mode="min",
+            verbose=config_dict["verbosity"],
+        )
+        es_callback = EarlyStopping(
+            monitor="val_loss",
+            mode="min",
+            patience=50,
+            verbose=config_dict["verbosity"],
+        )
         autoencoder = CAE(size_2d, num_layers, padding_2d, padding_height)
         autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
 
