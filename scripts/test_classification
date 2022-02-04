@@ -45,10 +45,10 @@ def main(args):
         checkpoint_path = f"{args.result_dir}/{cfg_filename}/ckpt_{k+1}"
         trained_model = load_model(checkpoint_path)
 
+        likelihoods = trained_model.predict(x=X_te, batch_size=1000, verbose=verbosity)
+
         # Predict the test dataset
-        y_pred = np.argmax(
-            trained_model.predict(x=X_te, batch_size=1000, verbose=verbosity), axis=1
-        )
+        y_pred = np.argmax(likelihoods, axis=1)
         accuracy = accuracy_score(Y_te, y_pred)
         accuracy_li.append(accuracy)
         print(f"Test accuracy: {accuracy}", file=sys.stdout)
