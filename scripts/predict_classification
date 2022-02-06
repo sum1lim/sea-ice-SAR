@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 import argparse
-import sys
 import tensorflow as tf
-import numpy as np
-from statistics import stdev
+import pandas as pd
 from sea_ice_SAR.ML_tools import (
     config_parser,
     process_data,
@@ -38,10 +36,20 @@ def main(args):
     model = load_model(checkpoint_path)
     model.summary()
 
-    predicted_tr = model.predict(x=X_tr, batch_size=1000)
-    predicted_te = model.predict(x=X_te, batch_size=1000)
+    predicted_tr = pd.DataFrame(
+        model.predict(x=X_tr, batch_size=1000), columns=args.classes
+    )
+    predicted_te = pd.DataFrame(
+        model.predict(x=X_te, batch_size=1000), columns=args.classes
+    )
 
-    print(predicted_tr, predicted_te)
+    tr_df = pd.read_csv(train_data[0])
+    te_df = pd.read_csv(test_data[0])
+    output_tr_df = tr_df.join(predicted_tr)
+    output_te_df = te_df.join(predicted_te)
+
+    output_tr_df.to_csv(f"{args.result_dir}/{cfg_filename}/updated_tr.csv")
+    output_te_df.to_csv(f"{args.result_dir}/{cfg_filename}/updated_te.csv")
 
 
 if __name__ == "__main__":
@@ -62,6 +70,12 @@ if __name__ == "__main__":
         "--checkpoint",
         type=int,
         help="Checkpoint number of the model to be used",
+    )
+    parser.add_argument(
+        "--classes",
+        nargs="+",
+        type=str,
+        help="Names of the classes",
     )
 
     args = parser.parse_args()
