@@ -1,5 +1,5 @@
-Before oversampling: Counter({1.0: 5123, 2.0: 4766})
-After oversampling: Counter({1.0: 5123, 2.0: 5123})
+Before oversampling: Counter({2.0: 6305, 1.0: 5288})
+After oversampling: Counter({2.0: 6305, 1.0: 6305})
 Classes: [1. 2.]
 *************************** Fold #: 1 ***************************
 Model: "model"
