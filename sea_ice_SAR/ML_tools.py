@@ -128,6 +128,7 @@ def process_data(
     masks=[-1, 0, 1, 2, 3],
     smote=False,
     CNN_layers=[],
+    oversampling=True,
 ):
     """
     Merge labels and/or select feautres for learning
@@ -260,10 +261,11 @@ def process_data(
     if regression:
         return X, CNN_dataset, Y
     else:
-        print(f"Before oversampling: {Counter(Y)}", file=sys.stdout)
-        oversample = RandomOverSampler(sampling_strategy="not majority")
-        X, Y = oversample.fit_resample(X, Y)
-        print(f"After oversampling: {Counter(Y)}", file=sys.stdout)
+        if oversampling:
+            print(f"Before oversampling: {Counter(Y)}", file=sys.stdout)
+            oversample = RandomOverSampler(sampling_strategy="not majority")
+            X, Y = oversample.fit_resample(X, Y)
+            print(f"After oversampling: {Counter(Y)}", file=sys.stdout)
 
         encoder = LabelEncoder()
         encoder.fit(Y)

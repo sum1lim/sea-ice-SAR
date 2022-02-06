@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+import argparse
+import sys
+import tensorflow as tf
+import numpy as np
+from statistics import stdev
+from sea_ice_SAR.ML_tools import (
+    config_parser,
+    process_data,
+)
+from tensorflow.keras.models import load_model
+from sea_ice_SAR.utils import decompose_filepath
+from tensorflow.keras.models import load_model
+
+tf.get_logger().setLevel("ERROR")
+
+
+def main(args):
+    # Parse configuration
+    train_data, test_data, _, _, _, _, _, _, _, _, _ = config_parser(args.ml_config)
+    _, cfg_filename, _ = decompose_filepath(args.ml_config)
+
+    # Modify train/test dataset
+    X_tr, _, _, _ = process_data(
+        train_data,
+        args.ml_config,
+        regression=False,
+        oversampling=False,
+    )
+    X_te, _, _, _ = process_data(
+        test_data,
+        args.ml_config,
+        regression=False,
+        oversampling=False,
+    )
+
+    checkpoint_path = f"{args.result_dir}/{cfg_filename}/ckpt_{args.checkpoint+1}"
+    model = load_model(checkpoint_path)
+    model.summary()
+
+    predicted_tr = model.predict(x=X_tr, batch_size=1000)
+    predicted_te = model.predict(x=X_te, batch_size=1000)
+
+    print(predicted_tr, predicted_te)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--result-dir",
+        type=str,
+        help="Directory path with train results including checkpoint files",
+    )
+    parser.add_argument(
+        "--ml-config",
+        nargs="+",
+        type=str,
+        help="YAML file containing the configuration for deep learning",
+    )
+    parser.add_argument(
+        "--checkpoint",
+        type=int,
+        help="Checkpoint number of the model to be used",
+    )
+
+    args = parser.parse_args()
+    if type(args.ml_config) == list:
+        ml_configs = args.ml_config[:]
+        for ml_config in ml_configs:
+            args.ml_config = ml_config
+            main(args)
+    else:
+        main(args)
