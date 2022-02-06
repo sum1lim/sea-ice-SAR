@@ -32,12 +32,14 @@ def main(args):
         args.ml_config,
         regression=False,
         oversampling=False,
+        dropna=False,
     )
     X_te, _, _, _ = process_data(
         test_data,
         args.ml_config,
         regression=False,
         oversampling=False,
+        dropna=False,
     )
 
     checkpoint_path = f"{args.result_dir}/{cfg_filename}/ckpt_{args.checkpoint}"

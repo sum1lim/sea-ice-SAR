@@ -129,6 +129,7 @@ def process_data(
     smote=False,
     CNN_layers=[],
     oversampling=True,
+    dropna=True,
 ):
     """
     Merge labels and/or select feautres for learning
@@ -166,7 +167,10 @@ def process_data(
                 dataframe,
                 df,
                 on=["src_dir", "row", "col", "mask"],
+                how="left",
             )
+            if dropna:
+                dataframe = dataframe.dropna()
 
     if type(CNN_stack) == np.ndarray:
         CNN_stack = np.reshape(
