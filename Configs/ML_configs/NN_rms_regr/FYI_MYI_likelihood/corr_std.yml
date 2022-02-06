@@ -1,18 +1,13 @@
 ---
 configuration:
-  train_data: ./data/rms_tr_data/aggr_GLCM_norm.csv
-  test_data: ./data/rms_te_data/aggr_GLCM_norm.csv
+  train_data: ./results/NN_type_class/canny_CAE/updated_tr_aggr.csv
+  test_data: ./results/NN_type_class/canny_CAE/updated_te_aggr.csv
+  verbosity: 2
   epochs: 10000
-  verbosity: 0
   K-fold: 10
   # hidden_size: 100
-  min_num_points: 10
-  masks: [1, 2, 3]
-
-labels:
-  label: mask
-  1: [1, 2]
-  2: [3, 3]
+  min_num_points: 50
+  smote: False 
 
 drop_features:
   # - hh
