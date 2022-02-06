@@ -46,10 +46,10 @@ def main(args):
 
     predicted_tr = pd.DataFrame(
         model.predict(x=X_tr, batch_size=1000), columns=args.classes
-    )
+    ).astype(float)
     predicted_te = pd.DataFrame(
         model.predict(x=X_te, batch_size=1000), columns=args.classes
-    )
+    ).astype(float)
 
     tr_df = pd.read_csv(train_data[0])
     te_df = pd.read_csv(test_data[0])
@@ -57,10 +57,10 @@ def main(args):
     output_te_df = te_df.join(predicted_te)
 
     output_tr_df.to_csv(
-        f"{args.result_dir}/{cfg_filename}/updated_tr_{train_filename}.csv"
+        f"{args.result_dir}/{cfg_filename}/updated_tr_{train_filename}.csv", index=False
     )
     output_te_df.to_csv(
-        f"{args.result_dir}/{cfg_filename}/updated_te_{test_filename}.csv"
+        f"{args.result_dir}/{cfg_filename}/updated_te_{test_filename}.csv", index=False
     )
 
 
