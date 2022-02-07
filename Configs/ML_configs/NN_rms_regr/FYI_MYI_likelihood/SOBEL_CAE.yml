@@ -1,7 +1,7 @@
 ---
 configuration:
-  train_data: [./results/NN_type_class/canny_CAE/updated_tr_aggr.csv, ./data/rms_tr_data/SOBEL_CAE_norm.csv]
-  test_data: [./results/NN_type_class/canny_CAE/updated_te_aggr.csv, ./data/rms_te_data/SOBEL_CAE_norm.csv]
+  train_data: [./results/NN_type_class/SOBEL_CAE/updated_tr_aggr.csv, ./data/rms_tr_data/SOBEL_CAE_norm.csv]
+  test_data: [./results/NN_type_class/SOBEL_CAE/updated_te_aggr.csv, ./data/rms_te_data/SOBEL_CAE_norm.csv]
   verbosity: 2
   epochs: 10000
   K-fold: 10

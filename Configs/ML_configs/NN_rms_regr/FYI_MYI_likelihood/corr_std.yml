@@ -1,7 +1,7 @@
 ---
 configuration:
-  train_data: ./results/NN_type_class/canny_CAE/updated_tr_aggr.csv
-  test_data: ./results/NN_type_class/canny_CAE/updated_te_aggr.csv
+  train_data: ./results/NN_type_class/corr_std/updated_tr_aggr.csv
+  test_data: ./results/NN_type_class/corr_std/updated_te_aggr.csv
   verbosity: 2
   epochs: 10000
   K-fold: 10

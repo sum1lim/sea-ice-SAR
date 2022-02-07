@@ -21,7 +21,7 @@ def main(args):
     if type(train_data) != list:
         train_data = [train_data]
     if type(test_data) != list:
-        train_data = [train_data]
+        test_data = [test_data]
 
     _, train_filename, _ = decompose_filepath(train_data[0])
     _, test_filename, _ = decompose_filepath(test_data[0])
