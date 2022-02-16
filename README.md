@@ -10,17 +10,17 @@ To avoid conflicts, the first step is to isolate this project by creating a Pyth
 
 #### Apple Silicon (M1)
 ```
-sh ./M1_install.sh
-conda activate SAR-venv
+sh M1_install.sh
+source ~/miniforge3/bin/activate
+conda activate sis-venv
 ```
 
-#### Linux/Mac
+#### Linux
 ```
 python -m venv venv
 source venv/bin/activate
 pip install .
 pip install -r requirements.txt
-pip install tensorflow
 ```
 
 #### Windows
@@ -29,7 +29,6 @@ python -m venv venv
 venv/Scripts/activate
 pip install .
 pip install -r requirements.txt
-pip install tensorflow
 ```
 
 ## Commands
