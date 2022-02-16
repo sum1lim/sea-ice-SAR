@@ -13,7 +13,6 @@ python3 -m pip install --upgrade pip
 
 pip uninstall tensorflow-macos
 pip uninstall tensorflow-metal
-conda install h5py --force-reinstall
 conda install -c apple tensorflow-deps --force-reinstall
 
 pip install -r M1_requirements.txt
