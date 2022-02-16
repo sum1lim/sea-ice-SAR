@@ -12,7 +12,6 @@ To avoid conflicts, the first step is to isolate this project by creating a Pyth
 ```
 sh M1_install.sh
 source ~/miniforge3/bin/activate
-conda activate sis-venv
 ```
 
 #### Linux
