@@ -1,0 +1,15 @@
+numpy
+scipy
+matplotlib
+gdal
+rasterio
+tqdm
+pandas
+seaborn
+imblearn
+scikit-learn
+scikit-image
+pyyaml
+smogn
+tensorflow-macos
+tensorflow-metal
