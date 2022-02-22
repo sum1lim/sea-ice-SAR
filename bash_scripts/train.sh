@@ -10,7 +10,7 @@ done
 boxplot --result-dir ./results/NN_type_class/ --model-type classification --methods backscatter corr_std GLCM CAE SOBEL_CAE canny_CAE
 
 for parent_dir in FYI FYI_MYI MYI; do 
-    for file in backscatter corr_std GLCM CAE SOBEL_CAE canny_CAE; do
+    for file in corr_std canny_CAE; do
         echo "************************* NN_rms_regr/$parent_dir/$file *************************" 
         NN_regression --ml-config ./Configs/ML_configs/NN_rms_regr/"$parent_dir"/"$file".yml --result-dir ./results/NN_rms_regr/"$parent_dir"
         test_regression --ml-config ./Configs/ML_configs/NN_rms_regr/"$parent_dir"/"$file".yml --result-dir ./results/NN_rms_regr/"$parent_dir"
@@ -19,7 +19,7 @@ for parent_dir in FYI FYI_MYI MYI; do
 done
 
 for parent_dir in FYI FYI_MYI MYI; do 
-    for file in backscatter corr_std GLCM CAE SOBEL_CAE canny_CAE; do
+    for file in corr_std canny_CAE; do
         echo "************************* NN_thk_regr/$parent_dir/$file *************************" 
         NN_regression --ml-config ./Configs/ML_configs/NN_thk_regr/"$parent_dir"/"$file".yml --result-dir ./results/NN_thk_regr/"$parent_dir"/"$child_dir"
         test_regression --ml-config ./Configs/ML_configs/NN_thk_regr/"$parent_dir"/"$file".yml --result-dir ./results/NN_thk_regr/"$parent_dir"/"$child_dir"
