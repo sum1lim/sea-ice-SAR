@@ -89,19 +89,29 @@ def organize_data(expert_data, features_files, window_size, mask_file):
             for idx, datum in enumerate(tqdm(expert_data)):
                 if "" in datum:
                     continue
-                row, col = get_pixel(ds, datum[0], datum[1])
-                if (row, col) not in pixels.keys():
-                    pixels[(row, col)] = [
-                        [float(datum[2])],
-                        dir_path,
-                        row,
-                        col,
-                        1,
-                        int(mask_arr[row, col]),
-                    ] + window(band_arr, row, col, window_size)
-                else:
-                    pixels[(row, col)][4] += 1
-                    pixels[(row, col)][0].append(float(datum[2]))
+
+                mask_row, mask_col = get_pixel(gdal.Open(mask_file), datum[0], datum[1])
+                if len(datum) == 3:
+                    row, col = get_pixel(ds, datum[0], datum[1])
+                elif len(datum) == 5:
+                    row = int(math.floor(float(datum[-2])))
+                    col = int(math.floor(float(datum[-1])))
+
+                try:
+                    if (row, col) not in pixels.keys():
+                        pixels[(row, col)] = [
+                            [float(datum[2])],
+                            dir_path,
+                            row,
+                            col,
+                            1,
+                            int(mask_arr[mask_row, mask_col]),
+                        ] + window(band_arr, row, col, window_size)
+                    else:
+                        pixels[(row, col)][4] += 1
+                        pixels[(row, col)][0].append(float(datum[2]))
+                except ValueError:
+                    continue
         else:
             for k in pixels.keys():
                 row = k[0]

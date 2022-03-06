@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-import shutil
 import os
 import sys
 import csv
@@ -20,14 +19,33 @@ def create_dataset(config_dict, data_split_type):
         lon_idx = file_info["lon"] - 1
         label_idx = file_info["label"] - 1
         mask_file = file_info["Mask"]
+        try:
+            pix_row = file_info["row"] - 1
+            pix_col = file_info["col"] - 1
+        except KeyError:
+            pix_row = None
+            pix_col = None
 
         with open(file_name) as expert_csv:
             csv_reader = csv.reader(expert_csv)
-            expert_data = [
-                (row[lat_idx], row[lon_idx], row[label_idx])
-                for idx, row in enumerate(csv_reader)
-                if idx > 0
-            ]
+            if pix_row != None and pix_col != None:
+                expert_data = [
+                    (
+                        row[lat_idx],
+                        row[lon_idx],
+                        row[label_idx],
+                        row[pix_row],
+                        row[pix_col],
+                    )
+                    for idx, row in enumerate(csv_reader)
+                    if idx > 0
+                ]
+            else:
+                expert_data = [
+                    (row[lat_idx], row[lon_idx], row[label_idx])
+                    for idx, row in enumerate(csv_reader)
+                    if idx > 0
+                ]
             organized_data, feature_li = organize_data(
                 expert_data,
                 sar_data,
