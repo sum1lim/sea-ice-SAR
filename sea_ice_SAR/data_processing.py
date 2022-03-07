@@ -63,26 +63,21 @@ def aggr_window(pixels, window_size=1):
     return pixels
 
 
-def organize_data(expert_data, features_files, window_size, mask_file):
+def organize_data(expert_data, SAR_data, window_size, mask_file):
     feature_li = ["label", "src_dir", "row", "col", "num_points", "mask"]
 
     mask_raster = rasterio.open(mask_file)
     mask_arr = mask_raster.read(1)
 
-    for iteration, ff in enumerate(features_files):
-        if not ff.endswith(".tif"):
-            continue
+    ds = gdal.Open(SAR_data["File"])
+    raster = rasterio.open(SAR_data["File"])
+    print(raster)
 
-        print(f"Reading {ff}", file=sys.stdout)
-        dir_path, filename, extension = decompose_filepath(ff)
+    for iteration, band in enumerate(SAR_data["Bands"]):
         feature_li = feature_li + [
-            f"{filename}_{i}_{j}"
-            for i in range(window_size)
-            for j in range(window_size)
+            f"{band}_{i}_{j}" for i in range(window_size) for j in range(window_size)
         ]
-        ds = gdal.Open(ff)
-        raster = rasterio.open(ff)
-        band_arr = raster.read(1)
+        band_arr = raster.read(iteration + 1)
 
         if iteration == 0:
             pixels = {}
@@ -94,22 +89,22 @@ def organize_data(expert_data, features_files, window_size, mask_file):
                 if len(datum) == 3:
                     row, col = get_pixel(ds, datum[0], datum[1])
                 elif len(datum) == 5:
-                    row = int(math.floor(float(datum[-2])))
-                    col = int(math.floor(float(datum[-1])))
+                    row = int(math.floor(float(datum[-2])))  # row
+                    col = int(math.floor(float(datum[-1])))  # col
 
                 try:
                     if (row, col) not in pixels.keys():
                         pixels[(row, col)] = [
-                            [float(datum[2])],
-                            dir_path,
+                            [float(datum[2])],  # label
+                            SAR_data["File"],
                             row,
                             col,
                             1,
                             int(mask_arr[mask_row, mask_col]),
                         ] + window(band_arr, row, col, window_size)
                     else:
-                        pixels[(row, col)][4] += 1
-                        pixels[(row, col)][0].append(float(datum[2]))
+                        pixels[(row, col)][4] += 1  # num_points
+                        pixels[(row, col)][0].append(float(datum[2]))  # label
                 except ValueError:
                     continue
         else:
