@@ -11,7 +11,7 @@ from osgeo import gdal
 from .utils import get_pixel, window, decompose_filepath
 
 
-def configure_features(pixels, feature_li, feature_cfg, window_size):
+def configure_features(pixels, feature_li):
     df = pd.DataFrame(
         np.array(
             [
@@ -23,16 +23,6 @@ def configure_features(pixels, feature_li, feature_cfg, window_size):
         columns=feature_li,
     )
     df = df.drop_duplicates()
-
-    for f in feature_li:
-        for key, value in feature_cfg.items():
-            if "_".join(f.split("_")[:-2]) in value:
-                [i, j] = f.split("_")[-2:]
-                if window_size > 1:
-                    df = df.rename(columns={f"{f}": f"{key}_{i}_{j}"}, errors="raise")
-                    continue
-                else:
-                    df = df.rename(columns={f"{f}": f"{key}"}, errors="raise")
 
     return df
 

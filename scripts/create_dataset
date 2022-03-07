@@ -10,7 +10,6 @@ from sea_ice_SAR.utils import decompose_filepath
 
 def create_dataset(config_dict, data_split_type):
     dataset_cfg = config_dict["configuration"]
-    feature_cfg = config_dict["features"]
 
     dataframes = []
     for file_name, file_info in config_dict[data_split_type].items():
@@ -52,11 +51,7 @@ def create_dataset(config_dict, data_split_type):
                 dataset_cfg["window_size"],
                 mask_file,
             )
-            dataframes.append(
-                configure_features(
-                    organized_data, feature_li, feature_cfg, dataset_cfg["window_size"]
-                )
-            )
+            dataframes.append(configure_features(organized_data, feature_li))
 
     for idx, _ in enumerate(dataframes):
         if idx == 0:
