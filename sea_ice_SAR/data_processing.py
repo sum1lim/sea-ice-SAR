@@ -8,7 +8,7 @@ import pandas as pd
 
 from tqdm import tqdm
 from osgeo import gdal
-from .utils import get_pixel, window, decompose_filepath
+from .utils import get_pixel, window
 
 
 def configure_features(pixels, feature_li):
@@ -61,13 +61,12 @@ def organize_data(expert_data, SAR_data, window_size, mask_file):
 
     ds = gdal.Open(SAR_data["File"])
     raster = rasterio.open(SAR_data["File"])
-    print(raster)
 
-    for iteration, band in enumerate(SAR_data["Bands"]):
+    for iteration, band in enumerate(SAR_data["Bands"].items()):
         feature_li = feature_li + [
-            f"{band}_{i}_{j}" for i in range(window_size) for j in range(window_size)
+            f"{band[1]}_{i}_{j}" for i in range(window_size) for j in range(window_size)
         ]
-        band_arr = raster.read(iteration + 1)
+        band_arr = raster.read(band[0])
 
         if iteration == 0:
             pixels = {}
