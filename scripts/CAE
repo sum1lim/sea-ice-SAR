@@ -93,7 +93,7 @@ def CAE_output(encoded_df, input_dir, input_file, output_filename, min_num_point
 
 def convert_to_vectors(df):
     flatten = Sequential()
-    flatten.add(Input(shape=df.shape))
+    flatten.add(Input(shape=df.shape[1:]))
     flatten.add(Flatten())
     flatten.compile()
 
