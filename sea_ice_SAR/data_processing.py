@@ -33,18 +33,18 @@ def aggr_window(pixels, window_size=1):
     upper_bound = math.ceil(window_size / 2)
 
     for k in tqdm(pixels.keys()):
-        if window_size > 1:
-            row = k[0]
-            col = k[1]
+        # if window_size > 1:
+        #     row = k[0]
+        #     col = k[1]
 
-            for i in range(lower_bound, upper_bound):
-                for j in range(lower_bound, upper_bound):
-                    if i != 0 or j != 0:
-                        try:
-                            pixels[k][0] += dup_pixels[(row + i, col + j)][0]
-                            # pixels[k][4] += dup_pixels[(row + i, col + j)][4]
-                        except KeyError:
-                            continue
+        #     for i in range(lower_bound, upper_bound):
+        #         for j in range(lower_bound, upper_bound):
+        #             if i != 0 or j != 0:
+        #                 try:
+        #                     pixels[k][0] += dup_pixels[(row + i, col + j)][0]
+        #                     pixels[k][4] += dup_pixels[(row + i, col + j)][4]
+        #                 except KeyError:
+        #                     continue
 
         pixels[k][0] = statistics.mean(pixels[k][0])
 
