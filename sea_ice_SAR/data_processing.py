@@ -42,7 +42,7 @@ def aggr_window(pixels, window_size=1):
                     if i != 0 or j != 0:
                         try:
                             pixels[k][0] += dup_pixels[(row + i, col + j)][0]
-                            pixels[k][4] += dup_pixels[(row + i, col + j)][4]
+                            # pixels[k][4] += dup_pixels[(row + i, col + j)][4]
                         except KeyError:
                             continue
 
@@ -83,14 +83,17 @@ def organize_data(expert_data, SAR_data, window_size, mask_file):
 
                 try:
                     if (row, col) not in pixels.keys():
-                        pixels[(row, col)] = [
-                            [float(datum[2])],  # label
-                            SAR_data["File"],
-                            row,
-                            col,
-                            1,
-                            int(mask_arr[mask_row, mask_col]),
-                        ] + window(band_arr, row, col, window_size)
+                        try:
+                            pixels[(row, col)] = [
+                                [float(datum[2])],  # label
+                                SAR_data["File"],
+                                row,
+                                col,
+                                1,
+                                int(mask_arr[mask_row, mask_col]),
+                            ] + window(band_arr, row, col, window_size)
+                        except IndexError:
+                            continue
                     else:
                         pixels[(row, col)][4] += 1  # num_points
                         pixels[(row, col)][0].append(float(datum[2]))  # label
