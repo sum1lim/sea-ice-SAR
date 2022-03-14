@@ -8,28 +8,30 @@ from sea_ice_SAR.utils import decompose_filepath
 
 def main(args):
     ds = gdal.Open(args.input)
-    band = ds.GetRasterBand(args.band)
-    band_arr = band.ReadAsArray()
-
-    if args.method == "sobel":
-        processed = ndimage.sobel(band_arr)
-    if args.method == "canny":
-        processed = feature.canny(band_arr)
-
     dir, filename, _ = decompose_filepath(args.input)
-
     tmp_ds = gdal.GetDriverByName("MEM").CreateCopy(
         f"{dir}/{filename}_{args.method}.tif", ds, 0
     )
-    tmp_ds.AddBand()
-    tmp_ds.GetRasterBand(ds.RasterCount + 1).WriteArray(processed)
+
+    if type(args.bands) == str:
+        args.bands = [args.bands]
+
+    for band in args.bands:
+        band_arr = ds.GetRasterBand(band).ReadAsArray()
+
+        if args.method == "sobel":
+            processed = ndimage.sobel(band_arr)
+        if args.method == "canny":
+            processed = feature.canny(band_arr)
+
+        tmp_ds.AddBand()
+        tmp_ds.GetRasterBand(ds.RasterCount + 1).WriteArray(processed)
 
     dst_ds = gdal.GetDriverByName("GTiff").CreateCopy(
         f"{dir}/{filename}_{args.method}.tif", tmp_ds, 0
     )
     dst_ds.SetGeoTransform(ds.GetGeoTransform())
     dst_ds.SetProjection(ds.GetProjection())
-    dst_ds.GetRasterBand(1).WriteArray(processed)
     tmp_ds.FlushCache()
     dst_ds.FlushCache()
     tmp_ds = None
@@ -52,7 +54,8 @@ if __name__ == "__main__":
         choices=["SOBEL", "canny"],
     )
     parser.add_argument(
-        "--band",
+        "--bands",
+        nargs="+",
         type=int,
         help="Band to perform edge detection on",
     )
