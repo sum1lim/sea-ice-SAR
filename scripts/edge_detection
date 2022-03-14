@@ -35,29 +35,13 @@ def main(args):
     tmp_ds = None
     dst_ds = None
 
-    # [rows, cols] = band_arr.shape
-    # driver = gdal.GetDriverByName("GTiff")
-    # outdata = driver.Create(
-    #     f"{dir}/{filename}_{args.method}.tif",
-    #     cols,
-    #     rows,
-    #     1,
-    #     gdal.GDT_Float64,
-    # )
-    # outdata.SetGeoTransform(ds.GetGeoTransform())
-    # outdata.SetProjection(ds.GetProjection())
-    # outdata.GetRasterBand(1).WriteArray(processed)
-    # outdata.FlushCache()
-    # outdata = None
-    # band = None
-    # ds = None
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
         "--input",
+        nargs="+",
         type=str,
         help="Input file path",
     )
@@ -74,5 +58,10 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-
-    main(args)
+    if type(args.input) == list:
+        inputs = args.input[:]
+        for ip in inputs:
+            args.input = ip
+            main(args)
+    else:
+        main(args)
