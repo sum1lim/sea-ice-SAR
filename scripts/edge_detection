@@ -18,22 +18,14 @@ def main(args):
 
     for band in args.bands:
         band_arr = ds.GetRasterBand(band).ReadAsArray().astype("float32")
-        band_arr = 255 * (
-            (band_arr - band_arr.min()) / (band_arr.max() - band_arr.min())
-        )
 
         if args.method == "sobel":
-            processed = ndimage.sobel(band_arr)
+            processed = ndimage.sobel(band_arr).astype("float32")
         if args.method == "canny":
-            processed = feature.canny(band_arr)
-
-        processed = processed.astype("float32")
-        processed = 255 * (
-            (processed - processed.min()) / (processed.max() - processed.min())
-        )
+            processed = feature.canny(band_arr).astype("float32")
 
         tmp_ds.AddBand()
-        tmp_ds.GetRasterBand(ds.RasterCount + 1).WriteArray(processed)
+        tmp_ds.GetRasterBand(tmp_ds.RasterCount).WriteArray(processed)
 
     dst_ds = gdal.GetDriverByName("GTiff").CreateCopy(
         f"{dir}/{filename}_{args.method}.tif", tmp_ds, 0
@@ -59,7 +51,7 @@ if __name__ == "__main__":
         "--method",
         type=str,
         help="Edge detection method ['SOBEL', 'canny']",
-        choices=["SOBEL", "canny"],
+        choices=["sobel", "canny"],
     )
     parser.add_argument(
         "--bands",
