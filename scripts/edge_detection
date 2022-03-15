@@ -17,12 +17,15 @@ def main(args):
         args.bands = [args.bands]
 
     for band in args.bands:
-        band_arr = ds.GetRasterBand(band).ReadAsArray()
+        band_arr = ds.GetRasterBand(band).ReadAsArray().astype("float32")
 
         if args.method == "sobel":
             processed = ndimage.sobel(band_arr)
         if args.method == "canny":
             processed = feature.canny(band_arr)
+
+        processed = processed.astype("float32")
+        processed = (processed - processed.min()) / (processed.max() - processed.min())
 
         tmp_ds.AddBand()
         tmp_ds.GetRasterBand(ds.RasterCount + 1).WriteArray(processed)
