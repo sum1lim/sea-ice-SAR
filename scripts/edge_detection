@@ -18,6 +18,9 @@ def main(args):
 
     for band in args.bands:
         band_arr = ds.GetRasterBand(band).ReadAsArray().astype("float32")
+        band_arr = 255 * (
+            (band_arr - band_arr.min()) / (band_arr.max() - band_arr.min())
+        )
 
         if args.method == "sobel":
             processed = ndimage.sobel(band_arr)
