@@ -137,7 +137,7 @@ def main(args):
     )
     _, X_te, _ = process_data(
         [f"{config_dict['test_dir']}/{f}.csv" for f in config_dict["filenames"]],
-        min_num_points=1,
+        min_num_points=config_dict["min_num_points"],
         CNN_layers=config_dict["filenames"],
     )
 

@@ -24,6 +24,10 @@ def main(args):
         if args.method == "canny":
             processed = feature.canny(band_arr).astype("float32")
 
+        processed = 255 * (
+            (processed - processed.min()) / (processed.max() - processed.min())
+        )
+
         tmp_ds.AddBand()
         tmp_ds.GetRasterBand(tmp_ds.RasterCount).WriteArray(processed)
 
