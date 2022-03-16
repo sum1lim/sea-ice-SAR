@@ -1,0 +1,13 @@
+---
+configuration:
+  train_data: [./data/thickness/train/aggr.csv, ./data/thickness/train/CAE.csv]
+  test_data: [./data/thickness/test/aggr.csv, ./data/thickness/test/CAE.csv]
+  verbosity: 2
+  epochs: 10000
+  K-fold: 10
+  # hidden_size: 100
+  min_num_points: 1
+  smote: False 
+
+drop_features:
+...

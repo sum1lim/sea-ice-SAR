@@ -1,0 +1,13 @@
+---
+configuration:
+  train_data: ./data/roughness/train/aggr.csv
+  test_data: ./data/roughness/test/aggr.csv
+  verbosity: 2
+  epochs: 10000
+  K-fold: 10
+  hidden_size: 10
+  min_num_points: 1
+  smote: False
+  
+drop_features:
+...
