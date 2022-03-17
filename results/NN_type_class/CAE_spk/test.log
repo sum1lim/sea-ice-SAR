@@ -1,0 +1,158 @@
+Before oversampling: Counter({2.0: 4394, 1.0: 2283})
+After oversampling: Counter({2.0: 4394, 1.0: 4394})
+Classes: [1. 2.]
+*************************** Fold #: 1 ***************************
+9/9 - 0s - 89ms/epoch - 10ms/step
+Test accuracy: 0.7913063268092854
+              precision    recall  f1-score   support
+
+           0       0.78      0.82      0.80      4394
+           1       0.81      0.76      0.79      4394
+
+    accuracy                           0.79      8788
+   macro avg       0.79      0.79      0.79      8788
+weighted avg       0.79      0.79      0.79      8788
+
+[[1. 2.]]
+[[81.8 18.2]
+ [23.5 76.5]]
+*************************** Fold #: 2 ***************************
+9/9 - 0s - 54ms/epoch - 6ms/step
+Test accuracy: 0.7840236686390533
+              precision    recall  f1-score   support
+
+           0       0.77      0.82      0.79      4394
+           1       0.80      0.75      0.78      4394
+
+    accuracy                           0.78      8788
+   macro avg       0.79      0.78      0.78      8788
+weighted avg       0.79      0.78      0.78      8788
+
+[[1. 2.]]
+[[81.6 18.4]
+ [24.8 75.2]]
+*************************** Fold #: 3 ***************************
+9/9 - 0s - 54ms/epoch - 6ms/step
+Test accuracy: 0.7882339553937187
+              precision    recall  f1-score   support
+
+           0       0.77      0.82      0.79      4394
+           1       0.81      0.76      0.78      4394
+
+    accuracy                           0.79      8788
+   macro avg       0.79      0.79      0.79      8788
+weighted avg       0.79      0.79      0.79      8788
+
+[[1. 2.]]
+[[81.9 18.1]
+ [24.3 75.7]]
+*************************** Fold #: 4 ***************************
+9/9 - 0s - 55ms/epoch - 6ms/step
+Test accuracy: 0.7923304506144743
+              precision    recall  f1-score   support
+
+           0       0.77      0.83      0.80      4394
+           1       0.82      0.76      0.78      4394
+
+    accuracy                           0.79      8788
+   macro avg       0.79      0.79      0.79      8788
+weighted avg       0.79      0.79      0.79      8788
+
+[[1. 2.]]
+[[82.9 17.1]
+ [24.5 75.5]]
+*************************** Fold #: 5 ***************************
+9/9 - 0s - 54ms/epoch - 6ms/step
+Test accuracy: 0.7851615839781521
+              precision    recall  f1-score   support
+
+           0       0.77      0.81      0.79      4394
+           1       0.80      0.76      0.78      4394
+
+    accuracy                           0.79      8788
+   macro avg       0.79      0.79      0.79      8788
+weighted avg       0.79      0.79      0.79      8788
+
+[[1. 2.]]
+[[80.8 19.2]
+ [23.8 76.2]]
+*************************** Fold #: 6 ***************************
+9/9 - 0s - 54ms/epoch - 6ms/step
+Test accuracy: 0.7886891215293582
+              precision    recall  f1-score   support
+
+           0       0.78      0.81      0.79      4394
+           1       0.80      0.77      0.78      4394
+
+    accuracy                           0.79      8788
+   macro avg       0.79      0.79      0.79      8788
+weighted avg       0.79      0.79      0.79      8788
+
+[[1. 2.]]
+[[80.6 19.4]
+ [22.9 77.1]]
+*************************** Fold #: 7 ***************************
+9/9 - 0s - 54ms/epoch - 6ms/step
+Test accuracy: 0.7885753299954483
+              precision    recall  f1-score   support
+
+           0       0.78      0.81      0.79      4394
+           1       0.80      0.77      0.78      4394
+
+    accuracy                           0.79      8788
+   macro avg       0.79      0.79      0.79      8788
+weighted avg       0.79      0.79      0.79      8788
+
+[[1. 2.]]
+[[81.2 18.8]
+ [23.5 76.5]]
+*************************** Fold #: 8 ***************************
+9/9 - 0s - 54ms/epoch - 6ms/step
+Test accuracy: 0.7910787437414656
+              precision    recall  f1-score   support
+
+           0       0.77      0.82      0.80      4394
+           1       0.81      0.76      0.78      4394
+
+    accuracy                           0.79      8788
+   macro avg       0.79      0.79      0.79      8788
+weighted avg       0.79      0.79      0.79      8788
+
+[[1. 2.]]
+[[82.4 17.6]
+ [24.2 75.8]]
+*************************** Fold #: 9 ***************************
+9/9 - 0s - 54ms/epoch - 6ms/step
+Test accuracy: 0.786185707783341
+              precision    recall  f1-score   support
+
+           0       0.77      0.81      0.79      4394
+           1       0.80      0.77      0.78      4394
+
+    accuracy                           0.79      8788
+   macro avg       0.79      0.79      0.79      8788
+weighted avg       0.79      0.79      0.79      8788
+
+[[1. 2.]]
+[[80.7 19.3]
+ [23.5 76.5]]
+*************************** Fold #: 10 ***************************
+9/9 - 0s - 54ms/epoch - 6ms/step
+Test accuracy: 0.7942649066909422
+              precision    recall  f1-score   support
+
+           0       0.78      0.82      0.80      4394
+           1       0.81      0.77      0.79      4394
+
+    accuracy                           0.79      8788
+   macro avg       0.79      0.79      0.79      8788
+weighted avg       0.79      0.79      0.79      8788
+
+[[1. 2.]]
+[[81.9 18.1]
+ [23.  77. ]]
+
+Maximum accuracy: 0.7942649066909422
+
+Average accuracy: 0.7889849795175239
+Standard Deviation (accuracy): 0.00327839006782476
