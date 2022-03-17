@@ -1,54 +1,54 @@
-Model: "model_4"
+Model: "model_8"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- input_7 (InputLayer)        [(None, 7, 7, 4, 1)]      0         
+ input_1 (InputLayer)        [(None, 7, 7, 4, 1)]      0         
                                                                  
- zero_padding3d_2 (ZeroPaddi  (None, 8, 8, 4, 1)       0         
- ng3D)                                                           
-                                                                 
- conv3d_12 (Conv3D)          (None, 8, 8, 4, 8)        224       
-                                                                 
- max_pooling3d_4 (MaxPooling  (None, 4, 4, 2, 8)       0         
+ zero_padding3d (ZeroPadding  (None, 8, 8, 4, 1)       0         
  3D)                                                             
                                                                  
- conv3d_13 (Conv3D)          (None, 4, 4, 2, 4)        868       
+ conv3d (Conv3D)             (None, 8, 8, 4, 8)        224       
                                                                  
- max_pooling3d_5 (MaxPooling  (None, 2, 2, 1, 4)       0         
+ max_pooling3d (MaxPooling3D  (None, 4, 4, 2, 8)       0         
+ )                                                               
+                                                                 
+ conv3d_1 (Conv3D)           (None, 4, 4, 2, 4)        868       
+                                                                 
+ max_pooling3d_1 (MaxPooling  (None, 2, 2, 1, 4)       0         
  3D)                                                             
                                                                  
- conv3d_14 (Conv3D)          (None, 2, 2, 1, 4)        436       
+ conv3d_2 (Conv3D)           (None, 2, 2, 1, 4)        436       
                                                                  
 =================================================================
 Total params: 1,528
 Trainable params: 1,528
 Non-trainable params: 0
 _________________________________________________________________
-Performance on train dataset (mean error): 0.0025599948130548
-Model: "model_5"
+Performance on train dataset (mean error): 0.0007692629587836564
+Model: "model_9"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- input_7 (InputLayer)        [(None, 7, 7, 4, 1)]      0         
+ input_1 (InputLayer)        [(None, 7, 7, 4, 1)]      0         
                                                                  
- zero_padding3d_2 (ZeroPaddi  (None, 8, 8, 4, 1)       0         
- ng3D)                                                           
-                                                                 
- conv3d_12 (Conv3D)          (None, 8, 8, 4, 8)        224       
-                                                                 
- max_pooling3d_4 (MaxPooling  (None, 4, 4, 2, 8)       0         
+ zero_padding3d (ZeroPadding  (None, 8, 8, 4, 1)       0         
  3D)                                                             
                                                                  
- conv3d_13 (Conv3D)          (None, 4, 4, 2, 4)        868       
+ conv3d (Conv3D)             (None, 8, 8, 4, 8)        224       
                                                                  
- max_pooling3d_5 (MaxPooling  (None, 2, 2, 1, 4)       0         
+ max_pooling3d (MaxPooling3D  (None, 4, 4, 2, 8)       0         
+ )                                                               
+                                                                 
+ conv3d_1 (Conv3D)           (None, 4, 4, 2, 4)        868       
+                                                                 
+ max_pooling3d_1 (MaxPooling  (None, 2, 2, 1, 4)       0         
  3D)                                                             
                                                                  
- conv3d_14 (Conv3D)          (None, 2, 2, 1, 4)        436       
+ conv3d_2 (Conv3D)           (None, 2, 2, 1, 4)        436       
                                                                  
 =================================================================
 Total params: 1,528
 Trainable params: 1,528
 Non-trainable params: 0
 _________________________________________________________________
-Performance on test dataset (mean error): 0.0016286388272419572
+Performance on test dataset (mean error): 0.00031845824560150504

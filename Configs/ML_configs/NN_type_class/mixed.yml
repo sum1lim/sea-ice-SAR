@@ -1,0 +1,18 @@
+---
+configuration:
+  train_data: [./data/thickness/train/aggr_spk.csv, ./data/thickness/train/CAE_mixed.csv]
+  test_data: [./data/thickness/test/aggr_spk.csv, ./data/thickness/test/CAE_mixed.csv]
+  verbosity: 2
+  epochs: 10000
+  K-fold: 10
+  # hidden_size: 100
+  min_num_points: 1
+  masks: [1, 2, 3]
+
+labels:
+  label: mask
+  1: [1, 2]
+  2: [3, 3]
+
+drop_features:
+...

@@ -3,7 +3,7 @@ train_dir: ./data/thickness/train
 test_dir: ./data/thickness/test
 filenames: [HH7_spk_canny, HH7_spk, HV7_spk, HV7_spk_canny]
 new_features: [HH7_spk_canny, HH7_spk, HV7_spk, HV7_spk_canny]
-epochs: 10000
+epochs: 1000
 output_filename: CAE_spk
 min_num_points: 1
 verbosity: 2

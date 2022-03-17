@@ -1,0 +1,54 @@
+Model: "model_10"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_16 (InputLayer)       [(None, 7, 7, 4, 1)]      0         
+                                                                 
+ zero_padding3d_5 (ZeroPaddi  (None, 8, 8, 4, 1)       0         
+ ng3D)                                                           
+                                                                 
+ conv3d_30 (Conv3D)          (None, 8, 8, 4, 8)        224       
+                                                                 
+ max_pooling3d_10 (MaxPoolin  (None, 4, 4, 2, 8)       0         
+ g3D)                                                            
+                                                                 
+ conv3d_31 (Conv3D)          (None, 4, 4, 2, 4)        868       
+                                                                 
+ max_pooling3d_11 (MaxPoolin  (None, 2, 2, 1, 4)       0         
+ g3D)                                                            
+                                                                 
+ conv3d_32 (Conv3D)          (None, 2, 2, 1, 4)        436       
+                                                                 
+=================================================================
+Total params: 1,528
+Trainable params: 1,528
+Non-trainable params: 0
+_________________________________________________________________
+Performance on train dataset (mean error): 0.00029282295145094395
+Model: "model_11"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_16 (InputLayer)       [(None, 7, 7, 4, 1)]      0         
+                                                                 
+ zero_padding3d_5 (ZeroPaddi  (None, 8, 8, 4, 1)       0         
+ ng3D)                                                           
+                                                                 
+ conv3d_30 (Conv3D)          (None, 8, 8, 4, 8)        224       
+                                                                 
+ max_pooling3d_10 (MaxPoolin  (None, 4, 4, 2, 8)       0         
+ g3D)                                                            
+                                                                 
+ conv3d_31 (Conv3D)          (None, 4, 4, 2, 4)        868       
+                                                                 
+ max_pooling3d_11 (MaxPoolin  (None, 2, 2, 1, 4)       0         
+ g3D)                                                            
+                                                                 
+ conv3d_32 (Conv3D)          (None, 2, 2, 1, 4)        436       
+                                                                 
+=================================================================
+Total params: 1,528
+Trainable params: 1,528
+Non-trainable params: 0
+_________________________________________________________________
+Performance on test dataset (mean error): 0.0006510999519377947
