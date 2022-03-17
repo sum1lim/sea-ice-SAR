@@ -120,12 +120,13 @@ def main(args):
 
     _, filename, _ = decompose_filepath(args.config)
 
-    log_file = open(f"./CAE_models/{filename}/train.log", "w")
     try:
         os.mkdir(f"./CAE_models/{filename}")
-        sys.stdout = log_file
     except FileExistsError:
         None
+
+    log_file = open(f"./CAE_models/{filename}/train.log", "w")
+    sys.stdout = log_file
 
     encoded_df_tr = []
     encoded_df_te = []
