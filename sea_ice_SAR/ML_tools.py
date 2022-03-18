@@ -14,6 +14,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import KFold
 from imblearn.over_sampling import RandomOverSampler
+from imblearn.under_sampling import RandomUnderSampler
 
 
 def config_parser(ml_config):
@@ -47,10 +48,6 @@ def config_parser(ml_config):
             min_num_points = params["min_num_points"]
         else:
             min_num_points = 0
-        if "smote" in params.keys():
-            smote = params["smote"]
-        else:
-            smote = False
         if "masks" in params.keys():
             masks = params["masks"]
         else:
@@ -69,7 +66,6 @@ def config_parser(ml_config):
         K,
         kernel_size,
         min_num_points,
-        smote,
         masks,
         CNN_layers,
     )
@@ -126,9 +122,8 @@ def process_data(
     regression=True,
     min_num_points=0,
     masks=[-1, 0, 1, 2, 3],
-    smote=False,
     CNN_layers=[],
-    oversampling=True,
+    resampling=True,
     dropna=True,
 ):
     """
@@ -227,31 +222,6 @@ def process_data(
         except KeyError:
             continue
 
-    # SMOTE over/under-sampling
-    if smote:
-        print(
-            f"Before SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
-            file=sys.stdout,
-        )
-        print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
-        dataframe = dataframe.dropna()
-        dataframe.reset_index(drop=True, inplace=True)
-        while True:
-            try:
-                dataframe = smogn.smoter(
-                    data=dataframe, y=label_key, samp_method="extreme"
-                )
-                break
-            except ValueError:
-                continue
-        dataframe = dataframe.dropna()
-        dataframe.reset_index(drop=True, inplace=True)
-        print(
-            f"After SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
-            file=sys.stdout,
-        )
-        print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
-
     CNN_dataset = None
     if type(CNN_stack) == np.ndarray:
         CNN_dataset = np.array([np.array(v) for v in dataframe["CNN"].values])
@@ -263,9 +233,20 @@ def process_data(
     Y = dataset[:, 0]
 
     if regression:
+        if resampling:
+            print(f"Before oversampling: {Counter(Y)}", file=sys.stdout)
+            undersample = RandomUnderSampler(sampling_strategy="majority")
+            resampled_X_Y, _ = undersample.fit_resample(
+                np.insert(X, 0, [Y], axis=1),
+                pandas.cut(Y, bins=10, labels=[i for i in range(10)]),
+            )
+            Y = resampled_X_Y[:, [0]].transpose()[0]
+            X = resampled_X_Y[:, [i for i in range(1, resampled_X_Y.shape[1])]]
+            print(f"After oversampling: {Counter(Y)}", file=sys.stdout)
+
         return X, CNN_dataset, Y
     else:
-        if oversampling:
+        if resampling:
             print(f"Before oversampling: {Counter(Y)}", file=sys.stdout)
             oversample = RandomOverSampler(sampling_strategy="not majority")
             X, Y = oversample.fit_resample(X, Y)
