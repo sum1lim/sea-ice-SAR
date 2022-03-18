@@ -15,7 +15,7 @@ tf.get_logger().setLevel("ERROR")
 
 def main(args):
     # Parse configuration
-    train_data, test_data, _, _, _, _, _, _, _, _, _ = config_parser(args.ml_config)
+    train_data, test_data, _, _, _, _, _, _, _, _ = config_parser(args.ml_config)
     _, cfg_filename, _ = decompose_filepath(args.ml_config)
 
     if type(train_data) != list:
@@ -31,14 +31,14 @@ def main(args):
         train_data,
         args.ml_config,
         regression=False,
-        oversampling=False,
+        resampling=False,
         dropna=False,
     )
     X_te, _, _, _ = process_data(
         test_data,
         args.ml_config,
         regression=False,
-        oversampling=False,
+        resampling=False,
         dropna=False,
     )
 
