@@ -1,7 +1,7 @@
 ---
 configuration:
-  train_data: [./data/roughness/train/aggr_spk.csv, ./data/roughness/train/CAE_mixed.csv]
-  test_data: [./data/roughness/test/aggr_spk.csv, ./data/roughness/test/CAE_mixed.csv]
+  train_data: [./data/roughness/train/aggr.csv, ./data/roughness/train/aggr_spk.csv, ./data/roughness/train/CAE_mixed.csv]
+  test_data: [./data/roughness/test/aggr.csv, ./data/roughness/test/aggr_spk.csv, ./data/roughness/test/CAE_mixed.csv]
   verbosity: 2
   epochs: 10000
   K-fold: 10

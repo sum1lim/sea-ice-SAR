@@ -1,7 +1,7 @@
 ---
 configuration:
-  train_data: ./data/thickness/train/aggr.csv
-  test_data: ./data/thickness/test/aggr.csv
+  train_data: [./data/thickness/train/aggr.csv, ./data/thickness/train/aggr_spk.csv]
+  test_data: [./data/thickness/test/aggr.csv, ./data/thickness/test/aggr_spk.csv]
   verbosity: 2
   epochs: 10000
   K-fold: 10
