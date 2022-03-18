@@ -1,0 +1,129 @@
+Before oversampling: Counter({1: 15399, 2: 9149, 3: 3794, 0: 2178, 4: 1567})
+After oversampling: Counter({0: 1567, 1: 1567, 2: 1567, 3: 1567, 4: 1567})
+*************************** Fold #: 1 ***************************
+Model: "model"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ cat (InputLayer)            [(None, 22)]              0         
+                                                                 
+ dense (Dense)               (None, 15)                345       
+                                                                 
+ dense_1 (Dense)             (None, 15)                240       
+                                                                 
+ dense_2 (Dense)             (None, 15)                240       
+                                                                 
+ dense_3 (Dense)             (None, 15)                240       
+                                                                 
+ dense_4 (Dense)             (None, 15)                240       
+                                                                 
+ dense_5 (Dense)             (None, 1)                 16        
+                                                                 
+=================================================================
+Total params: 1,321
+Trainable params: 1,321
+Non-trainable params: 0
+_________________________________________________________________
+Epoch 1/10000
+
+Epoch 1: val_loss improved from inf to 10.52737, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 11.0121 - val_loss: 10.5274 - 1s/epoch - 145ms/step
+Epoch 2/10000
+
+Epoch 2: val_loss improved from 10.52737 to 10.46822, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 10.9553 - val_loss: 10.4682 - 556ms/epoch - 79ms/step
+Epoch 3/10000
+
+Epoch 3: val_loss improved from 10.46822 to 10.40039, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 10.8911 - val_loss: 10.4004 - 554ms/epoch - 79ms/step
+Epoch 4/10000
+
+Epoch 4: val_loss improved from 10.40039 to 10.31887, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 10.8163 - val_loss: 10.3189 - 556ms/epoch - 79ms/step
+Epoch 5/10000
+
+Epoch 5: val_loss improved from 10.31887 to 10.21334, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 10.7236 - val_loss: 10.2133 - 555ms/epoch - 79ms/step
+Epoch 6/10000
+
+Epoch 6: val_loss improved from 10.21334 to 10.06272, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 10.5987 - val_loss: 10.0627 - 557ms/epoch - 80ms/step
+Epoch 7/10000
+
+Epoch 7: val_loss improved from 10.06272 to 9.82376, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 10.4112 - val_loss: 9.8238 - 554ms/epoch - 79ms/step
+Epoch 8/10000
+
+Epoch 8: val_loss improved from 9.82376 to 9.41023, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 10.1009 - val_loss: 9.4102 - 555ms/epoch - 79ms/step
+Epoch 9/10000
+
+Epoch 9: val_loss improved from 9.41023 to 8.67107, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 9.5534 - val_loss: 8.6711 - 555ms/epoch - 79ms/step
+Epoch 10/10000
+
+Epoch 10: val_loss improved from 8.67107 to 7.37824, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 8.5717 - val_loss: 7.3782 - 557ms/epoch - 80ms/step
+Epoch 11/10000
+
+Epoch 11: val_loss improved from 7.37824 to 5.33167, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 6.9203 - val_loss: 5.3317 - 555ms/epoch - 79ms/step
+Epoch 12/10000
+
+Epoch 12: val_loss improved from 5.33167 to 2.87503, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 4.5469 - val_loss: 2.8750 - 553ms/epoch - 79ms/step
+Epoch 13/10000
+
+Epoch 13: val_loss improved from 2.87503 to 2.02937, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 2.3742 - val_loss: 2.0294 - 560ms/epoch - 80ms/step
+Epoch 14/10000
+
+Epoch 14: val_loss did not improve from 2.02937
+7/7 - 0s - loss: 2.2466 - val_loss: 2.4143 - 42ms/epoch - 6ms/step
+Epoch 15/10000
+
+Epoch 15: val_loss improved from 2.02937 to 1.92474, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 2.1143 - val_loss: 1.9247 - 556ms/epoch - 79ms/step
+Epoch 16/10000
+
+Epoch 16: val_loss did not improve from 1.92474
+7/7 - 0s - loss: 1.9501 - val_loss: 1.9282 - 41ms/epoch - 6ms/step
+Epoch 17/10000
+
+Epoch 17: val_loss improved from 1.92474 to 1.88973, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 1.9638 - val_loss: 1.8897 - 559ms/epoch - 80ms/step
+Epoch 18/10000
+
+Epoch 18: val_loss did not improve from 1.88973
+7/7 - 0s - loss: 1.9036 - val_loss: 1.8940 - 42ms/epoch - 6ms/step
+Epoch 19/10000
+
+Epoch 19: val_loss improved from 1.88973 to 1.88771, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 1.8891 - val_loss: 1.8877 - 558ms/epoch - 80ms/step
+Epoch 20/10000
+
+Epoch 20: val_loss improved from 1.88771 to 1.84918, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 1.8694 - val_loss: 1.8492 - 557ms/epoch - 80ms/step
+Epoch 21/10000
+
+Epoch 21: val_loss improved from 1.84918 to 1.82847, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 1.8496 - val_loss: 1.8285 - 562ms/epoch - 80ms/step
+Epoch 22/10000
+
+Epoch 22: val_loss improved from 1.82847 to 1.81543, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 1.8314 - val_loss: 1.8154 - 562ms/epoch - 80ms/step
+Epoch 23/10000
+
+Epoch 23: val_loss improved from 1.81543 to 1.80077, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 1.8109 - val_loss: 1.8008 - 555ms/epoch - 79ms/step
+Epoch 24/10000
+
+Epoch 24: val_loss improved from 1.80077 to 1.78129, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 1.7913 - val_loss: 1.7813 - 555ms/epoch - 79ms/step
+Epoch 25/10000
+
+Epoch 25: val_loss improved from 1.78129 to 1.76248, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1
+7/7 - 1s - loss: 1.7713 - val_loss: 1.7625 - 586ms/epoch - 84ms/step
+Epoch 26/10000
+
+Epoch 26: val_loss improved from 1.76248 to 1.74062, saving model to ./results/NN_thk_regr/FYI_MYI//mixed/ckpt_1

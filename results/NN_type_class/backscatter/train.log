@@ -6,23 +6,23 @@ Model: "model"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- input_1 (InputLayer)        [(None, 3)]               0         
+ input_1 (InputLayer)        [(None, 6)]               0         
                                                                  
- dense (Dense)               (None, 3)                 12        
+ dense (Dense)               (None, 5)                 35        
                                                                  
- dense_1 (Dense)             (None, 3)                 12        
+ dense_1 (Dense)             (None, 5)                 30        
                                                                  
- dense_2 (Dense)             (None, 3)                 12        
+ dense_2 (Dense)             (None, 5)                 30        
                                                                  
- dense_3 (Dense)             (None, 3)                 12        
+ dense_3 (Dense)             (None, 5)                 30        
                                                                  
- dense_4 (Dense)             (None, 3)                 12        
+ dense_4 (Dense)             (None, 5)                 30        
                                                                  
- dense_5 (Dense)             (None, 2)                 8         
+ dense_5 (Dense)             (None, 2)                 12        
                                                                  
 =================================================================
-Total params: 68
-Trainable params: 68
+Total params: 167
+Trainable params: 167
 Non-trainable params: 0
 _________________________________________________________________
 *************************** Fold #: 2 ***************************
@@ -30,23 +30,23 @@ Model: "model_1"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- input_2 (InputLayer)        [(None, 3)]               0         
+ input_2 (InputLayer)        [(None, 6)]               0         
                                                                  
- dense_6 (Dense)             (None, 3)                 12        
+ dense_6 (Dense)             (None, 5)                 35        
                                                                  
- dense_7 (Dense)             (None, 3)                 12        
+ dense_7 (Dense)             (None, 5)                 30        
                                                                  
- dense_8 (Dense)             (None, 3)                 12        
+ dense_8 (Dense)             (None, 5)                 30        
                                                                  
- dense_9 (Dense)             (None, 3)                 12        
+ dense_9 (Dense)             (None, 5)                 30        
                                                                  
- dense_10 (Dense)            (None, 3)                 12        
+ dense_10 (Dense)            (None, 5)                 30        
                                                                  
- dense_11 (Dense)            (None, 2)                 8         
+ dense_11 (Dense)            (None, 2)                 12        
                                                                  
 =================================================================
-Total params: 68
-Trainable params: 68
+Total params: 167
+Trainable params: 167
 Non-trainable params: 0
 _________________________________________________________________
 *************************** Fold #: 3 ***************************
@@ -54,23 +54,23 @@ Model: "model_2"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- input_3 (InputLayer)        [(None, 3)]               0         
+ input_3 (InputLayer)        [(None, 6)]               0         
                                                                  
- dense_12 (Dense)            (None, 3)                 12        
+ dense_12 (Dense)            (None, 5)                 35        
                                                                  
- dense_13 (Dense)            (None, 3)                 12        
+ dense_13 (Dense)            (None, 5)                 30        
                                                                  
- dense_14 (Dense)            (None, 3)                 12        
+ dense_14 (Dense)            (None, 5)                 30        
                                                                  
- dense_15 (Dense)            (None, 3)                 12        
+ dense_15 (Dense)            (None, 5)                 30        
                                                                  
- dense_16 (Dense)            (None, 3)                 12        
+ dense_16 (Dense)            (None, 5)                 30        
                                                                  
- dense_17 (Dense)            (None, 2)                 8         
+ dense_17 (Dense)            (None, 2)                 12        
                                                                  
 =================================================================
-Total params: 68
-Trainable params: 68
+Total params: 167
+Trainable params: 167
 Non-trainable params: 0
 _________________________________________________________________
 *************************** Fold #: 4 ***************************
@@ -78,23 +78,23 @@ Model: "model_3"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- input_4 (InputLayer)        [(None, 3)]               0         
+ input_4 (InputLayer)        [(None, 6)]               0         
                                                                  
- dense_18 (Dense)            (None, 3)                 12        
+ dense_18 (Dense)            (None, 5)                 35        
                                                                  
- dense_19 (Dense)            (None, 3)                 12        
+ dense_19 (Dense)            (None, 5)                 30        
                                                                  
- dense_20 (Dense)            (None, 3)                 12        
+ dense_20 (Dense)            (None, 5)                 30        
                                                                  
- dense_21 (Dense)            (None, 3)                 12        
+ dense_21 (Dense)            (None, 5)                 30        
                                                                  
- dense_22 (Dense)            (None, 3)                 12        
+ dense_22 (Dense)            (None, 5)                 30        
                                                                  
- dense_23 (Dense)            (None, 2)                 8         
+ dense_23 (Dense)            (None, 2)                 12        
                                                                  
 =================================================================
-Total params: 68
-Trainable params: 68
+Total params: 167
+Trainable params: 167
 Non-trainable params: 0
 _________________________________________________________________
 *************************** Fold #: 5 ***************************
@@ -102,23 +102,23 @@ Model: "model_4"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- input_5 (InputLayer)        [(None, 3)]               0         
+ input_5 (InputLayer)        [(None, 6)]               0         
                                                                  
- dense_24 (Dense)            (None, 3)                 12        
+ dense_24 (Dense)            (None, 5)                 35        
                                                                  
- dense_25 (Dense)            (None, 3)                 12        
+ dense_25 (Dense)            (None, 5)                 30        
                                                                  
- dense_26 (Dense)            (None, 3)                 12        
+ dense_26 (Dense)            (None, 5)                 30        
                                                                  
- dense_27 (Dense)            (None, 3)                 12        
+ dense_27 (Dense)            (None, 5)                 30        
                                                                  
- dense_28 (Dense)            (None, 3)                 12        
+ dense_28 (Dense)            (None, 5)                 30        
                                                                  
- dense_29 (Dense)            (None, 2)                 8         
+ dense_29 (Dense)            (None, 2)                 12        
                                                                  
 =================================================================
-Total params: 68
-Trainable params: 68
+Total params: 167
+Trainable params: 167
 Non-trainable params: 0
 _________________________________________________________________
 *************************** Fold #: 6 ***************************
@@ -126,23 +126,23 @@ Model: "model_5"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- input_6 (InputLayer)        [(None, 3)]               0         
+ input_6 (InputLayer)        [(None, 6)]               0         
                                                                  
- dense_30 (Dense)            (None, 3)                 12        
+ dense_30 (Dense)            (None, 5)                 35        
                                                                  
- dense_31 (Dense)            (None, 3)                 12        
+ dense_31 (Dense)            (None, 5)                 30        
                                                                  
- dense_32 (Dense)            (None, 3)                 12        
+ dense_32 (Dense)            (None, 5)                 30        
                                                                  
- dense_33 (Dense)            (None, 3)                 12        
+ dense_33 (Dense)            (None, 5)                 30        
                                                                  
- dense_34 (Dense)            (None, 3)                 12        
+ dense_34 (Dense)            (None, 5)                 30        
                                                                  
- dense_35 (Dense)            (None, 2)                 8         
+ dense_35 (Dense)            (None, 2)                 12        
                                                                  
 =================================================================
-Total params: 68
-Trainable params: 68
+Total params: 167
+Trainable params: 167
 Non-trainable params: 0
 _________________________________________________________________
 *************************** Fold #: 7 ***************************
@@ -150,23 +150,23 @@ Model: "model_6"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- input_7 (InputLayer)        [(None, 3)]               0         
+ input_7 (InputLayer)        [(None, 6)]               0         
                                                                  
- dense_36 (Dense)            (None, 3)                 12        
+ dense_36 (Dense)            (None, 5)                 35        
                                                                  
- dense_37 (Dense)            (None, 3)                 12        
+ dense_37 (Dense)            (None, 5)                 30        
                                                                  
- dense_38 (Dense)            (None, 3)                 12        
+ dense_38 (Dense)            (None, 5)                 30        
                                                                  
- dense_39 (Dense)            (None, 3)                 12        
+ dense_39 (Dense)            (None, 5)                 30        
                                                                  
- dense_40 (Dense)            (None, 3)                 12        
+ dense_40 (Dense)            (None, 5)                 30        
                                                                  
- dense_41 (Dense)            (None, 2)                 8         
+ dense_41 (Dense)            (None, 2)                 12        
                                                                  
 =================================================================
-Total params: 68
-Trainable params: 68
+Total params: 167
+Trainable params: 167
 Non-trainable params: 0
 _________________________________________________________________
 *************************** Fold #: 8 ***************************
@@ -174,23 +174,23 @@ Model: "model_7"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- input_8 (InputLayer)        [(None, 3)]               0         
+ input_8 (InputLayer)        [(None, 6)]               0         
                                                                  
- dense_42 (Dense)            (None, 3)                 12        
+ dense_42 (Dense)            (None, 5)                 35        
                                                                  
- dense_43 (Dense)            (None, 3)                 12        
+ dense_43 (Dense)            (None, 5)                 30        
                                                                  
- dense_44 (Dense)            (None, 3)                 12        
+ dense_44 (Dense)            (None, 5)                 30        
                                                                  
- dense_45 (Dense)            (None, 3)                 12        
+ dense_45 (Dense)            (None, 5)                 30        
                                                                  
- dense_46 (Dense)            (None, 3)                 12        
+ dense_46 (Dense)            (None, 5)                 30        
                                                                  
- dense_47 (Dense)            (None, 2)                 8         
+ dense_47 (Dense)            (None, 2)                 12        
                                                                  
 =================================================================
-Total params: 68
-Trainable params: 68
+Total params: 167
+Trainable params: 167
 Non-trainable params: 0
 _________________________________________________________________
 *************************** Fold #: 9 ***************************
@@ -198,23 +198,23 @@ Model: "model_8"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- input_9 (InputLayer)        [(None, 3)]               0         
+ input_9 (InputLayer)        [(None, 6)]               0         
                                                                  
- dense_48 (Dense)            (None, 3)                 12        
+ dense_48 (Dense)            (None, 5)                 35        
                                                                  
- dense_49 (Dense)            (None, 3)                 12        
+ dense_49 (Dense)            (None, 5)                 30        
                                                                  
- dense_50 (Dense)            (None, 3)                 12        
+ dense_50 (Dense)            (None, 5)                 30        
                                                                  
- dense_51 (Dense)            (None, 3)                 12        
+ dense_51 (Dense)            (None, 5)                 30        
                                                                  
- dense_52 (Dense)            (None, 3)                 12        
+ dense_52 (Dense)            (None, 5)                 30        
                                                                  
- dense_53 (Dense)            (None, 2)                 8         
+ dense_53 (Dense)            (None, 2)                 12        
                                                                  
 =================================================================
-Total params: 68
-Trainable params: 68
+Total params: 167
+Trainable params: 167
 Non-trainable params: 0
 _________________________________________________________________
 *************************** Fold #: 10 ***************************
@@ -222,22 +222,22 @@ Model: "model_9"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- input_10 (InputLayer)       [(None, 3)]               0         
+ input_10 (InputLayer)       [(None, 6)]               0         
                                                                  
- dense_54 (Dense)            (None, 3)                 12        
+ dense_54 (Dense)            (None, 5)                 35        
                                                                  
- dense_55 (Dense)            (None, 3)                 12        
+ dense_55 (Dense)            (None, 5)                 30        
                                                                  
- dense_56 (Dense)            (None, 3)                 12        
+ dense_56 (Dense)            (None, 5)                 30        
                                                                  
- dense_57 (Dense)            (None, 3)                 12        
+ dense_57 (Dense)            (None, 5)                 30        
                                                                  
- dense_58 (Dense)            (None, 3)                 12        
+ dense_58 (Dense)            (None, 5)                 30        
                                                                  
- dense_59 (Dense)            (None, 2)                 8         
+ dense_59 (Dense)            (None, 2)                 12        
                                                                  
 =================================================================
-Total params: 68
-Trainable params: 68
+Total params: 167
+Trainable params: 167
 Non-trainable params: 0
 _________________________________________________________________
