@@ -184,7 +184,6 @@ def process_data(
         if "labels" in config_dict.keys():
             if "label" in config_dict["labels"].keys():
                 label_key = config_dict["labels"]["label"]
-                dataframe["label"] = dataframe[label_key]
 
             try:
                 for idx, data_range in config_dict["labels"].items():
@@ -232,7 +231,9 @@ def process_data(
     Q3 = dataframe[label_key].quantile(0.75)
     IQR = Q3 - Q1
 
-    dataframe = dataframe.query("(@Q1 - 1.5 * @IQR) <= label <= (@Q3 + 1.5 * @IQR)")
+    dataframe = dataframe.query(
+        f"(@Q1 - 1.5 * @IQR) <= {label_key} <= (@Q3 + 1.5 * @IQR)"
+    )
 
     dataset = dataframe.values
     print(f"Size of dataset: {dataset.shape}", file=sys.stderr)
