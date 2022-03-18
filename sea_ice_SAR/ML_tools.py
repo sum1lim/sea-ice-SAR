@@ -184,6 +184,7 @@ def process_data(
         if "labels" in config_dict.keys():
             if "label" in config_dict["labels"].keys():
                 label_key = config_dict["labels"]["label"]
+                dataframe["label"] = dataframe[label_key]
 
             try:
                 for idx, data_range in config_dict["labels"].items():
@@ -227,6 +228,12 @@ def process_data(
         CNN_dataset = np.array([np.array(v) for v in dataframe["CNN"].values])
         dataframe = dataframe.drop(columns=["CNN"])
 
+    Q1 = dataframe[label_key].quantile(0.25)
+    Q3 = dataframe[label_key].quantile(0.75)
+    IQR = Q3 - Q1
+
+    dataframe = dataframe.query("(@Q1 - 1.5 * @IQR) <= label <= (@Q3 + 1.5 * @IQR)")
+
     dataset = dataframe.values
     print(f"Size of dataset: {dataset.shape}", file=sys.stderr)
     X = dataset[:, 1:].astype(float)
@@ -234,15 +241,16 @@ def process_data(
 
     if regression:
         if resampling:
-            print(f"Before oversampling: {Counter(Y)}", file=sys.stdout)
-            undersample = RandomUnderSampler(sampling_strategy="majority")
-            resampled_X_Y, _ = undersample.fit_resample(
+            clusters = pandas.cut(Y, bins=5, labels=[i for i in range(5)])
+            print(f"Before oversampling: {Counter(clusters)}", file=sys.stdout)
+            undersample = RandomUnderSampler(sampling_strategy="not minority")
+            resampled_X_Y, clusters = undersample.fit_resample(
                 np.insert(X, 0, [Y], axis=1),
-                pandas.cut(Y, bins=10, labels=[i for i in range(10)]),
+                clusters,
             )
             Y = resampled_X_Y[:, [0]].transpose()[0]
             X = resampled_X_Y[:, [i for i in range(1, resampled_X_Y.shape[1])]]
-            print(f"After oversampling: {Counter(Y)}", file=sys.stdout)
+            print(f"After oversampling: {Counter(clusters)}", file=sys.stdout)
 
         return X, CNN_dataset, Y
     else:
