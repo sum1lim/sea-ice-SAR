@@ -65,7 +65,6 @@ def main(args):
         K,
         _,
         min_num_points,
-        smote,
         masks,
         _,
     ) = config_parser(args.ml_config)
@@ -88,7 +87,6 @@ def main(args):
         args.ml_config,
         regression=False,
         min_num_points=min_num_points,
-        smote=smote,
         masks=masks,
     )
 

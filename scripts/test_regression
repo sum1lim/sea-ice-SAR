@@ -27,7 +27,6 @@ def main(args):
         _,
         verbosity,
         K,
-        _,
         min_num_points,
         _,
         masks,
