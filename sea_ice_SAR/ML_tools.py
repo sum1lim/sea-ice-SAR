@@ -309,11 +309,11 @@ def construct_confusion_matrix(classes, Y_te, y_pred, result_dir, k):
 
     print(cm_percentage, file=sys.stdout)
 
-    cm_csv = open(f"{result_dir}/confusion_matrix_{k+1}.csv", "w", newline="")
-    cm_writer = csv.writer(cm_csv)
-    cm_writer.writerow(np.insert(classes, 0, None, axis=0))
-    for i, row in enumerate(cm_counts):
-        cm_writer.writerow(np.insert(row, 0, classes[i], axis=0))
+    # cm_csv = open(f"{result_dir}/confusion_matrix_{k+1}.csv", "w", newline="")
+    # cm_writer = csv.writer(cm_csv)
+    # cm_writer.writerow(np.insert(classes, 0, None, axis=0))
+    # for i, row in enumerate(cm_counts):
+    #     cm_writer.writerow(np.insert(row, 0, classes[i], axis=0))
 
     sns.set(font_scale=0.5)
     sns.heatmap(cm_counts, linewidths=1, annot=True, fmt="g")

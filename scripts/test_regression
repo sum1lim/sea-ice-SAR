@@ -28,7 +28,7 @@ def main(args):
         verbosity,
         K,
         _,
-        _,
+        min_num_points,
         masks,
         CNN_layers,
     ) = config_parser(args.ml_config)
@@ -45,6 +45,7 @@ def main(args):
         masks=masks,
         resampling=True,
         CNN_layers=CNN_layers,
+        min_num_points=min_num_points,
     )
 
     if type(CNN_stacks) == np.ndarray:
