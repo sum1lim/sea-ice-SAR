@@ -1,7 +1,7 @@
 ---
 configuration:
-  train_data: [./data/thickness/train/thk.csv, ./data/thickness/train/thk_spk.csv]
-  test_data: [./data/thickness/test/thk.csv, ./data/thickness/test/thk_spk.csv]
+  train_data: [./data/roughness/train/rms.csv, ./data/roughness/train/rms_spk.csv]
+  test_data: [./data/roughness/test/rms.csv, ./data/roughness/test/rms_spk.csv]
   epochs: 10000
   verbosity: 0
   K-fold: 10
