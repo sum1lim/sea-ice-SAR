@@ -1,76 +1,76 @@
 *************************** Fold #: 1 ***************************
-311/311 - 0s - 464ms/epoch - 1ms/step
-Mean Absolute Error: 55.31067202191815
-RMSE: 71.26806574059465
-R2 Score: 0.038100395908303275
-Pearson's r: 0.2806759777900296
+311/311 - 0s - 495ms/epoch - 2ms/step
+Mean Absolute Error: 56.68992369001754
+RMSE: 73.7822579614205
+R2 Score: -0.030964439752541484
+Pearson's r: 0.22277307115475595
 *************************** Fold #: 2 ***************************
-311/311 - 0s - 429ms/epoch - 1ms/step
-Mean Absolute Error: 55.655372122208874
-RMSE: 72.70358505924735
-R2 Score: -0.0010400553040657012
-Pearson's r: 0.2402159526190262
+311/311 - 0s - 464ms/epoch - 1ms/step
+Mean Absolute Error: 56.64399491042371
+RMSE: 72.83333567849193
+R2 Score: -0.004616260445681419
+Pearson's r: 0.23658817334225485
 *************************** Fold #: 3 ***************************
-311/311 - 0s - 428ms/epoch - 1ms/step
-Mean Absolute Error: 57.147653609949636
-RMSE: 73.57520154791757
-R2 Score: -0.025186132716018547
-Pearson's r: 0.21519430597542988
+311/311 - 0s - 461ms/epoch - 1ms/step
+Mean Absolute Error: 56.623739321879825
+RMSE: 73.22323015238825
+R2 Score: -0.015400957918249247
+Pearson's r: 0.23574699713250438
 *************************** Fold #: 4 ***************************
-311/311 - 0s - 403ms/epoch - 1ms/step
-Mean Absolute Error: 55.8776323774432
-RMSE: 71.44165430353783
-R2 Score: 0.033408866271520954
-Pearson's r: 0.24267191951878114
+311/311 - 0s - 462ms/epoch - 1ms/step
+Mean Absolute Error: 56.5198496937324
+RMSE: 73.32734989812731
+R2 Score: -0.018290709051549836
+Pearson's r: 0.23427984555657413
 *************************** Fold #: 5 ***************************
-311/311 - 0s - 430ms/epoch - 1ms/step
-Mean Absolute Error: 54.95600175402528
-RMSE: 71.31677380920478
-R2 Score: 0.03678512848837667
-Pearson's r: 0.25463231186740126
+311/311 - 0s - 465ms/epoch - 1ms/step
+Mean Absolute Error: 56.09390904795012
+RMSE: 73.04082214800943
+R2 Score: -0.01034828371667196
+Pearson's r: 0.244233002939297
 *************************** Fold #: 6 ***************************
-311/311 - 0s - 427ms/epoch - 1ms/step
-Mean Absolute Error: 56.68631359552065
-RMSE: 73.60296903479578
-R2 Score: -0.02596009496476226
-Pearson's r: 0.22656494614426836
+311/311 - 0s - 463ms/epoch - 1ms/step
+Mean Absolute Error: 56.66470916693835
+RMSE: 73.36847280763355
+R2 Score: -0.019433170050756843
+Pearson's r: 0.22776690717599474
 *************************** Fold #: 7 ***************************
-311/311 - 0s - 426ms/epoch - 1ms/step
-Mean Absolute Error: 56.6318156972831
-RMSE: 72.18458365863276
-R2 Score: 0.013200969906753903
-Pearson's r: 0.2563446364557882
+311/311 - 0s - 461ms/epoch - 1ms/step
+Mean Absolute Error: 56.98530270270317
+RMSE: 73.98701016166241
+R2 Score: -0.036694411779282676
+Pearson's r: 0.21307441889039547
 *************************** Fold #: 8 ***************************
-311/311 - 0s - 425ms/epoch - 1ms/step
-Mean Absolute Error: 55.8778890764463
-RMSE: 71.61423025805118
-R2 Score: 0.028733390472810427
-Pearson's r: 0.2703792376188222
+311/311 - 0s - 467ms/epoch - 2ms/step
+Mean Absolute Error: 55.48175477804598
+RMSE: 71.9946662481883
+R2 Score: 0.018386669372328357
+Pearson's r: 0.23736170465813453
 *************************** Fold #: 9 ***************************
-311/311 - 0s - 431ms/epoch - 1ms/step
-Mean Absolute Error: 55.77142666089743
-RMSE: 71.32789444154305
-R2 Score: 0.03648471126480013
-Pearson's r: 0.25213646751742175
+311/311 - 0s - 470ms/epoch - 2ms/step
+Mean Absolute Error: 56.27571604748945
+RMSE: 72.77102587683702
+R2 Score: -0.0028980729451253406
+Pearson's r: 0.24393607016944585
 *************************** Fold #: 10 ***************************
-311/311 - 0s - 427ms/epoch - 1ms/step
-Mean Absolute Error: 56.77317130766226
-RMSE: 72.46405560332629
-R2 Score: 0.005545138314165032
-Pearson's r: 0.24637798686540058
+311/311 - 0s - 464ms/epoch - 1ms/step
+Mean Absolute Error: 55.49282969046919
+RMSE: 71.70050253261317
+R2 Score: 0.02639184881446355
+Pearson's r: 0.2368987729513526
 
-Mimimum MAE: 54.95600175402528
-Average MAE: 56.068794822335484
-Standard Deviation (MAE): 0.7074050613581426
+Mimimum MAE: 55.48175477804598
+Average MAE: 56.347172904964964
+Standard Deviation (MAE): 0.5129464020795867
 
-Minimum RMSE Score: 71.26806574059465
-Average RMSE Score: 72.14990134568512
-Standard Deviation (RMSE): 0.9119780732288836
+Minimum RMSE Score: 71.70050253261317
+Average RMSE Score: 73.0028673465372
+Standard Deviation (RMSE): 0.719572283494411
 
-Maximum R2 Score: 0.038100395908303275
-Average R2 Score: 0.014007231764188388
-Standard Deviation (R2 Score): 0.025011149405398034
+Maximum R2 Score: 0.02639184881446355
+Average R2 Score: -0.00938677874730669
+Standard Deviation (R2 Score): 0.019846474164244995
 
-Maximum Pearson's r: 0.2806759777900296
-Average Pearson's r: 0.24851937423723697
-Standard Deviation (Pearson's r): 0.0192176684990194
+Maximum Pearson's r: 0.244233002939297
+Average Pearson's r: 0.23326589639707093
+Standard Deviation (Pearson's r): 0.009605316683951908
