@@ -1,58 +1,58 @@
-Before oversampling: Counter({0: 14482, 1: 10480, 2: 6774, 3: 3386, 4: 1429})
-After oversampling: Counter({0: 1429, 1: 1429, 2: 1429, 3: 1429, 4: 1429})
-Before oversampling: Counter({0: 4664, 1: 2475, 2: 1573, 3: 852, 4: 366})
-After oversampling: Counter({0: 366, 1: 366, 2: 366, 3: 366, 4: 366})
+Before oversampling: Counter({0: 12980, 1: 9627, 2: 5896, 3: 3144, 4: 1282})
+After oversampling: Counter({0: 1282, 1: 1282, 2: 1282, 3: 1282, 4: 1282})
+Before oversampling: Counter({0: 5392, 1: 3838, 2: 2509, 3: 1219, 4: 519})
+After oversampling: Counter({0: 519, 1: 519, 2: 519, 3: 519, 4: 519})
 Model: "model"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- input_10 (InputLayer)       [(None, 7, 7, 4, 1)]      0         
+ input_1 (InputLayer)        [(None, 7, 7, 4, 1)]      0         
                                                                  
- zero_padding3d_3 (ZeroPaddi  (None, 8, 8, 4, 1)       0         
- ng3D)                                                           
-                                                                 
- conv3d_18 (Conv3D)          (None, 8, 8, 4, 8)        224       
-                                                                 
- max_pooling3d_6 (MaxPooling  (None, 4, 4, 2, 8)       0         
+ zero_padding3d (ZeroPadding  (None, 8, 8, 4, 1)       0         
  3D)                                                             
                                                                  
- conv3d_19 (Conv3D)          (None, 4, 4, 2, 4)        868       
+ conv3d (Conv3D)             (None, 8, 8, 4, 8)        224       
                                                                  
- max_pooling3d_7 (MaxPooling  (None, 2, 2, 1, 4)       0         
+ max_pooling3d (MaxPooling3D  (None, 4, 4, 2, 8)       0         
+ )                                                               
+                                                                 
+ conv3d_1 (Conv3D)           (None, 4, 4, 2, 4)        868       
+                                                                 
+ max_pooling3d_1 (MaxPooling  (None, 2, 2, 1, 4)       0         
  3D)                                                             
                                                                  
- conv3d_20 (Conv3D)          (None, 2, 2, 1, 4)        436       
+ conv3d_2 (Conv3D)           (None, 2, 2, 1, 4)        436       
                                                                  
 =================================================================
 Total params: 1,528
 Trainable params: 1,528
 Non-trainable params: 0
 _________________________________________________________________
-Performance on train dataset (mean error): 0.005288821645081043
+Performance on train dataset (mean error): 0.00047025433741509914
 Model: "model_1"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- input_10 (InputLayer)       [(None, 7, 7, 4, 1)]      0         
+ input_1 (InputLayer)        [(None, 7, 7, 4, 1)]      0         
                                                                  
- zero_padding3d_3 (ZeroPaddi  (None, 8, 8, 4, 1)       0         
- ng3D)                                                           
-                                                                 
- conv3d_18 (Conv3D)          (None, 8, 8, 4, 8)        224       
-                                                                 
- max_pooling3d_6 (MaxPooling  (None, 4, 4, 2, 8)       0         
+ zero_padding3d (ZeroPadding  (None, 8, 8, 4, 1)       0         
  3D)                                                             
                                                                  
- conv3d_19 (Conv3D)          (None, 4, 4, 2, 4)        868       
+ conv3d (Conv3D)             (None, 8, 8, 4, 8)        224       
                                                                  
- max_pooling3d_7 (MaxPooling  (None, 2, 2, 1, 4)       0         
+ max_pooling3d (MaxPooling3D  (None, 4, 4, 2, 8)       0         
+ )                                                               
+                                                                 
+ conv3d_1 (Conv3D)           (None, 4, 4, 2, 4)        868       
+                                                                 
+ max_pooling3d_1 (MaxPooling  (None, 2, 2, 1, 4)       0         
  3D)                                                             
                                                                  
- conv3d_20 (Conv3D)          (None, 2, 2, 1, 4)        436       
+ conv3d_2 (Conv3D)           (None, 2, 2, 1, 4)        436       
                                                                  
 =================================================================
 Total params: 1,528
 Trainable params: 1,528
 Non-trainable params: 0
 _________________________________________________________________
-Performance on test dataset (mean error): 0.003515962278470397
+Performance on test dataset (mean error): 0.00159823102876544
