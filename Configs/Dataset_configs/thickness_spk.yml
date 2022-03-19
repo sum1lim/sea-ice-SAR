@@ -203,6 +203,6 @@ test_data:
     col: 6
 
 output_dir:
-  train_data: ./data/thickness/train/aggr_spk.csv
-  test_data: ./data/thickness/test/aggr_spk.csv
+  train_data: ./data/thickness/train/rms_spk.csv
+  test_data: ./data/thickness/test/rms_spk.csv
 ...

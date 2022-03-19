@@ -203,6 +203,6 @@ test_data:
     col: 6
 
 output_dir:
-  train_data: ./data/roughness/train/aggr_spk.csv
-  test_data: ./data/roughness/test/aggr_spk.csv
+  train_data: ./data/roughness/train/rms_spk.csv
+  test_data: ./data/roughness/test/rms_spk.csv
 ...

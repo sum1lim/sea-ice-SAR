@@ -1,4 +1,8 @@
-Model: "model_8"
+Before oversampling: Counter({0: 14482, 1: 10480, 2: 6774, 3: 3386, 4: 1429})
+After oversampling: Counter({0: 1429, 1: 1429, 2: 1429, 3: 1429, 4: 1429})
+Before oversampling: Counter({0: 4664, 1: 2475, 2: 1573, 3: 852, 4: 366})
+After oversampling: Counter({0: 366, 1: 366, 2: 366, 3: 366, 4: 366})
+Model: "model_2"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
@@ -24,8 +28,8 @@ Total params: 1,528
 Trainable params: 1,528
 Non-trainable params: 0
 _________________________________________________________________
-Performance on train dataset (mean error): 0.0007692629587836564
-Model: "model_9"
+Performance on train dataset (mean error): 0.0009168990654870868
+Model: "model_3"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
@@ -51,4 +55,4 @@ Total params: 1,528
 Trainable params: 1,528
 Non-trainable params: 0
 _________________________________________________________________
-Performance on test dataset (mean error): 0.00031845824560150504
+Performance on test dataset (mean error): 0.00035859382478520274
