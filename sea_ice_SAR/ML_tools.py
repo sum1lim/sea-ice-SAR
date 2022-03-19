@@ -13,7 +13,6 @@ from collections import Counter
 from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import KFold
-from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
 
 
@@ -257,8 +256,8 @@ def process_data(
     else:
         if resampling:
             print(f"Before oversampling: {Counter(Y)}", file=sys.stdout)
-            oversample = RandomOverSampler(sampling_strategy="not majority")
-            X, Y = oversample.fit_resample(X, Y)
+            undersample = RandomUnderSampler(sampling_strategy="not minority")
+            X, Y = undersample.fit_resample(X, Y)
             print(f"After oversampling: {Counter(Y)}", file=sys.stdout)
 
         encoder = LabelEncoder()
