@@ -27,17 +27,6 @@ train_data:
     label: 3
     row: 7
     col: 6
-  ./data/roughness/20150418_234849.csv:
-    Mask: ./data/Mask/2015_masked.tif
-    SAR_data: 
-      File: ./data/SAR/20150418_234849_canny.tif
-      Bands:
-        1: HH
-    lat: 4
-    lon: 5
-    label: 3
-    row: 7
-    col: 6
   ./data/roughness/20150419_132406.csv:
     Mask: ./data/Mask/2015_masked.tif
     SAR_data: 
@@ -53,17 +42,6 @@ train_data:
     Mask: ./data/Mask/2015_masked.tif
     SAR_data: 
       File: ./data/SAR/20150419_132521_canny.tif
-      Bands:
-        1: HH
-    lat: 4
-    lon: 5
-    label: 3
-    row: 7
-    col: 6
-  ./data/roughness/20150419_231930.csv:
-    Mask: ./data/Mask/2015_masked.tif
-    SAR_data: 
-      File: ./data/SAR/20150419_231930_canny.tif
       Bands:
         1: HH
     lat: 4
@@ -93,17 +71,6 @@ train_data:
     label: 3
     row: 7
     col: 6
-  ./data/roughness/20160409_233615.csv:
-    Mask: ./data/Mask/2016_masked.tif
-    SAR_data: 
-      File: ./data/SAR/20160409_233615_canny.tif
-      Bands:
-        1: HH
-    lat: 4
-    lon: 5
-    label: 3
-    row: 7
-    col: 6
   ./data/roughness/20160410_131138.csv:
     Mask: ./data/Mask/2016_masked.tif
     SAR_data: 
@@ -115,18 +82,6 @@ train_data:
     label: 3
     row: 7
     col: 6
-  ./data/roughness/20160410_131252.csv:
-    Mask: ./data/Mask/2016_masked.tif
-    SAR_data: 
-      File: ./data/SAR/20160410_131252_canny.tif
-      Bands:
-        1: HH
-    lat: 4
-    lon: 5
-    label: 3
-    row: 7
-    col: 6
-test_data: 
   ./data/roughness/20180429_140506.csv:
     Mask: ./data/Mask/2018_masked.tif
     SAR_data: 
@@ -149,10 +104,10 @@ test_data:
     label: 3
     row: 7
     col: 6
-  ./data/roughness/20180429_235956.csv:
+  ./data/roughness/20180430_133541.csv:
     Mask: ./data/Mask/2018_masked.tif
     SAR_data: 
-      File: ./data/SAR/20180429_235956_canny.tif
+      File: ./data/SAR/20180430_133541_canny.tif
       Bands:
         1: HH
     lat: 4
@@ -160,10 +115,55 @@ test_data:
     label: 3
     row: 7
     col: 6
-  ./data/roughness/20180430_133541.csv:
+test_data:
+  ./data/roughness/20150418_234849.csv:
+    Mask: ./data/Mask/2015_masked.tif
+    SAR_data: 
+      File: ./data/SAR/20150418_234849_canny.tif
+      Bands:
+        1: HH
+    lat: 4
+    lon: 5
+    label: 3
+    row: 7
+    col: 6
+  ./data/roughness/20150419_231930.csv:
+    Mask: ./data/Mask/2015_masked.tif
+    SAR_data: 
+      File: ./data/SAR/20150419_231930_canny.tif
+      Bands:
+        1: HH
+    lat: 4
+    lon: 5
+    label: 3
+    row: 7
+    col: 6
+  ./data/roughness/20160409_233615.csv:
+    Mask: ./data/Mask/2016_masked.tif
+    SAR_data: 
+      File: ./data/SAR/20160409_233615_canny.tif
+      Bands:
+        1: HH
+    lat: 4
+    lon: 5
+    label: 3
+    row: 7
+    col: 6
+  ./data/roughness/20160410_131252.csv:
+    Mask: ./data/Mask/2016_masked.tif
+    SAR_data: 
+      File: ./data/SAR/20160410_131252_canny.tif
+      Bands:
+        1: HH
+    lat: 4
+    lon: 5
+    label: 3
+    row: 7
+    col: 6 
+  ./data/roughness/20180429_235956.csv:
     Mask: ./data/Mask/2018_masked.tif
     SAR_data: 
-      File: ./data/SAR/20180430_133541_canny.tif
+      File: ./data/SAR/20180429_235956_canny.tif
       Bands:
         1: HH
     lat: 4
