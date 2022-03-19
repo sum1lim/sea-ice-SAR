@@ -102,7 +102,7 @@ def NN(
     else:
         model = Model(inputs=[cat_input], outputs=[output_layer])
 
-    model.compile(loss="mean_squared_error", optimizer="adam", metrics=["rmse"])
+    model.compile(loss="mean_squared_error", optimizer="adam", metrics=["mse"])
     model.summary()
 
     return model
