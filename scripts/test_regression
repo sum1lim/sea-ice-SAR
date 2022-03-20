@@ -45,7 +45,7 @@ def main(args):
         masks=masks,
         resampling=False,
         CNN_layers=CNN_layers,
-        min_num_points=min_num_points,
+        # min_num_points=min_num_points,
     )
 
     if type(CNN_stacks) == np.ndarray:

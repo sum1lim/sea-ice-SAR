@@ -162,8 +162,6 @@ def process_data(
                 on=["src_dir", "row", "col", "mask"],
                 how="left",
             )
-            if dropna:
-                dataframe = dataframe.dropna()
 
     if type(CNN_stack) == np.ndarray:
         CNN_stack = np.reshape(
@@ -171,6 +169,9 @@ def process_data(
             (len(CNN_stack), input_dimension, input_dimension, num_CNN_layers, 1),
         )
         dataframe["CNN"] = CNN_stack.tolist()
+
+    if dropna:
+        dataframe = dataframe.dropna()
 
     dataframe.drop(
         dataframe[dataframe["num_points"] < min_num_points].index, inplace=True
