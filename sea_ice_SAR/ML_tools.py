@@ -1,5 +1,4 @@
 import sys
-import csv
 import yaml
 import smogn
 import numpy as np
@@ -221,6 +220,31 @@ def process_data(
         except KeyError:
             continue
 
+    # SMOTE over/under-sampling
+    if regression and resampling:
+        print(
+            f"Before SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
+            file=sys.stdout,
+        )
+        print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
+        dataframe = dataframe.dropna()
+        dataframe.reset_index(drop=True, inplace=True)
+        while True:
+            try:
+                dataframe = smogn.smoter(
+                    data=dataframe, y=label_key, samp_method="extreme"
+                )
+                break
+            except ValueError:
+                continue
+        dataframe = dataframe.dropna()
+        dataframe.reset_index(drop=True, inplace=True)
+        print(
+            f"After SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
+            file=sys.stdout,
+        )
+        print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
+
     CNN_dataset = None
     if type(CNN_stack) == np.ndarray:
         CNN_dataset = np.array([np.array(v) for v in dataframe["CNN"].values])
@@ -240,18 +264,6 @@ def process_data(
     Y = dataset[:, 0]
 
     if regression:
-        if resampling:
-            clusters = pandas.cut(Y, bins=5, labels=[i for i in range(5)])
-            print(f"Before oversampling: {Counter(clusters)}", file=sys.stdout)
-            undersample = RandomUnderSampler(sampling_strategy="not minority")
-            resampled_X_Y, clusters = undersample.fit_resample(
-                np.insert(X, 0, [Y], axis=1),
-                clusters,
-            )
-            Y = resampled_X_Y[:, [0]].transpose()[0]
-            X = resampled_X_Y[:, [i for i in range(1, resampled_X_Y.shape[1])]]
-            print(f"After oversampling: {Counter(clusters)}", file=sys.stdout)
-
         return X, CNN_dataset, Y
     else:
         if resampling:
