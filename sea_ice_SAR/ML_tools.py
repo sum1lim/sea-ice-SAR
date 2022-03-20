@@ -222,7 +222,7 @@ def process_data(
             continue
 
     # SMOTE over/under-sampling
-    if regression and resampling:
+    if regression and resampling and "CNN" not in dataframe:
         print(
             f"Before SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
             file=sys.stdout,
