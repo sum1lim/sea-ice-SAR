@@ -93,7 +93,14 @@ def organize_data(expert_data, SAR_data, window_size, mask_file):
                                 int(mask_arr[mask_row, mask_col]),
                             ] + window(band_arr, row, col, window_size)
                         except IndexError:
-                            continue
+                            pixels[(row, col)] = [
+                                [float(datum[2])],  # label
+                                SAR_data["File"],
+                                row,
+                                col,
+                                1,
+                                int(mask_arr[mask_row, mask_col]),
+                            ] + [None for _ in range(window_size**2)]
                     else:
                         pixels[(row, col)][4] += 1  # num_points
                         pixels[(row, col)][0].append(float(datum[2]))  # label
