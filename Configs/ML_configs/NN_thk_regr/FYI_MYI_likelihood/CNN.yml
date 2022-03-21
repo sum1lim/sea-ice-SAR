@@ -21,7 +21,7 @@ configuration:
   epochs: 10000
   K-fold: 10
   # hidden_size: 100
-  min_num_points: 2
+  min_num_points: 1
   smote: False 
 
 drop_features:
