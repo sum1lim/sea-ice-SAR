@@ -236,16 +236,19 @@ def process_data(
             print(f"Before oversampling: {Counter(Y_classes)}", file=sys.stdout)
             undersample = OneSidedSelection()
 
+            dataframe["idx"] = dataframe.index
             if type(CNN_stack) == np.ndarray:
-                dataframe["idx"] = dataframe.index
+
                 new_data, Y_classes = undersample.fit_resample(
                     dataframe.drop(["CNN"], axis=1), Y_classes
                 )
                 dataframe = new_data.merge(
                     dataframe[["idx", "CNN"]], left_on="idx", right_on="idx"
-                ).drop(["idx"], axis=1)
+                )
             else:
                 dataframe, Y_classes = undersample.fit_resample(dataframe, Y_classes)
+
+            dataframe = dataframe.drop(["idx"], axis=1)
 
             print(f"After oversampling: {Counter(Y_classes)}", file=sys.stdout)
         elif resampling:
