@@ -1,0 +1,191 @@
+*************************** Fold #: 1 ***************************
+Model: "model"
+__________________________________________________________________________________________________
+ Layer (type)                   Output Shape         Param #     Connected to                     
+==================================================================================================
+ conv (InputLayer)              [(None, 7, 7, 4, 1)  0           []                               
+                                ]                                                                 
+                                                                                                  
+ zero_padding3d (ZeroPadding3D)  (None, 8, 8, 4, 1)  0           ['conv[0][0]']                   
+                                                                                                  
+ conv3d (Conv3D)                (None, 8, 8, 4, 8)   224         ['zero_padding3d[0][0]']         
+                                                                                                  
+ max_pooling3d (MaxPooling3D)   (None, 4, 4, 2, 8)   0           ['conv3d[0][0]']                 
+                                                                                                  
+ conv3d_1 (Conv3D)              (None, 4, 4, 2, 4)   868         ['max_pooling3d[0][0]']          
+                                                                                                  
+ max_pooling3d_1 (MaxPooling3D)  (None, 2, 2, 1, 4)  0           ['conv3d_1[0][0]']               
+                                                                                                  
+ cat (InputLayer)               [(None, 6)]          0           []                               
+                                                                                                  
+ flatten (Flatten)              (None, 16)           0           ['max_pooling3d_1[0][0]']        
+                                                                                                  
+ concatenate (Concatenate)      (None, 22)           0           ['cat[0][0]',                    
+                                                                  'flatten[0][0]']                
+                                                                                                  
+ dense (Dense)                  (None, 10)           230         ['concatenate[0][0]']            
+                                                                                                  
+ dense_1 (Dense)                (None, 10)           110         ['dense[0][0]']                  
+                                                                                                  
+ dense_2 (Dense)                (None, 10)           110         ['dense_1[0][0]']                
+                                                                                                  
+ dense_3 (Dense)                (None, 10)           110         ['dense_2[0][0]']                
+                                                                                                  
+ dense_4 (Dense)                (None, 10)           110         ['dense_3[0][0]']                
+                                                                                                  
+ dense_5 (Dense)                (None, 1)            11          ['dense_4[0][0]']                
+                                                                                                  
+==================================================================================================
+Total params: 1,773
+Trainable params: 1,773
+Non-trainable params: 0
+__________________________________________________________________________________________________
+Epoch 1/10000
+
+Epoch 1: val_loss improved from inf to 36341.82031, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 2s - loss: 32656.9004 - mae: 156.4519 - val_loss: 36341.8203 - val_mae: 166.0500 - 2s/epoch - 758ms/step
+Epoch 2/10000
+
+Epoch 2: val_loss improved from 36341.82031 to 36341.00781, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32656.1484 - mae: 156.4495 - val_loss: 36341.0078 - val_mae: 166.0475 - 995ms/epoch - 497ms/step
+Epoch 3/10000
+
+Epoch 3: val_loss improved from 36341.00781 to 36340.18750, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32655.3809 - mae: 156.4471 - val_loss: 36340.1875 - val_mae: 166.0451 - 991ms/epoch - 496ms/step
+Epoch 4/10000
+
+Epoch 4: val_loss improved from 36340.18750 to 36339.34766, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32654.5996 - mae: 156.4446 - val_loss: 36339.3477 - val_mae: 166.0425 - 1s/epoch - 546ms/step
+Epoch 5/10000
+
+Epoch 5: val_loss improved from 36339.34766 to 36338.48438, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32653.8008 - mae: 156.4420 - val_loss: 36338.4844 - val_mae: 166.0399 - 1s/epoch - 573ms/step
+Epoch 6/10000
+
+Epoch 6: val_loss improved from 36338.48438 to 36337.60938, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32652.9844 - mae: 156.4394 - val_loss: 36337.6094 - val_mae: 166.0373 - 1s/epoch - 537ms/step
+Epoch 7/10000
+
+Epoch 7: val_loss improved from 36337.60938 to 36336.71094, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32652.1602 - mae: 156.4368 - val_loss: 36336.7109 - val_mae: 166.0346 - 1s/epoch - 565ms/step
+Epoch 8/10000
+
+Epoch 8: val_loss improved from 36336.71094 to 36335.78906, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32651.3066 - mae: 156.4341 - val_loss: 36335.7891 - val_mae: 166.0318 - 1s/epoch - 566ms/step
+Epoch 9/10000
+
+Epoch 9: val_loss improved from 36335.78906 to 36334.83984, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32650.4375 - mae: 156.4313 - val_loss: 36334.8398 - val_mae: 166.0289 - 1s/epoch - 571ms/step
+Epoch 10/10000
+
+Epoch 10: val_loss improved from 36334.83984 to 36333.85938, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32649.5312 - mae: 156.4284 - val_loss: 36333.8594 - val_mae: 166.0260 - 1s/epoch - 536ms/step
+Epoch 11/10000
+
+Epoch 11: val_loss improved from 36333.85938 to 36332.85938, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32648.6094 - mae: 156.4254 - val_loss: 36332.8594 - val_mae: 166.0230 - 1s/epoch - 566ms/step
+Epoch 12/10000
+
+Epoch 12: val_loss improved from 36332.85938 to 36331.82031, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32647.6602 - mae: 156.4224 - val_loss: 36331.8203 - val_mae: 166.0198 - 1s/epoch - 571ms/step
+Epoch 13/10000
+
+Epoch 13: val_loss improved from 36331.82031 to 36330.74219, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32646.6680 - mae: 156.4192 - val_loss: 36330.7422 - val_mae: 166.0166 - 1s/epoch - 537ms/step
+Epoch 14/10000
+
+Epoch 14: val_loss improved from 36330.74219 to 36329.62500, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32645.6445 - mae: 156.4160 - val_loss: 36329.6250 - val_mae: 166.0132 - 1s/epoch - 565ms/step
+Epoch 15/10000
+
+Epoch 15: val_loss improved from 36329.62500 to 36328.46094, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32644.5879 - mae: 156.4126 - val_loss: 36328.4609 - val_mae: 166.0098 - 1s/epoch - 569ms/step
+Epoch 16/10000
+
+Epoch 16: val_loss improved from 36328.46094 to 36327.24609, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32643.4785 - mae: 156.4090 - val_loss: 36327.2461 - val_mae: 166.0061 - 1s/epoch - 574ms/step
+Epoch 17/10000
+
+Epoch 17: val_loss improved from 36327.24609 to 36325.96875, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32642.3164 - mae: 156.4053 - val_loss: 36325.9688 - val_mae: 166.0022 - 1s/epoch - 536ms/step
+Epoch 18/10000
+
+Epoch 18: val_loss improved from 36325.96875 to 36324.62891, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32641.1016 - mae: 156.4014 - val_loss: 36324.6289 - val_mae: 165.9982 - 1s/epoch - 576ms/step
+Epoch 19/10000
+
+Epoch 19: val_loss improved from 36324.62891 to 36323.21484, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32639.8301 - mae: 156.3974 - val_loss: 36323.2148 - val_mae: 165.9939 - 1s/epoch - 538ms/step
+Epoch 20/10000
+
+Epoch 20: val_loss improved from 36323.21484 to 36321.72266, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32638.4785 - mae: 156.3931 - val_loss: 36321.7227 - val_mae: 165.9894 - 1s/epoch - 566ms/step
+Epoch 21/10000
+
+Epoch 21: val_loss improved from 36321.72266 to 36320.13672, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32637.0547 - mae: 156.3885 - val_loss: 36320.1367 - val_mae: 165.9847 - 1s/epoch - 573ms/step
+Epoch 22/10000
+
+Epoch 22: val_loss improved from 36320.13672 to 36318.45312, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32635.5449 - mae: 156.3837 - val_loss: 36318.4531 - val_mae: 165.9796 - 1s/epoch - 535ms/step
+Epoch 23/10000
+
+Epoch 23: val_loss improved from 36318.45312 to 36316.65234, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32633.9297 - mae: 156.3785 - val_loss: 36316.6523 - val_mae: 165.9742 - 1s/epoch - 566ms/step
+Epoch 24/10000
+
+Epoch 24: val_loss improved from 36316.65234 to 36314.72266, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32632.2070 - mae: 156.3730 - val_loss: 36314.7227 - val_mae: 165.9684 - 1s/epoch - 568ms/step
+Epoch 25/10000
+
+Epoch 25: val_loss improved from 36314.72266 to 36312.64844, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32630.3555 - mae: 156.3671 - val_loss: 36312.6484 - val_mae: 165.9621 - 1s/epoch - 574ms/step
+Epoch 26/10000
+
+Epoch 26: val_loss improved from 36312.64844 to 36310.40625, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32628.3691 - mae: 156.3607 - val_loss: 36310.4062 - val_mae: 165.9554 - 1s/epoch - 536ms/step
+Epoch 27/10000
+
+Epoch 27: val_loss improved from 36310.40625 to 36307.97656, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32626.1973 - mae: 156.3539 - val_loss: 36307.9766 - val_mae: 165.9480 - 1s/epoch - 571ms/step
+Epoch 28/10000
+
+Epoch 28: val_loss improved from 36307.97656 to 36305.31641, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32623.8926 - mae: 156.3464 - val_loss: 36305.3164 - val_mae: 165.9400 - 1s/epoch - 536ms/step
+Epoch 29/10000
+
+Epoch 29: val_loss improved from 36305.31641 to 36302.40625, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32621.3008 - mae: 156.3382 - val_loss: 36302.4062 - val_mae: 165.9313 - 1s/epoch - 579ms/step
+Epoch 30/10000
+
+Epoch 30: val_loss improved from 36302.40625 to 36299.19141, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32618.5059 - mae: 156.3293 - val_loss: 36299.1914 - val_mae: 165.9216 - 1s/epoch - 575ms/step
+Epoch 31/10000
+
+Epoch 31: val_loss improved from 36299.19141 to 36295.63281, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32615.3984 - mae: 156.3194 - val_loss: 36295.6328 - val_mae: 165.9109 - 1s/epoch - 572ms/step
+Epoch 32/10000
+
+Epoch 32: val_loss improved from 36295.63281 to 36291.67578, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32611.9531 - mae: 156.3084 - val_loss: 36291.6758 - val_mae: 165.8990 - 1s/epoch - 537ms/step
+Epoch 33/10000
+
+Epoch 33: val_loss improved from 36291.67578 to 36287.25781, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32608.1211 - mae: 156.2962 - val_loss: 36287.2578 - val_mae: 165.8857 - 1s/epoch - 569ms/step
+Epoch 34/10000
+
+Epoch 34: val_loss improved from 36287.25781 to 36282.29297, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32603.8516 - mae: 156.2825 - val_loss: 36282.2930 - val_mae: 165.8707 - 1s/epoch - 571ms/step
+Epoch 35/10000
+
+Epoch 35: val_loss improved from 36282.29297 to 36276.70312, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32599.0488 - mae: 156.2672 - val_loss: 36276.7031 - val_mae: 165.8539 - 1s/epoch - 574ms/step
+Epoch 36/10000
+
+Epoch 36: val_loss improved from 36276.70312 to 36270.39453, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32593.6289 - mae: 156.2498 - val_loss: 36270.3945 - val_mae: 165.8350 - 1s/epoch - 537ms/step
+Epoch 37/10000
+
+Epoch 37: val_loss improved from 36270.39453 to 36263.25000, saving model to ./results/NN_rms_regr/FYI_MYI/CNN/ckpt_1
+2/2 - 1s - loss: 32587.4941 - mae: 156.2303 - val_loss: 36263.2500 - val_mae: 165.8135 - 1s/epoch - 572ms/step
+Epoch 38/10000
