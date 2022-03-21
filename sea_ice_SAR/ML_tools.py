@@ -230,11 +230,14 @@ def process_data(
 
     if resampling:
         if regression:
-            Y_classes = pandas.cut(dataframe[label_key], bins=500)
+            Y_classes = pandas.cut(dataframe[label_key], bins=25)
             le = LabelEncoder()
             Y_classes = le.fit_transform(Y_classes)
-            print(f"Before oversampling: {Counter(Y_classes)}", file=sys.stdout)
-            undersample = OneSidedSelection()
+            print(
+                f"Before oversampling: {sorted(Counter(Y_classes).items())}",
+                file=sys.stdout,
+            )
+            undersample = OneSidedSelection(n_neighbors=1, n_seeds_S=10)
 
             dataframe["idx"] = dataframe.index
             if type(CNN_stack) == np.ndarray:
@@ -250,17 +253,21 @@ def process_data(
 
             dataframe = dataframe.drop(["idx"], axis=1)
 
-            print(f"After oversampling: {Counter(Y_classes)}", file=sys.stdout)
+            print(
+                f"After oversampling: {sorted(Counter(Y_classes).items())}",
+                file=sys.stdout,
+            )
         elif resampling:
             print(
-                f"Before oversampling: {Counter(dataframe[label_key])}", file=sys.stdout
+                f"Before oversampling: {sorted(Counter(dataframe[label_key]).items())}",
+                file=sys.stdout,
             )
             undersample = RandomUnderSampler(sampling_strategy="not minority")
             X, Y = undersample.fit_resample(
                 dataframe.drop([label_key], axis=1), dataframe[label_key]
             )
             dataframe = pandas.concat([Y, X], axis=1)
-            print(f"After oversampling: {Counter(Y)}", file=sys.stdout)
+            print(f"After oversampling: {sorted(Counter(Y).items())}", file=sys.stdout)
 
     CNN_dataset = None
     if type(CNN_stack) == np.ndarray:
