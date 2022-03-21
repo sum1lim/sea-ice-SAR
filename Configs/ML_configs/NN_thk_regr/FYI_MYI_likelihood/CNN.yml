@@ -20,7 +20,7 @@ configuration:
   verbosity: 2
   epochs: 10000
   K-fold: 10
-  # hidden_size: 100
+  hidden_size: 150
   min_num_points: 1
   smote: False 
 
