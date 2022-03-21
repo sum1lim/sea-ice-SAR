@@ -1,6 +1,5 @@
 import sys
 import yaml
-import smogn
 import numpy as np
 import pandas
 import seaborn as sns
@@ -12,7 +11,7 @@ from collections import Counter
 from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import KFold
-from imblearn.under_sampling import RandomUnderSampler
+from imblearn.under_sampling import RandomUnderSampler, OneSidedSelection
 
 
 def config_parser(ml_config):
@@ -221,36 +220,6 @@ def process_data(
         except KeyError:
             continue
 
-    # SMOTE over/under-sampling
-    if regression and resampling and "CNN" not in dataframe:
-        print(
-            f"Before SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
-            file=sys.stdout,
-        )
-        print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
-        dataframe = dataframe.dropna()
-        dataframe.reset_index(drop=True, inplace=True)
-        while True:
-            try:
-                dataframe = smogn.smoter(
-                    data=dataframe, y=label_key, samp_method="extreme"
-                )
-                break
-            except ValueError:
-                continue
-        dataframe = dataframe.dropna()
-        dataframe.reset_index(drop=True, inplace=True)
-        print(
-            f"After SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
-            file=sys.stdout,
-        )
-        print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
-
-    CNN_dataset = None
-    if type(CNN_stack) == np.ndarray:
-        CNN_dataset = np.array([np.array(v) for v in dataframe["CNN"].values])
-        dataframe = dataframe.drop(columns=["CNN"])
-
     Q1 = dataframe[label_key].quantile(0.25)
     Q3 = dataframe[label_key].quantile(0.75)
     IQR = Q3 - Q1
@@ -259,25 +228,54 @@ def process_data(
         f"(@Q1 - 1.5 * @IQR) <= {label_key} <= (@Q3 + 1.5 * @IQR)"
     )
 
+    if resampling:
+        if regression:
+            Y_classes = pandas.cut(dataframe[label_key], bins=10)
+            le = LabelEncoder()
+            Y_classes = le.fit_transform(Y_classes)
+            print(f"Before oversampling: {Counter(Y_classes)}", file=sys.stdout)
+            undersample = OneSidedSelection()
+
+            if type(CNN_stack) == np.ndarray:
+                dataframe["idx"] = dataframe.index
+                new_data, Y_classes = undersample.fit_resample(
+                    dataframe.drop(["CNN"], axis=1), Y_classes
+                )
+                dataframe = new_data.merge(
+                    dataframe[["idx", "CNN"]], left_on="idx", right_on="idx"
+                ).drop(["idx"], axis=1)
+            else:
+                dataframe, Y_classes = undersample.fit_resample(dataframe, Y_classes)
+
+            print(f"After oversampling: {Counter(Y_classes)}", file=sys.stdout)
+        elif resampling:
+            print(
+                f"Before oversampling: {Counter(dataframe[label_key])}", file=sys.stdout
+            )
+            undersample = RandomUnderSampler(sampling_strategy="not minority")
+            X, Y = undersample.fit_resample(
+                dataframe.drop([label_key], axis=1), dataframe[label_key]
+            )
+            dataframe = pandas.concat([Y, X], axis=1)
+            print(f"After oversampling: {Counter(Y)}", file=sys.stdout)
+
+    CNN_dataset = None
+    if type(CNN_stack) == np.ndarray:
+        CNN_dataset = np.array([np.array(v) for v in dataframe["CNN"].values])
+        dataframe = dataframe.drop(columns=["CNN"])
+
     dataset = dataframe.values
-    print(f"Size of dataset: {dataset.shape}", file=sys.stderr)
+    print(f"Size of dataset: {dataset.shape}", file=sys.stdout)
     X = dataset[:, 1:].astype(float)
     Y = dataset[:, 0]
 
     if regression:
         return X, CNN_dataset, Y
     else:
-        if resampling:
-            print(f"Before oversampling: {Counter(Y)}", file=sys.stdout)
-            undersample = RandomUnderSampler(sampling_strategy="not minority")
-            X, Y = undersample.fit_resample(X, Y)
-            print(f"After oversampling: {Counter(Y)}", file=sys.stdout)
-
         encoder = LabelEncoder()
         encoder.fit(Y)
         encoded_Y = encoder.transform(Y)
         print(f"Classes: {encoder.classes_}", file=sys.stdout)
-
         return X, CNN_dataset, encoded_Y, encoder.classes_
 
 
