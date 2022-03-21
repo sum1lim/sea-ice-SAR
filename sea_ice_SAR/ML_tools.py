@@ -230,7 +230,7 @@ def process_data(
 
     if resampling:
         if regression:
-            Y_classes = pandas.cut(dataframe[label_key], bins=10)
+            Y_classes = pandas.cut(dataframe[label_key], bins=500)
             le = LabelEncoder()
             Y_classes = le.fit_transform(Y_classes)
             print(f"Before oversampling: {Counter(Y_classes)}", file=sys.stdout)
