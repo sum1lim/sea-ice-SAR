@@ -43,9 +43,9 @@ def main(args):
         args.ml_config,
         regression=True,
         masks=masks,
-        resampling=False,
+        resampling=True,
         CNN_layers=CNN_layers,
-        # min_num_points=min_num_points,
+        min_num_points=min_num_points,
     )
 
     if type(CNN_stacks) == np.ndarray:
