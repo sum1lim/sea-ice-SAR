@@ -135,11 +135,13 @@ def main(args):
         [f"{config_dict['train_dir']}/{f}.csv" for f in config_dict["filenames"]],
         min_num_points=config_dict["min_num_points"],
         CNN_layers=config_dict["filenames"],
+        resampling=False,
     )
     _, X_te, _ = process_data(
         [f"{config_dict['test_dir']}/{f}.csv" for f in config_dict["filenames"]],
         min_num_points=config_dict["min_num_points"],
         CNN_layers=config_dict["filenames"],
+        resampling=False,
     )
 
     size_2d, num_layers, padding_2d, padding_height = CNN_stack_shape(X_tr)
