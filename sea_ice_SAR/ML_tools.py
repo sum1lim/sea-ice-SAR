@@ -142,6 +142,8 @@ def process_data(
     for idx, df in enumerate(df_li):
         if idx == 0:
             dataframe = df
+            dataframe["src_dir"] = dataframe["src_dir"].str.replace("_Spk", "")
+            dataframe["src_dir"] = dataframe["src_dir"].str.replace("_canny", "")
 
         # use labels and num_points from the very first dataframe
         df = df.drop(columns=["label", "num_points"])
@@ -155,6 +157,8 @@ def process_data(
                 CNN_stack = np.concatenate((CNN_stack, layer_2d), axis=-1)
             num_CNN_layers += 1
         elif idx > 0:
+            df["src_dir"] = df["src_dir"].str.replace("_Spk", "")
+            df["src_dir"] = df["src_dir"].str.replace("_canny", "")
             dataframe = pandas.merge(
                 dataframe,
                 df,
@@ -260,7 +264,7 @@ def process_data(
             )
         elif resampling:
             print(
-                f"Before oversampling: {sorted(Counter(dataframe[label_key]).items())}",
+                f"Before undersampling: {sorted(Counter(dataframe[label_key]).items())}",
                 file=sys.stdout,
             )
             undersample = RandomUnderSampler(sampling_strategy="not minority")
@@ -268,7 +272,7 @@ def process_data(
                 dataframe.drop([label_key], axis=1), dataframe[label_key]
             )
             dataframe = pandas.concat([Y, X], axis=1)
-            print(f"After oversampling: {sorted(Counter(Y).items())}", file=sys.stdout)
+            print(f"After undersampling: {sorted(Counter(Y).items())}", file=sys.stdout)
 
     print(dataframe, file=sys.stdout)
     CNN_dataset = None
