@@ -231,7 +231,7 @@ def process_data(
     if resampling:
         if regression:
             Y_classes, bins = pandas.cut(dataframe[label_key], bins=25, retbins=True)
-            print(bins, file=sys.stderr)
+            print(bins, file=sys.stdout)
             le = LabelEncoder()
             Y_classes = le.fit_transform(Y_classes)
             print(
@@ -270,7 +270,7 @@ def process_data(
             dataframe = pandas.concat([Y, X], axis=1)
             print(f"After oversampling: {sorted(Counter(Y).items())}", file=sys.stdout)
 
-    print(dataframe, file=sys.stderr)
+    print(dataframe, file=sys.stdout)
     CNN_dataset = None
     if type(CNN_stack) == np.ndarray:
         CNN_dataset = np.array([np.array(v) for v in dataframe["CNN"].values])
