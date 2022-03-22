@@ -235,7 +235,7 @@ def process_data(
             le = LabelEncoder()
             Y_classes = le.fit_transform(Y_classes)
             print(
-                f"Before oversampling: {sorted(Counter(Y_classes).items())}",
+                f"Before undersampling: {sorted(Counter(Y_classes).items())}",
                 file=sys.stdout,
             )
             undersample = OneSidedSelection(n_neighbors=1, n_seeds_S=10)
@@ -255,7 +255,7 @@ def process_data(
             dataframe = dataframe.drop(["idx"], axis=1)
 
             print(
-                f"After oversampling: {sorted(Counter(Y_classes).items())}",
+                f"After undersampling: {sorted(Counter(Y_classes).items())}",
                 file=sys.stdout,
             )
         elif resampling:
