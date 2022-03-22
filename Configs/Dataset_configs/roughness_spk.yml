@@ -8,7 +8,7 @@ train_data:
   ./data/roughness/20150418_135335.csv:
     Mask: ./data/Mask/2015_masked.tif
     SAR_data: 
-      File: ./data/SAR/20150418_135335_canny.tif
+      File: ./data/SAR/20150418_135335_Spk_canny.tif
       Bands:
         1: HH
         2: HV
@@ -21,7 +21,7 @@ train_data:
   ./data/roughness/20150418_234734.csv:
     Mask: ./data/Mask/2015_masked.tif
     SAR_data: 
-      File: ./data/SAR/20150418_234734_canny.tif
+      File: ./data/SAR/20150418_234734_Spk_canny.tif
       Bands:
         1: HH
         2: HV
@@ -34,7 +34,7 @@ train_data:
   ./data/roughness/20150419_132406.csv:
     Mask: ./data/Mask/2015_masked.tif
     SAR_data: 
-      File: ./data/SAR/20150419_132406_canny.tif
+      File: ./data/SAR/20150419_132406_Spk_canny.tif
       Bands:
         1: HH
         2: HV
@@ -47,7 +47,7 @@ train_data:
   ./data/roughness/20150419_132521.csv:
     Mask: ./data/Mask/2015_masked.tif
     SAR_data: 
-      File: ./data/SAR/20150419_132521_canny.tif
+      File: ./data/SAR/20150419_132521_Spk_canny.tif
       Bands:
         1: HH
         2: HV
@@ -60,7 +60,7 @@ train_data:
   ./data/roughness/20160409_134058.csv:
     Mask: ./data/Mask/2016_masked.tif
     SAR_data: 
-      File: ./data/SAR/20160409_134058_canny.tif
+      File: ./data/SAR/20160409_134058_Spk_canny.tif
       Bands:
         1: HH
         2: HV
@@ -73,7 +73,7 @@ train_data:
   ./data/roughness/20160409_134212.csv:
     Mask: ./data/Mask/2016_masked.tif
     SAR_data: 
-      File: ./data/SAR/20160409_134212_canny.tif
+      File: ./data/SAR/20160409_134212_Spk_canny.tif
       Bands:
         1: HH
         2: HV
@@ -86,7 +86,7 @@ train_data:
   ./data/roughness/20160410_131138.csv:
     Mask: ./data/Mask/2016_masked.tif
     SAR_data: 
-      File: ./data/SAR/20160410_131138_canny.tif
+      File: ./data/SAR/20160410_131138_Spk_canny.tif
       Bands:
         1: HH
         2: HV
@@ -99,7 +99,7 @@ train_data:
   ./data/roughness/20180429_140506.csv:
     Mask: ./data/Mask/2018_masked.tif
     SAR_data: 
-      File: ./data/SAR/20180429_140506_canny.tif
+      File: ./data/SAR/20180429_140506_Spk_canny.tif
       Bands:
         1: HH
         2: HV
@@ -112,7 +112,7 @@ train_data:
   ./data/roughness/20180429_140538.csv:
     Mask: ./data/Mask/2018_masked.tif
     SAR_data: 
-      File: ./data/SAR/20180429_140538_canny.tif
+      File: ./data/SAR/20180429_140538_Spk_canny.tif
       Bands:
         1: HH
         2: HV
@@ -125,7 +125,7 @@ train_data:
   ./data/roughness/20180430_133541.csv:
     Mask: ./data/Mask/2018_masked.tif
     SAR_data: 
-      File: ./data/SAR/20180430_133541_canny.tif
+      File: ./data/SAR/20180430_133541_Spk_canny.tif
       Bands:
         1: HH
         2: HV
@@ -139,7 +139,7 @@ test_data:
   ./data/roughness/20150418_234849.csv:
     Mask: ./data/Mask/2015_masked.tif
     SAR_data: 
-      File: ./data/SAR/20150418_234849_canny.tif
+      File: ./data/SAR/20150418_234849_Spk_canny.tif
       Bands:
         1: HH
         2: HV
@@ -152,7 +152,7 @@ test_data:
   ./data/roughness/20150419_231930.csv:
     Mask: ./data/Mask/2015_masked.tif
     SAR_data: 
-      File: ./data/SAR/20150419_231930_canny.tif
+      File: ./data/SAR/20150419_231930_Spk_canny.tif
       Bands:
         1: HH
         2: HV
@@ -165,7 +165,7 @@ test_data:
   ./data/roughness/20160409_233615.csv:
     Mask: ./data/Mask/2016_masked.tif
     SAR_data: 
-      File: ./data/SAR/20160409_233615_canny.tif
+      File: ./data/SAR/20160409_233615_Spk_canny.tif
       Bands:
         1: HH
         2: HV
@@ -178,7 +178,7 @@ test_data:
   ./data/roughness/20160410_131252.csv:
     Mask: ./data/Mask/2016_masked.tif
     SAR_data: 
-      File: ./data/SAR/20160410_131252_canny.tif
+      File: ./data/SAR/20160410_131252_Spk_canny.tif
       Bands:
         1: HH
         2: HV
@@ -191,7 +191,7 @@ test_data:
   ./data/roughness/20180429_235956.csv:
     Mask: ./data/Mask/2018_masked.tif
     SAR_data: 
-      File: ./data/SAR/20180429_235956_canny.tif
+      File: ./data/SAR/20180429_235956_Spk_canny.tif
       Bands:
         1: HH
         2: HV
