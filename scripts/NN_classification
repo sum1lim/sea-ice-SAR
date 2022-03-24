@@ -70,8 +70,6 @@ def NN(
         conv_layer = Conv3D(4, (3, 3, 3), activation="relu", padding="same")(conv_layer)
         conv_layer = MaxPooling3D(pool_size=(2, 2, 2), padding="same")(conv_layer)
         conv_layer = Flatten()(conv_layer)
-
-    if is_CNN:
         cat_layer = concatenate([cat_input, conv_layer])
         hidden_layer = Dense(
             hidden_layer_size, kernel_initializer="normal", activation="relu"
@@ -148,7 +146,9 @@ def main(args):
     size_2d, num_layers, padding_2d, padding_height = CNN_stack_shape(CNN_stacks)
     if type(CNN_stacks) == np.ndarray:
         is_CNN = True
+        patience = 20
     else:
+        patience = 100
         is_CNN = False
 
     # Define hidden layer size
@@ -172,7 +172,7 @@ def main(args):
             filepath=checkpoint_path, save_best_only=True, verbose=verbosity, mode="min"
         )
         es_callback = EarlyStopping(
-            monitor="val_loss", mode="min", verbose=verbosity, patience=200
+            monitor="val_loss", mode="min", verbose=verbosity, patience=patience
         )
 
         model = NN(
