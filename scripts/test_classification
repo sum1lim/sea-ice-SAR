@@ -18,22 +18,35 @@ tf.get_logger().setLevel("ERROR")
 
 def main(args):
     # Parse configuration
-    _, test_data, _, _, verbosity, K, _, min_num_points, masks, _ = config_parser(
-        args.ml_config
-    )
+    (
+        _,
+        test_data,
+        _,
+        _,
+        verbosity,
+        K,
+        _,
+        min_num_points,
+        masks,
+        CNN_layers,
+    ) = config_parser(args.ml_config)
     _, cfg_filename, _ = decompose_filepath(args.ml_config)
 
     log_file = open(f"{args.result_dir}/{cfg_filename}/test.log", "w")
     sys.stdout = log_file
 
     # Modify test dataset
-    X_te, _, Y_te, classes = process_data(
+    X_te, CNN_stacks, Y_te, classes = process_data(
         test_data,
         args.ml_config,
         regression=False,
         masks=masks,
         min_num_points=min_num_points,
+        CNN_layers=CNN_layers,
     )
+
+    if type(CNN_stacks) == np.ndarray:
+        X_te = {"conv": CNN_stacks, "cat": X_te}
 
     accuracy_li = []
     for k in range(K):
