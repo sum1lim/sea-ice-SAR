@@ -132,13 +132,13 @@ def main(args):
     encoded_df_te = []
 
     _, X_tr, _ = process_data(
-        [f"{config_dict['train_dir']}/{f}.csv" for f in config_dict["filenames"]],
+        [f"{config_dict['train_dir'][0]}/{f}.csv" for f in config_dict["filenames"]],
         min_num_points=config_dict["min_num_points"],
         CNN_layers=config_dict["filenames"],
         resampling=False,
     )
     _, X_te, _ = process_data(
-        [f"{config_dict['test_dir']}/{f}.csv" for f in config_dict["filenames"]],
+        [f"{config_dict['test_dir'][0]}/{f}.csv" for f in config_dict["filenames"]],
         min_num_points=config_dict["min_num_points"],
         CNN_layers=config_dict["filenames"],
         resampling=False,
@@ -183,20 +183,22 @@ def main(args):
     encoded_df_tr.append(convert_to_vectors(encoded_tr))
     encoded_df_te.append(convert_to_vectors(encoded_te))
 
-    CAE_output(
-        encoded_df_tr,
-        config_dict["train_dir"],
-        config_dict["filenames"][0],
-        config_dict["output_filename"],
-        config_dict["min_num_points"],
-    )
-    CAE_output(
-        encoded_df_te,
-        config_dict["test_dir"],
-        config_dict["filenames"][0],
-        config_dict["output_filename"],
-        config_dict["min_num_points"],
-    )
+    for train_dir in config_dict["train_dir"]:
+        CAE_output(
+            encoded_df_tr,
+            train_dir,
+            config_dict["filenames"][0],
+            config_dict["output_filename"],
+            config_dict["min_num_points"],
+        )
+    for test_dir in config_dict["test_dir"]:
+        CAE_output(
+            encoded_df_te,
+            test_dir,
+            config_dict["filenames"][0],
+            config_dict["output_filename"],
+            config_dict["min_num_points"],
+        )
 
     log_file.close()
 

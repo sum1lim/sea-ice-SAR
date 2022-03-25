@@ -204,6 +204,6 @@ test_data:
     col: 6
 
 output_dir:
-  train_data: ./data/thickness/train/rms_spk.csv
-  test_data: ./data/thickness/test/rms_spk.csv
+  train_data: ./data/thickness/train/thk_spk.csv
+  test_data: ./data/thickness/test/thk_spk.csv
 ...
