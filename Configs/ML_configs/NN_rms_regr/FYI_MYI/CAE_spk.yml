@@ -1,0 +1,13 @@
+---
+configuration:
+  train_data: [./data/roughness/train/rms.csv, ./data/roughness/train/rms_spk.csv, ./data/roughness/train/CAE_spk.csv]
+  test_data: [./data/roughness/test/rms.csv, ./data/roughness/test/rms_spk.csv, ./data/roughness/test/CAE_spk.csv]
+  verbosity: 2
+  epochs: 10000
+  K-fold: 10
+  hidden_size: 50
+  min_num_points: 1
+  smote: False 
+
+drop_features:
+...

@@ -4,19 +4,19 @@ configuration:
     ./data/thickness/train/thk.csv, 
     ./data/thickness/train/thk_spk.csv,
     ./data/thickness/train/HH7_canny.csv,
-    ./data/thickness/train/HH7.csv,
-    ./data/thickness/train/HV7.csv,
+    ./data/thickness/train/HH7_spk.csv,
+    ./data/thickness/train/HV7_spk.csv,
     ./data/thickness/train/HV7_canny.csv
   ]
   test_data: [
     ./data/thickness/test/thk.csv, 
     ./data/thickness/test/thk_spk.csv,
     ./data/thickness/test/HH7_canny.csv,
-    ./data/thickness/test/HH7.csv,
-    ./data/thickness/test/HV7.csv,
+    ./data/thickness/test/HH7_spk.csv,
+    ./data/thickness/test/HV7_spk.csv,
     ./data/thickness/test/HV7_canny.csv
   ]
-  CNN_layers: [HH7_canny, HH7, HV7, HV7_canny]
+  CNN_layers: [HH7_canny, HH7_spk, HV7_spk, HV7_canny]
   verbosity: 2
   epochs: 10000
   K-fold: 10

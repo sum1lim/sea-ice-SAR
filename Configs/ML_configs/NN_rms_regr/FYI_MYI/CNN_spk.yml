@@ -1,22 +1,22 @@
 ---
 configuration:
   train_data: [
-    ./results/NN_type_class/CAE/updated_tr_rms.csv, 
+    ./data/roughness/train/rms.csv, 
     ./data/roughness/train/rms_spk.csv,
     ./data/roughness/train/HH7_canny.csv,
-    ./data/roughness/train/HH7.csv,
-    ./data/roughness/train/HV7.csv,
+    ./data/roughness/train/HH7_spk.csv,
+    ./data/roughness/train/HV7_spk.csv,
     ./data/roughness/train/HV7_canny.csv
   ]
   test_data: [
-    ./results/NN_type_class/CAE/updated_te_rms.csv, 
+    ./data/roughness/test/rms.csv, 
     ./data/roughness/test/rms_spk.csv,
     ./data/roughness/test/HH7_canny.csv,
-    ./data/roughness/test/HH7.csv,
-    ./data/roughness/test/HV7.csv,
+    ./data/roughness/test/HH7_spk.csv,
+    ./data/roughness/test/HV7_spk.csv,
     ./data/roughness/test/HV7_canny.csv
   ]
-  CNN_layers: [HH7_canny, HH7, HV7, HV7_canny]
+  CNN_layers: [HH7_canny, HH7_spk, HV7_spk, HV7_canny]
   verbosity: 2
   epochs: 10000
   K-fold: 10
