@@ -2,6 +2,7 @@
 import argparse
 import tensorflow as tf
 import pandas as pd
+import numpy as np
 from sea_ice_SAR.ML_tools import (
     config_parser,
     process_data,
@@ -15,7 +16,9 @@ tf.get_logger().setLevel("ERROR")
 
 def main(args):
     # Parse configuration
-    train_data, test_data, _, _, _, _, _, _, _, _ = config_parser(args.ml_config)
+    train_data, test_data, _, _, _, _, _, _, _, CNN_layers = config_parser(
+        args.ml_config
+    )
     _, cfg_filename, _ = decompose_filepath(args.ml_config)
 
     if type(train_data) != list:
@@ -27,20 +30,28 @@ def main(args):
     _, test_filename, _ = decompose_filepath(test_data[0])
 
     # Modify train/test dataset
-    X_tr, _, _, _ = process_data(
+    X_tr, CNN_stacks_tr, _, _ = process_data(
         train_data,
         args.ml_config,
         regression=False,
         resampling=False,
         dropna=False,
+        CNN_layers=CNN_layers,
     )
-    X_te, _, _, _ = process_data(
+    X_te, CNN_stacks_te, _, _ = process_data(
         test_data,
         args.ml_config,
         regression=False,
         resampling=False,
         dropna=False,
+        CNN_layers=CNN_layers,
     )
+
+    if type(CNN_stacks_tr) == np.ndarray:
+        X_tr = {"conv": CNN_stacks_tr, "cat": X_tr}
+
+    if type(CNN_stacks_te) == np.ndarray:
+        X_te = {"conv": CNN_stacks_te, "cat": X_te}
 
     checkpoint_path = f"{args.result_dir}/{cfg_filename}/ckpt_{args.checkpoint}"
     model = load_model(checkpoint_path)
