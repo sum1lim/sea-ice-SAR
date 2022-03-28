@@ -119,6 +119,7 @@ def main(args):
         min_num_points,
         masks,
         CNN_layers,
+        value_range,
     ) = config_parser(args.ml_config)
 
     # Set up results directory
@@ -142,6 +143,7 @@ def main(args):
         masks=masks,
         resampling=True,
         CNN_layers=CNN_layers,
+        value_range=value_range,
     )
 
     # Define hidden layer size

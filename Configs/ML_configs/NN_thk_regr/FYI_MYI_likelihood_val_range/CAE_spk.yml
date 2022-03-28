@@ -1,0 +1,14 @@
+---
+configuration:
+  train_data: [./results/NN_type_class/CNN_spk/updated_tr_thk.csv, ./data/thickness/train/thk_spk.csv, ./data/thickness/train/CAE_spk.csv]
+  test_data: [./results/NN_type_class/CNN_spk/updated_te_thk.csv, ./data/thickness/test/thk_spk.csv, ./data/thickness/test/CAE_spk.csv]
+  verbosity: 2
+  epochs: 10000
+  K-fold: 10
+  hidden_size: 50
+  min_num_points: 1
+  smote: False 
+  value_range: [0, 3.5]
+
+drop_features:
+...

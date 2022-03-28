@@ -53,6 +53,10 @@ def config_parser(ml_config):
             CNN_layers = params["CNN_layers"]
         else:
             CNN_layers = []
+        if "value_range" in params.keys():
+            value_range = params["value_range"]
+        else:
+            value_range = []
 
     return (
         train_data,
@@ -65,6 +69,7 @@ def config_parser(ml_config):
         min_num_points,
         masks,
         CNN_layers,
+        value_range,
     )
 
 
@@ -122,6 +127,7 @@ def process_data(
     CNN_layers=[],
     resampling=True,
     dropna=True,
+    value_range=[-np.inf, np.inf]
 ):
     """
     Merge labels and/or select feautres for learning
@@ -223,6 +229,9 @@ def process_data(
             dataframe.drop(columns=[col], inplace=True)
         except KeyError:
             continue
+
+    dataframe = dataframe.drop(dataframe[dataframe[label_key] < value_range[0]].index)
+    dataframe = dataframe.drop(dataframe[dataframe[label_key] > value_range[1]].index)
 
     Q1 = dataframe[label_key].quantile(0.25)
     Q3 = dataframe[label_key].quantile(0.75)
