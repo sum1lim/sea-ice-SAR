@@ -47,6 +47,7 @@ def main(args):
         resampling=True,
         CNN_layers=CNN_layers,
         min_num_points=min_num_points,
+        value_range=value_range,
     )
 
     if type(CNN_stacks) == np.ndarray:
