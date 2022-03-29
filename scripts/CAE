@@ -118,83 +118,86 @@ def main(args):
     stream = open(args.config, "r")
     config_dict = yaml.safe_load(stream)
 
-    _, filename, _ = decompose_filepath(args.config)
+    for i in range(len(config_dict["train_dir"])):
 
-    try:
-        os.mkdir(f"./CAE_models/{filename}")
-    except FileExistsError:
-        None
+        _, filename, _ = decompose_filepath(args.config)
 
-    log_file = open(f"./CAE_models/{filename}/train.log", "w")
-    sys.stdout = log_file
+        try:
+            os.mkdir(f"./CAE_models/{filename}")
+        except FileExistsError:
+            None
 
-    encoded_df_tr = []
-    encoded_df_te = []
+        log_file = open(f"./CAE_models/{filename}/train.log", "w")
+        sys.stdout = log_file
 
-    _, X_tr, _ = process_data(
-        [f"{config_dict['train_dir'][0]}/{f}.csv" for f in config_dict["filenames"]],
-        min_num_points=config_dict["min_num_points"],
-        CNN_layers=config_dict["filenames"],
-        resampling=False,
-    )
-    _, X_te, _ = process_data(
-        [f"{config_dict['test_dir'][0]}/{f}.csv" for f in config_dict["filenames"]],
-        min_num_points=config_dict["min_num_points"],
-        CNN_layers=config_dict["filenames"],
-        resampling=False,
-    )
+        encoded_df_tr = []
+        encoded_df_te = []
 
-    size_2d, num_layers, padding_2d, padding_height = CNN_stack_shape(X_tr)
-
-    checkpoint_path = f"./CAE_models/{filename}/ckpt"
-
-    if not os.path.exists(checkpoint_path):
-        cp_callback = ModelCheckpoint(
-            filepath=checkpoint_path,
-            save_best_only=True,
-            mode="min",
-            verbose=config_dict["verbosity"],
+        _, X_tr, _ = process_data(
+            [
+                f"{config_dict['train_dir'][i]}/{f}.csv"
+                for f in config_dict["filenames"]
+            ],
+            min_num_points=config_dict["min_num_points"],
+            CNN_layers=config_dict["filenames"],
+            resampling=True,
         )
-        es_callback = EarlyStopping(
-            monitor="val_loss",
-            mode="min",
-            patience=20,
-            verbose=config_dict["verbosity"],
-        )
-        autoencoder = CAE(size_2d, num_layers, padding_2d, padding_height)
-        autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
-
-        model_summary = autoencoder.fit(
-            X_tr,
-            X_tr,
-            epochs=config_dict["epochs"],
-            batch_size=1024,
-            shuffle=True,
-            validation_data=(X_te, X_te),
-            callbacks=[cp_callback, es_callback],
-            verbose=config_dict["verbosity"],
+        _, X_te, _ = process_data(
+            [f"{config_dict['test_dir'][i]}/{f}.csv" for f in config_dict["filenames"]],
+            min_num_points=config_dict["min_num_points"],
+            CNN_layers=config_dict["filenames"],
+            resampling=True,
         )
 
-    autoencoder = load_model(checkpoint_path)
+        size_2d, num_layers, padding_2d, padding_height = CNN_stack_shape(X_tr)
 
-    encoded_tr, _ = predict(autoencoder, X_tr, "train")
-    encoded_te, _ = predict(autoencoder, X_te, "test")
+        checkpoint_path = f"./CAE_models/{filename}/ckpt"
 
-    encoded_df_tr.append(convert_to_vectors(encoded_tr))
-    encoded_df_te.append(convert_to_vectors(encoded_te))
+        if not os.path.exists(checkpoint_path):
+            cp_callback = ModelCheckpoint(
+                filepath=checkpoint_path,
+                save_best_only=True,
+                mode="min",
+                verbose=config_dict["verbosity"],
+            )
+            es_callback = EarlyStopping(
+                monitor="val_loss",
+                mode="min",
+                patience=20,
+                verbose=config_dict["verbosity"],
+            )
+            autoencoder = CAE(size_2d, num_layers, padding_2d, padding_height)
+            autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
 
-    for train_dir in config_dict["train_dir"]:
+            model_summary = autoencoder.fit(
+                X_tr,
+                X_tr,
+                epochs=config_dict["epochs"],
+                batch_size=1024,
+                shuffle=True,
+                validation_data=(X_te, X_te),
+                callbacks=[cp_callback, es_callback],
+                verbose=config_dict["verbosity"],
+            )
+
+        autoencoder = load_model(checkpoint_path)
+
+        encoded_tr, _ = predict(autoencoder, X_tr, "train")
+        encoded_te, _ = predict(autoencoder, X_te, "test")
+
+        encoded_df_tr.append(convert_to_vectors(encoded_tr))
+        encoded_df_te.append(convert_to_vectors(encoded_te))
+
         CAE_output(
             encoded_df_tr,
-            train_dir,
+            config_dict["train_dir"][i],
             config_dict["filenames"][0],
             config_dict["output_filename"],
             config_dict["min_num_points"],
         )
-    for test_dir in config_dict["test_dir"]:
         CAE_output(
             encoded_df_te,
-            test_dir,
+            config_dict["test_dir"][i],
             config_dict["filenames"][0],
             config_dict["output_filename"],
             config_dict["min_num_points"],
