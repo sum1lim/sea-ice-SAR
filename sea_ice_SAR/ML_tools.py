@@ -56,7 +56,7 @@ def config_parser(ml_config):
         if "value_range" in params.keys():
             value_range = params["value_range"]
         else:
-            value_range = []
+            value_range = [-np.inf, np.inf]
 
     return (
         train_data,
@@ -127,7 +127,7 @@ def process_data(
     CNN_layers=[],
     resampling=True,
     dropna=True,
-    value_range=[-np.inf, np.inf]
+    value_range=[-np.inf, np.inf],
 ):
     """
     Merge labels and/or select feautres for learning
