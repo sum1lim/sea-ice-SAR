@@ -57,6 +57,10 @@ def config_parser(ml_config):
             value_range = params["value_range"]
         else:
             value_range = [-np.inf, np.inf]
+        if "loss_function" in params.keys():
+            loss_function = params["loss_function"]
+        else:
+            loss_function = "mean_squared_error"
 
     return (
         train_data,
@@ -70,6 +74,7 @@ def config_parser(ml_config):
         masks,
         CNN_layers,
         value_range,
+        loss_function,
     )
 
 
@@ -271,7 +276,7 @@ def process_data(
                 f"After undersampling: {sorted(Counter(Y_classes).items())}",
                 file=sys.stdout,
             )
-        elif resampling:
+        else:
             print(
                 f"Before undersampling: {sorted(Counter(dataframe[label_key]).items())}",
                 file=sys.stdout,

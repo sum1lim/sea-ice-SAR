@@ -32,6 +32,7 @@ def main(args):
         masks,
         CNN_layers,
         value_range,
+        _,
     ) = config_parser(args.ml_config)
     _, cfg_filename, _ = decompose_filepath(args.ml_config)
 

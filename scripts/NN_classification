@@ -120,6 +120,7 @@ def main(args):
         masks,
         CNN_layers,
         _,
+        _,
     ) = config_parser(args.ml_config)
 
     # Set up results directory

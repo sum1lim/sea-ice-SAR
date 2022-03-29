@@ -41,6 +41,7 @@ def NN(
     padding_2d=None,
     padding_height=None,
     is_CNN=False,
+    loss_function="mean_squared_error",
 ):
     if is_CNN and num_layers > 4:
         cat_layer_size = input_layer_size + 32
@@ -100,7 +101,7 @@ def NN(
     else:
         model = Model(inputs=[cat_input], outputs=[output_layer])
 
-    model.compile(loss="mean_squared_error", optimizer="adam", metrics=["mae"])
+    model.compile(loss=loss_function, optimizer="adam", metrics=["mse", "mae"])
     model.summary()
 
     return model
@@ -120,6 +121,7 @@ def main(args):
         masks,
         CNN_layers,
         value_range,
+        loss_function,
     ) = config_parser(args.ml_config)
 
     # Set up results directory
@@ -184,6 +186,7 @@ def main(args):
             padding_2d=padding_2d,
             padding_height=padding_height,
             is_CNN=is_CNN,
+            loss_function=loss_function,
         )
 
         if is_CNN:
