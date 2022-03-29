@@ -118,42 +118,41 @@ def main(args):
     stream = open(args.config, "r")
     config_dict = yaml.safe_load(stream)
 
+    _, filename, _ = decompose_filepath(args.config)
+
+    try:
+        os.mkdir(f"./CAE_models/{filename}")
+    except FileExistsError:
+        None
+
+    log_file = open(f"./CAE_models/{filename}/train.log", "w")
+    sys.stdout = log_file
+
     for i in range(len(config_dict["train_dir"])):
-
-        _, filename, _ = decompose_filepath(args.config)
-
-        try:
-            os.mkdir(f"./CAE_models/{filename}")
-        except FileExistsError:
-            None
-
-        log_file = open(f"./CAE_models/{filename}/train.log", "w")
-        sys.stdout = log_file
-
-        encoded_df_tr = []
-        encoded_df_te = []
-
-        _, X_tr, _ = process_data(
-            [
-                f"{config_dict['train_dir'][i]}/{f}.csv"
-                for f in config_dict["filenames"]
-            ],
-            min_num_points=config_dict["min_num_points"],
-            CNN_layers=config_dict["filenames"],
-            resampling=True,
-        )
-        _, X_te, _ = process_data(
-            [f"{config_dict['test_dir'][i]}/{f}.csv" for f in config_dict["filenames"]],
-            min_num_points=config_dict["min_num_points"],
-            CNN_layers=config_dict["filenames"],
-            resampling=True,
-        )
-
-        size_2d, num_layers, padding_2d, padding_height = CNN_stack_shape(X_tr)
-
         checkpoint_path = f"./CAE_models/{filename}/ckpt"
 
         if not os.path.exists(checkpoint_path):
+            _, X_tr, _ = process_data(
+                [
+                    f"{config_dict['train_dir'][i]}/{f}.csv"
+                    for f in config_dict["filenames"]
+                ],
+                min_num_points=config_dict["min_num_points"],
+                CNN_layers=config_dict["filenames"],
+                resampling=True,
+            )
+            _, X_te, _ = process_data(
+                [
+                    f"{config_dict['test_dir'][i]}/{f}.csv"
+                    for f in config_dict["filenames"]
+                ],
+                min_num_points=config_dict["min_num_points"],
+                CNN_layers=config_dict["filenames"],
+                resampling=True,
+            )
+
+            size_2d, num_layers, padding_2d, padding_height = CNN_stack_shape(X_tr)
+
             cp_callback = ModelCheckpoint(
                 filepath=checkpoint_path,
                 save_best_only=True,
@@ -181,6 +180,25 @@ def main(args):
             )
 
         autoencoder = load_model(checkpoint_path)
+
+        encoded_df_tr = []
+        encoded_df_te = []
+
+        _, X_tr, _ = process_data(
+            [
+                f"{config_dict['train_dir'][i]}/{f}.csv"
+                for f in config_dict["filenames"]
+            ],
+            min_num_points=config_dict["min_num_points"],
+            CNN_layers=config_dict["filenames"],
+            resampling=False,
+        )
+        _, X_te, _ = process_data(
+            [f"{config_dict['test_dir'][i]}/{f}.csv" for f in config_dict["filenames"]],
+            min_num_points=config_dict["min_num_points"],
+            CNN_layers=config_dict["filenames"],
+            resampling=False,
+        )
 
         encoded_tr, _ = predict(autoencoder, X_tr, "train")
         encoded_te, _ = predict(autoencoder, X_te, "test")
