@@ -1,14 +1,14 @@
 ---
 configuration:
   train_data: [
-    ./results/NN_type_class/CNN_spk/updated_tr_rms.csv, 
+    ./results/NN_type_class/CNN/updated_tr_rms.csv, 
     ./data/roughness/train/rms_spk.csv,
     ./data/roughness/train/HH7.csv,
     ./data/roughness/train/IA7.csv,
     ./data/roughness/train/HV7.csv,
   ]
   test_data: [
-    ./results/NN_type_class/CNN_spk/updated_te_rms.csv, 
+    ./results/NN_type_class/CNN/updated_te_rms.csv, 
     ./data/roughness/test/rms_spk.csv,
     ./data/roughness/test/HH7.csv,
     ./data/roughness/test/IA7.csv,

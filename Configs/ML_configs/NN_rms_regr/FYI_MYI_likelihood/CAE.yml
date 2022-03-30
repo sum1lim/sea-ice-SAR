@@ -1,7 +1,7 @@
 ---
 configuration:
-  train_data: [./results/NN_type_class/CNN_spk/updated_tr_rms.csv, ./data/roughness/train/rms_spk.csv, ./data/roughness/train/CAE.csv]
-  test_data: [./results/NN_type_class/CNN_spk/updated_te_rms.csv, ./data/roughness/test/rms_spk.csv, ./data/roughness/test/CAE.csv]
+  train_data: [./results/NN_type_class/CNN/updated_tr_rms.csv, ./data/roughness/train/rms_spk.csv, ./data/roughness/train/CAE.csv]
+  test_data: [./results/NN_type_class/CNN/updated_te_rms.csv, ./data/roughness/test/rms_spk.csv, ./data/roughness/test/CAE.csv]
   verbosity: 2
   epochs: 10000
   K-fold: 10
