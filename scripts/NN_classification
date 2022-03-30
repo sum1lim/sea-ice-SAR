@@ -148,7 +148,7 @@ def main(args):
     size_2d, num_layers, padding_2d, padding_height = CNN_stack_shape(CNN_stacks)
     if type(CNN_stacks) == np.ndarray:
         is_CNN = True
-        patience = 50
+        patience = 100
     else:
         patience = 100
         is_CNN = False

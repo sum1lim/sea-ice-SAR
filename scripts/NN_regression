@@ -156,7 +156,7 @@ def main(args):
 
     if type(CNN_stacks) == np.ndarray:
         is_CNN = True
-        patience = 20
+        patience = 100
     else:
         is_CNN = False
         patience = 100
