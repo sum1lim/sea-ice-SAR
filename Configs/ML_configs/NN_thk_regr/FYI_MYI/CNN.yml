@@ -14,7 +14,7 @@ configuration:
     ./data/thickness/test/IA7.csv,
     ./data/thickness/test/HV7.csv,
   ]
-  CNN_layers: [HH7_spk, IA7, HV7_spk]
+  CNN_layers: [HH7, IA7, HV7]
   verbosity: 2
   epochs: 10000
   K-fold: 10
