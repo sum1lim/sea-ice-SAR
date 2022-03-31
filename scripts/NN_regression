@@ -26,6 +26,7 @@ from tensorflow.keras.layers import (
     MaxPooling3D,
     Flatten,
     concatenate,
+    dropout,
 )
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 
@@ -70,27 +71,34 @@ def NN(
         conv_layer = Conv3D(4, (3, 3, 3), activation="relu", padding="same")(conv_layer)
         conv_layer = MaxPooling3D(pool_size=(2, 2, 2), padding="same")(conv_layer)
         conv_layer = Flatten()(conv_layer)
+        conv_layer = dropout(rate=0.7, training=True)(conv_layer)
         cat_layer = concatenate([cat_input, conv_layer])
         hidden_layer = Dense(
             hidden_layer_size, kernel_initializer="normal", activation="relu"
         )(cat_layer)
+        hidden_layer = dropout(rate=0.7, training=True)(hidden_layer)
     else:
         hidden_layer = Dense(
             hidden_layer_size, kernel_initializer="normal", activation="relu"
         )(cat_input)
+        hidden_layer = dropout(rate=0.7, training=True)(hidden_layer)
 
     hidden_layer = Dense(
         hidden_layer_size, kernel_initializer="normal", activation="relu"
     )(hidden_layer)
+    hidden_layer = dropout(rate=0.7, training=True)(hidden_layer)
     hidden_layer = Dense(
         hidden_layer_size, kernel_initializer="normal", activation="relu"
     )(hidden_layer)
+    hidden_layer = dropout(rate=0.7, training=True)(hidden_layer)
     hidden_layer = Dense(
         hidden_layer_size, kernel_initializer="normal", activation="relu"
     )(hidden_layer)
+    hidden_layer = dropout(rate=0.7, training=True)(hidden_layer)
     hidden_layer = Dense(
         hidden_layer_size, kernel_initializer="normal", activation="relu"
     )(hidden_layer)
+    hidden_layer = dropout(rate=0.7, training=True)(hidden_layer)
     output_layer = Dense(
         output_layer_size,
         kernel_initializer="normal",
