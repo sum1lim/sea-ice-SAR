@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import pandas as pd
+import numpy as np
 from matplotlib import pyplot as plt
 from skimage import data, io
 
@@ -12,6 +13,9 @@ def main(args):
 
     for idx, row in df.iterrows():
         output_img[row[args.row]][row[args.col]] = row[args.label]
+
+    output_img = np.array(normalized=(x - min(x)) / (max(x) - min(x)))
+    output_img = (output_img - min(output_img)) / (max(output_img) - min(output_img))
 
     io.imshow(output_img)
     plt.show()
