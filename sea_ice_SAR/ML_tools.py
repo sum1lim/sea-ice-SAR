@@ -238,15 +238,14 @@ def process_data(
     dataframe = dataframe.drop(dataframe[dataframe[label_key] < value_range[0]].index)
     dataframe = dataframe.drop(dataframe[dataframe[label_key] > value_range[1]].index)
 
-    Q1 = dataframe[label_key].quantile(0.25)
-    Q3 = dataframe[label_key].quantile(0.75)
-    IQR = Q3 - Q1
-
-    dataframe = dataframe.query(
-        f"(@Q1 - 1.5 * @IQR) <= {label_key} <= (@Q3 + 1.5 * @IQR)"
-    )
-
     if resampling:
+        Q1 = dataframe[label_key].quantile(0.25)
+        Q3 = dataframe[label_key].quantile(0.75)
+        IQR = Q3 - Q1
+
+        dataframe = dataframe.query(
+            f"(@Q1 - 1.5 * @IQR) <= {label_key} <= (@Q3 + 1.5 * @IQR)"
+        )
         if regression:
             Y_classes, bins = pandas.cut(dataframe[label_key], bins=25, retbins=True)
             print(bins, file=sys.stdout)
