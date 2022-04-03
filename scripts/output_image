@@ -1,9 +1,20 @@
 #!/usr/bin/env python3
 import argparse
+import pandas as pd
+from matplotlib import pyplot as plt
+from skimage import data, io
 
 
 def main(args):
-    None
+    df = pd.read_csv(args.input, header=0)
+
+    output_img = [[0 for _ in range(100)] for _ in range(100)]
+
+    for idx, row in df.iterrows():
+        output_img[row[args.row]][row[args.col]] = row[args.label]
+
+    io.imshow(output_img)
+    plt.show()
 
 
 if __name__ == "__main__":
@@ -15,9 +26,19 @@ if __name__ == "__main__":
         help="Input CSV",
     )
     parser.add_argument(
-        "--label-col",
-        type=int,
-        help="Index of the label column (starting from 0)",
+        "--row",
+        type=str,
+        help="Name of the Y column",
+    )
+    parser.add_argument(
+        "--row",
+        type=str,
+        help="Name of the X column",
+    )
+    parser.add_argument(
+        "--label",
+        type=str,
+        help="Name of the label column",
     )
 
     args = parser.parse_args()
