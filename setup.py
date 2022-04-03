@@ -24,6 +24,6 @@ setup(
         ./scripts/test_regression
         ./scripts/test_classification
         ./scripts/boxplot
-        ./scripts/predict_classification
+        ./scripts/predict
     """.split(),
 )
