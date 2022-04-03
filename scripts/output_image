@@ -12,7 +12,9 @@ def main(args):
     output_img = [[0 for _ in range(100)] for _ in range(100)]
 
     for idx, row in df.iterrows():
-        output_img[row[args.row]][row[args.col]] = row[args.label]
+        output_img[row[args.row] - args.center[0] + 50][
+            row[args.col] - args.center[1] + 50
+        ] = row[args.label]
 
     output_img = np.array(normalized=(x - min(x)) / (max(x) - min(x)))
     output_img = (output_img - min(output_img)) / (max(output_img) - min(output_img))
@@ -43,6 +45,12 @@ if __name__ == "__main__":
         "--label",
         type=str,
         help="Name of the label column",
+    )
+    parser.add_argument(
+        "--center",
+        nargs=2,
+        type=int,
+        help="(row, col) coorindates of the image",
     )
 
     args = parser.parse_args()
