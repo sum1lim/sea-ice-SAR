@@ -12,12 +12,16 @@ def main(args):
     output_img = [[0 for _ in range(100)] for _ in range(100)]
 
     for idx, row in df.iterrows():
-        output_img[row[args.row] - args.center[0] + 50][
-            row[args.col] - args.center[1] + 50
-        ] = row[args.label]
+        y = row[args.row] - args.center[0] + 50
+        x = row[args.col] - args.center[1] + 50
+        if x > 0 and y > 0 and x < 99 and y < 99:
+            output_img[y][x] = row[args.label]
 
-    output_img = np.array(normalized=(x - min(x)) / (max(x) - min(x)))
-    output_img = (output_img - min(output_img)) / (max(output_img) - min(output_img))
+    print(output_img)
+
+    output_img = np.array(output_img)
+    print(output_img)
+    output_img = (output_img - output_img.min()) / (output_img.max() - output_img.min())
 
     io.imshow(output_img)
     plt.show()
@@ -37,7 +41,7 @@ if __name__ == "__main__":
         help="Name of the Y column",
     )
     parser.add_argument(
-        "--row",
+        "--col",
         type=str,
         help="Name of the X column",
     )
