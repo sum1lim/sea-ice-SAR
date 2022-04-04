@@ -1,0 +1,13 @@
+---
+configuration:
+  train_data: [/tmp/train.csv, /tmp/train2.csv]
+  test_data: [/tmp/test.csv, /tmp/test2.csv]
+  verbosity: 2
+  epochs: 10000
+  K-fold: 10
+  hidden_size: 15
+  min_num_points: 1
+  smote: False
+  
+drop_features:
+...

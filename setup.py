@@ -16,6 +16,7 @@ setup(
         ./scripts/create_dataset
         ./scripts/crosspol_ratio
         ./scripts/edge_detection
+        ./scripts/predict
         ./scripts/output_image
     """.split(),
 )

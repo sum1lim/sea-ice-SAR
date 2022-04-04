@@ -1,10 +1,7 @@
-# TODO: Multi-stage
-# https://pythonspeed.com/articles/faster-multi-stage-builds/
-
 # Use latest Ubuntu
 FROM ubuntu:focal
 
-# Update base container
+# Update base
 RUN apt update
 
 # Set timezone
@@ -57,17 +54,25 @@ RUN pip install --upgrade pip \
 COPY requirements.txt .
 RUN python3 -m pip install -r requirements.txt
 
-# Ensure script files are UNIX friendly
-# ADD TO README python3 ./scripts/EOL_converter.py
-
 # Install Setup.py scripts
 COPY . .
 RUN python3 -m pip install .
 
-# Copy files into docker image
-WORKDIR /app
-COPY . /app
+# User defined pixel (x, y)
+# CMD [ "python3", "/scripts/pixel_select.py", "250", "260" ]
+# CMD [ "", "" ] # shell scripts
+# CMD [ "", "" ] # touch assets folder
 
-# Run scripts and save outputs to local machine
-# TODO
-# https://stackoverflow.com/questions/44876778/how-can-i-use-a-local-file-on-container
+
+# Prediction process
+# Need new config files
+# Transfer models to docker branch
+# Output image script 
+
+# docker run -v "C:/Users/omark/Documents/Spring 2022/GEOG 422/data:/data" --tmpfs /tmp:exec -t -i sea-ice-sar 
+
+# python3 /scripts/pixel_select.py 250 250
+
+# /streamline.sh 
+
+# https://stackoverflow.com/questions/70117550/cannot-load-pb-file-input-model-savedmodel-format-load-failure-userobject

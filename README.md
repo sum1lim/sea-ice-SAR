@@ -1,8 +1,15 @@
 # Deep Learning for Sea Ice Roughness/Thickness Prediction
 
-**Author**: [Sangwon Lim](https://github.com/sum1lim) and [Omar Kawach](https://github.com/omarkawach)
+**Author**: [Omar Kawach](https://github.com/omarkawach) and [Sangwon Lim](https://github.com/sum1lim) 
 
 ## Getting Started
+
+The assumption in these steps is that you have downloaded the repository and are working from the ```sea-ice-SAR``` directory. 
+
+### OPTIONAL: Ensure script files are UNIX friendly
+Download [Python3](https://www.python.org/downloads/) on your local machine.
+
+Run ```python3 ./scripts/EOL_converter.py```
 
 ### Docker
 
@@ -25,9 +32,14 @@ docker build -t  sea-ice-sar .
 
 Run the container:
 ```
-docker run -v "C:/Users/omark/Documents/Spring 2022/GEOG 422/data" -t -i sea-ice-sar 
+docker run -v "C:/absolute_path_to_your_data_folder:/data" -t -i sea-ice-sar 
 ```
-Bind mount
+
+You must include the absolute path to your data in the command. 
+
+:/data is where your data folder will be mounted.
+
+This is so that all outputs may be saved to your local machine
 
 ## Scripts
 #### crosspol_ratio
@@ -68,3 +80,13 @@ Box plots to summarize test results.
 boxplot --result-dir ./results/NN_rms_regr/FYI --model-type regression --methods backscatter corr_std GLCM CAE SOBEL_CAE canny_CAE
 boxplot --result-dir ./results/NN_type_class/ --model-type classification --methods backscatter corr_std GLCM CAE SOBEL_CAE canny_CAE
 ```
+
+## Resources
+
+[What is Docker?](https://www.ibm.com/cloud/learn/docker)
+
+[Docker Image vs Container](https://phoenixnap.com/kb/docker-image-vs-container)
+
+[Docker Bind Mount](https://docs.docker.com/storage/bind-mounts/)
+
+[Docker Volume vs Bind Mount](https://blog.logrocket.com/docker-volumes-vs-bind-mounts/)

@@ -1,0 +1,36 @@
+---
+configuration:
+  smote: False
+  aggregate: True
+  window_size: 1
+
+train_data:
+  /tmp/base.csv:
+    SAR_data:
+      File: /data/input.tif
+      Bands:
+        1: HH
+        2: HV
+        3: IA
+    lat: 4
+    lon: 5
+    label: 3
+    row: 1
+    col: 2
+test_data:
+  /tmp/base.csv:
+    SAR_data:
+      File: /data/input.tif
+      Bands:
+        1: HH
+        2: HV
+        3: IA
+    lat: 4
+    lon: 5
+    label: 3
+    row: 1
+    col: 2
+
+output_dir:
+  train_data: /tmp/train.csv
+  test_data: /tmp/test.csv

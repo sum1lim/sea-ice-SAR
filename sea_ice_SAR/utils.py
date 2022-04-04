@@ -76,12 +76,12 @@ def decompose_filepath(filepath):
 
 def window(raster, row, col, size=1):
     if size == 1:
-        return [raster[row, col]]
+        return [raster[row, col] / 255]
     elif size > 1:
         lower_bound = math.ceil(-size / 2)
         upper_bound = math.ceil(size / 2)
         return [
-            raster[row + i, col + j]
+            raster[row + i, col + j] / 255
             for i in range(lower_bound, upper_bound)
             for j in range(lower_bound, upper_bound)
         ]
