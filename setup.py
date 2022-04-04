@@ -20,6 +20,7 @@ setup(
         ./scripts/CAE
         ./scripts/NN_regression
         ./scripts/NN_classification
+        ./scripts/pixel_select
         ./scripts/test_regression
         ./scripts/test_classification
         ./scripts/boxplot
