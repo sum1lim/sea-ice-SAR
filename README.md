@@ -1,5 +1,7 @@
 # Deep Learning for Sea Ice Roughness/Thickness Prediction
 
+*Development paused due to issue with TensorFlow protobuf files in Docker*
+
 **Author**: [Omar Kawach](https://github.com/omarkawach) and [Sangwon Lim](https://github.com/sum1lim) 
 
 ## Getting Started
