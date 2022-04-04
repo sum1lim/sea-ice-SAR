@@ -8,32 +8,38 @@ from sea_ice_SAR.utils import decompose_filepath
 
 def main(args):
     ds = gdal.Open(args.input)
-    band = ds.GetRasterBand(1)
-    band_arr = band.ReadAsArray()
-
-    if args.method == "sobel":
-        processed = ndimage.sobel(band_arr)
-    if args.method == "canny":
-        processed = feature.canny(band_arr)
-
     dir, filename, _ = decompose_filepath(args.input)
-
-    [rows, cols] = band_arr.shape
-    driver = gdal.GetDriverByName("GTiff")
-    outdata = driver.Create(
-        f"{dir}/{filename}_{args.method}.tif",
-        cols,
-        rows,
-        1,
-        gdal.GDT_Float64,
+    tmp_ds = gdal.GetDriverByName("MEM").CreateCopy(
+        f"{dir}/{filename}_{args.method}.tif", ds, 0
     )
-    outdata.SetGeoTransform(ds.GetGeoTransform())
-    outdata.SetProjection(ds.GetProjection())
-    outdata.GetRasterBand(1).WriteArray(processed)
-    outdata.FlushCache()
-    outdata = None
-    band = None
-    ds = None
+
+    if type(args.bands) == str:
+        args.bands = [args.bands]
+
+    for band in args.bands:
+        band_arr = ds.GetRasterBand(band).ReadAsArray().astype("float32")
+
+        if args.method == "sobel":
+            processed = ndimage.sobel(band_arr).astype("float32")
+        if args.method == "canny":
+            processed = feature.canny(band_arr).astype("float32")
+
+        processed = 255 * (
+            (processed - processed.min()) / (processed.max() - processed.min())
+        )
+
+        tmp_ds.AddBand()
+        tmp_ds.GetRasterBand(tmp_ds.RasterCount).WriteArray(processed)
+
+    dst_ds = gdal.GetDriverByName("GTiff").CreateCopy(
+        f"{dir}/{filename}_{args.method}.tif", tmp_ds, 0
+    )
+    dst_ds.SetGeoTransform(ds.GetGeoTransform())
+    dst_ds.SetProjection(ds.GetProjection())
+    tmp_ds.FlushCache()
+    dst_ds.FlushCache()
+    tmp_ds = None
+    dst_ds = None
 
 
 if __name__ == "__main__":
@@ -41,6 +47,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--input",
+        nargs="+",
         type=str,
         help="Input file path",
     )
@@ -48,9 +55,20 @@ if __name__ == "__main__":
         "--method",
         type=str,
         help="Edge detection method ['SOBEL', 'canny']",
-        choices=["SOBEL", "canny"],
+        choices=["sobel", "canny"],
+    )
+    parser.add_argument(
+        "--bands",
+        nargs="+",
+        type=int,
+        help="Band to perform edge detection on",
     )
 
     args = parser.parse_args()
-
-    main(args)
+    if type(args.input) == list:
+        inputs = args.input[:]
+        for ip in inputs:
+            args.input = ip
+            main(args)
+    else:
+        main(args)

@@ -26,6 +26,7 @@ from tensorflow.keras.layers import (
     MaxPooling3D,
     Flatten,
     concatenate,
+    Dropout,
 )
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 
@@ -41,6 +42,7 @@ def NN(
     padding_2d=None,
     padding_height=None,
     is_CNN=False,
+    loss_function="mean_squared_error",
 ):
     if is_CNN and num_layers > 4:
         cat_layer_size = input_layer_size + 32
@@ -68,30 +70,49 @@ def NN(
         conv_layer = MaxPooling3D(pool_size=(2, 2, 2), padding="same")(conv_layer)
         conv_layer = Conv3D(4, (3, 3, 3), activation="relu", padding="same")(conv_layer)
         conv_layer = MaxPooling3D(pool_size=(2, 2, 2), padding="same")(conv_layer)
-        conv_layer = Flatten()(conv_layer)
-
-    if is_CNN:
-        cat_layer = concatenate([cat_input, conv_layer])
+        flatten_layer = Flatten()(conv_layer)
+        # flatten_layer = Dropout(
+        #     rate=0.8,
+        # )(flatten_layer)
+        cat_layer = concatenate([cat_input, flatten_layer])
         hidden_layer = Dense(
             hidden_layer_size, kernel_initializer="normal", activation="relu"
         )(cat_layer)
+        # hidden_layer = Dropout(
+        #     rate=0.8,
+        # )(hidden_layer)
     else:
         hidden_layer = Dense(
             hidden_layer_size, kernel_initializer="normal", activation="relu"
         )(cat_input)
+        # hidden_layer = Dropout(
+        #     rate=0.8,
+        # )(hidden_layer)
 
     hidden_layer = Dense(
         hidden_layer_size, kernel_initializer="normal", activation="relu"
     )(hidden_layer)
+    # hidden_layer = Dropout(
+    #     rate=0.8,
+    # )(hidden_layer)
     hidden_layer = Dense(
         hidden_layer_size, kernel_initializer="normal", activation="relu"
     )(hidden_layer)
+    # hidden_layer = Dropout(
+    #     rate=0.8,
+    # )(hidden_layer)
     hidden_layer = Dense(
         hidden_layer_size, kernel_initializer="normal", activation="relu"
     )(hidden_layer)
+    # hidden_layer = Dropout(
+    #     rate=0.8,
+    # )(hidden_layer)
     hidden_layer = Dense(
         hidden_layer_size, kernel_initializer="normal", activation="relu"
     )(hidden_layer)
+    # hidden_layer = Dropout(
+    #     rate=0.8,
+    # )(hidden_layer)
     output_layer = Dense(
         output_layer_size,
         kernel_initializer="normal",
@@ -102,7 +123,7 @@ def NN(
     else:
         model = Model(inputs=[cat_input], outputs=[output_layer])
 
-    model.compile(loss="mean_squared_error", optimizer="adam")
+    model.compile(loss=loss_function, optimizer="adam", metrics=["mse", "mae"])
     model.summary()
 
     return model
@@ -119,9 +140,10 @@ def main(args):
         K,
         _,
         min_num_points,
-        smote,
         masks,
         CNN_layers,
+        value_range,
+        loss_function,
     ) = config_parser(args.ml_config)
 
     # Set up results directory
@@ -143,8 +165,9 @@ def main(args):
         regression=True,
         min_num_points=min_num_points,
         masks=masks,
-        smote=smote,
+        resampling=True,
         CNN_layers=CNN_layers,
+        value_range=value_range,
     )
 
     # Define hidden layer size
@@ -155,8 +178,10 @@ def main(args):
 
     if type(CNN_stacks) == np.ndarray:
         is_CNN = True
+        patience = 100
     else:
         is_CNN = False
+        patience = 100
 
     # K-fold classification
     tr_val_pairs = tr_val_split(K, X_tr, Y_tr)
@@ -171,7 +196,7 @@ def main(args):
             filepath=checkpoint_path, save_best_only=True, verbose=verbosity, mode="min"
         )
         es_callback = EarlyStopping(
-            monitor="val_loss", mode="min", verbose=verbosity, patience=200
+            monitor="val_loss", mode="min", verbose=verbosity, patience=patience
         )
 
         model = NN(
@@ -183,6 +208,7 @@ def main(args):
             padding_2d=padding_2d,
             padding_height=padding_height,
             is_CNN=is_CNN,
+            loss_function=loss_function,
         )
 
         if is_CNN:

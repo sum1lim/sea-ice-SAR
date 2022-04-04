@@ -93,7 +93,7 @@ def CAE_output(encoded_df, input_dir, input_file, output_filename, min_num_point
 
 def convert_to_vectors(df):
     flatten = Sequential()
-    flatten.add(Input(shape=df.shape))
+    flatten.add(Input(shape=df.shape[1:]))
     flatten.add(Flatten())
     flatten.compile()
 
@@ -120,80 +120,106 @@ def main(args):
 
     _, filename, _ = decompose_filepath(args.config)
 
-    log_file = open(f"./CAE_models/{filename}/train.log", "w")
     try:
         os.mkdir(f"./CAE_models/{filename}")
-        sys.stdout = log_file
     except FileExistsError:
         None
 
-    encoded_df_tr = []
-    encoded_df_te = []
+    log_file = open(f"./CAE_models/{filename}/train.log", "w")
+    sys.stdout = log_file
 
-    _, X_tr, _ = process_data(
-        [f"{config_dict['train_dir']}/{f}.csv" for f in config_dict["filenames"]],
-        min_num_points=config_dict["min_num_points"],
-        CNN_layers=config_dict["filenames"],
-    )
-    _, X_te, _ = process_data(
-        [f"{config_dict['test_dir']}/{f}.csv" for f in config_dict["filenames"]],
-        min_num_points=config_dict["min_num_points"],
-        CNN_layers=config_dict["filenames"],
-    )
+    for i in range(len(config_dict["train_dir"])):
+        checkpoint_path = f"./CAE_models/{filename}/ckpt"
 
-    size_2d, num_layers, padding_2d, padding_height = CNN_stack_shape(X_tr)
+        if not os.path.exists(checkpoint_path):
+            _, X_tr, _ = process_data(
+                [
+                    f"{config_dict['train_dir'][i]}/{f}.csv"
+                    for f in config_dict["filenames"]
+                ],
+                min_num_points=config_dict["min_num_points"],
+                CNN_layers=config_dict["filenames"],
+                resampling=True,
+            )
+            _, X_te, _ = process_data(
+                [
+                    f"{config_dict['test_dir'][i]}/{f}.csv"
+                    for f in config_dict["filenames"]
+                ],
+                min_num_points=config_dict["min_num_points"],
+                CNN_layers=config_dict["filenames"],
+                resampling=True,
+            )
 
-    checkpoint_path = f"./CAE_models/{filename}/ckpt"
+            size_2d, num_layers, padding_2d, padding_height = CNN_stack_shape(X_tr)
 
-    if not os.path.exists(checkpoint_path):
-        cp_callback = ModelCheckpoint(
-            filepath=checkpoint_path,
-            save_best_only=True,
-            mode="min",
-            verbose=config_dict["verbosity"],
+            cp_callback = ModelCheckpoint(
+                filepath=checkpoint_path,
+                save_best_only=True,
+                mode="min",
+                verbose=config_dict["verbosity"],
+            )
+            es_callback = EarlyStopping(
+                monitor="val_loss",
+                mode="min",
+                patience=20,
+                verbose=config_dict["verbosity"],
+            )
+            autoencoder = CAE(size_2d, num_layers, padding_2d, padding_height)
+            autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
+
+            model_summary = autoencoder.fit(
+                X_tr,
+                X_tr,
+                epochs=config_dict["epochs"],
+                batch_size=1024,
+                shuffle=True,
+                validation_data=(X_te, X_te),
+                callbacks=[cp_callback, es_callback],
+                verbose=config_dict["verbosity"],
+            )
+
+        autoencoder = load_model(checkpoint_path)
+
+        encoded_df_tr = []
+        encoded_df_te = []
+
+        _, X_tr, _ = process_data(
+            [
+                f"{config_dict['train_dir'][i]}/{f}.csv"
+                for f in config_dict["filenames"]
+            ],
+            min_num_points=config_dict["min_num_points"],
+            CNN_layers=config_dict["filenames"],
+            resampling=False,
         )
-        es_callback = EarlyStopping(
-            monitor="val_loss",
-            mode="min",
-            patience=50,
-            verbose=config_dict["verbosity"],
-        )
-        autoencoder = CAE(size_2d, num_layers, padding_2d, padding_height)
-        autoencoder.compile(optimizer="adam", loss=losses.MeanSquaredError())
-
-        model_summary = autoencoder.fit(
-            X_tr,
-            X_tr,
-            epochs=config_dict["epochs"],
-            batch_size=1024,
-            shuffle=True,
-            validation_data=(X_te, X_te),
-            callbacks=[cp_callback, es_callback],
-            verbose=config_dict["verbosity"],
+        _, X_te, _ = process_data(
+            [f"{config_dict['test_dir'][i]}/{f}.csv" for f in config_dict["filenames"]],
+            min_num_points=config_dict["min_num_points"],
+            CNN_layers=config_dict["filenames"],
+            resampling=False,
         )
 
-    autoencoder = load_model(checkpoint_path)
+        encoded_tr, _ = predict(autoencoder, X_tr, "train")
+        encoded_te, _ = predict(autoencoder, X_te, "test")
 
-    encoded_tr, _ = predict(autoencoder, X_tr, "train")
-    encoded_te, _ = predict(autoencoder, X_te, "test")
+        encoded_df_tr.append(convert_to_vectors(encoded_tr))
+        encoded_df_te.append(convert_to_vectors(encoded_te))
 
-    encoded_df_tr.append(convert_to_vectors(encoded_tr))
-    encoded_df_te.append(convert_to_vectors(encoded_te))
-
-    CAE_output(
-        encoded_df_tr,
-        config_dict["train_dir"],
-        config_dict["filenames"][0],
-        config_dict["output_filename"],
-        config_dict["min_num_points"],
-    )
-    CAE_output(
-        encoded_df_te,
-        config_dict["test_dir"],
-        config_dict["filenames"][0],
-        config_dict["output_filename"],
-        config_dict["min_num_points"],
-    )
+        CAE_output(
+            encoded_df_tr,
+            config_dict["train_dir"][i],
+            config_dict["filenames"][0],
+            config_dict["output_filename"],
+            config_dict["min_num_points"],
+        )
+        CAE_output(
+            encoded_df_te,
+            config_dict["test_dir"][i],
+            config_dict["filenames"][0],
+            config_dict["output_filename"],
+            config_dict["min_num_points"],
+        )
 
     log_file.close()
 

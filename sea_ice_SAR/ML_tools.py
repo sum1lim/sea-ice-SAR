@@ -1,7 +1,5 @@
 import sys
-import csv
 import yaml
-import smogn
 import numpy as np
 import pandas
 import seaborn as sns
@@ -13,7 +11,7 @@ from collections import Counter
 from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import KFold
-from imblearn.over_sampling import RandomOverSampler
+from imblearn.under_sampling import RandomUnderSampler, OneSidedSelection
 
 
 def config_parser(ml_config):
@@ -47,10 +45,6 @@ def config_parser(ml_config):
             min_num_points = params["min_num_points"]
         else:
             min_num_points = 0
-        if "smote" in params.keys():
-            smote = params["smote"]
-        else:
-            smote = False
         if "masks" in params.keys():
             masks = params["masks"]
         else:
@@ -59,6 +53,14 @@ def config_parser(ml_config):
             CNN_layers = params["CNN_layers"]
         else:
             CNN_layers = []
+        if "value_range" in params.keys():
+            value_range = params["value_range"]
+        else:
+            value_range = [-np.inf, np.inf]
+        if "loss_function" in params.keys():
+            loss_function = params["loss_function"]
+        else:
+            loss_function = "mean_squared_error"
 
     return (
         train_data,
@@ -69,9 +71,10 @@ def config_parser(ml_config):
         K,
         kernel_size,
         min_num_points,
-        smote,
         masks,
         CNN_layers,
+        value_range,
+        loss_function,
     )
 
 
@@ -126,8 +129,10 @@ def process_data(
     regression=True,
     min_num_points=0,
     masks=[-1, 0, 1, 2, 3],
-    smote=False,
     CNN_layers=[],
+    resampling=True,
+    dropna=True,
+    value_range=[-np.inf, np.inf],
 ):
     """
     Merge labels and/or select feautres for learning
@@ -148,6 +153,8 @@ def process_data(
     for idx, df in enumerate(df_li):
         if idx == 0:
             dataframe = df
+            dataframe["src_dir"] = dataframe["src_dir"].str.replace("_Spk", "")
+            dataframe["src_dir"] = dataframe["src_dir"].str.replace("_canny", "")
 
         # use labels and num_points from the very first dataframe
         df = df.drop(columns=["label", "num_points"])
@@ -161,10 +168,13 @@ def process_data(
                 CNN_stack = np.concatenate((CNN_stack, layer_2d), axis=-1)
             num_CNN_layers += 1
         elif idx > 0:
+            df["src_dir"] = df["src_dir"].str.replace("_Spk", "")
+            df["src_dir"] = df["src_dir"].str.replace("_canny", "")
             dataframe = pandas.merge(
                 dataframe,
                 df,
                 on=["src_dir", "row", "col", "mask"],
+                how="left",
             )
 
     if type(CNN_stack) == np.ndarray:
@@ -173,6 +183,9 @@ def process_data(
             (len(CNN_stack), input_dimension, input_dimension, num_CNN_layers, 1),
         )
         dataframe["CNN"] = CNN_stack.tolist()
+
+    if dropna:
+        dataframe = dataframe.dropna()
 
     dataframe.drop(
         dataframe[dataframe["num_points"] < min_num_points].index, inplace=True
@@ -222,54 +235,77 @@ def process_data(
         except KeyError:
             continue
 
-    # SMOTE over/under-sampling
-    if smote:
-        print(
-            f"Before SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
-            file=sys.stdout,
-        )
-        print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
-        dataframe = dataframe.dropna()
-        dataframe.reset_index(drop=True, inplace=True)
-        while True:
-            try:
-                dataframe = smogn.smoter(
-                    data=dataframe, y=label_key, samp_method="extreme"
-                )
-                break
-            except ValueError:
-                continue
-        dataframe = dataframe.dropna()
-        dataframe.reset_index(drop=True, inplace=True)
-        print(
-            f"After SMOTE\n Box Stats: {smogn.box_plot_stats(dataframe['label'])['stats']}",
-            file=sys.stdout,
-        )
-        print(f" Number of samples: {dataframe.shape[0]}\n", file=sys.stdout)
+    dataframe = dataframe.drop(dataframe[dataframe[label_key] < value_range[0]].index)
+    dataframe = dataframe.drop(dataframe[dataframe[label_key] > value_range[1]].index)
 
+    if resampling:
+        Q1 = dataframe[label_key].quantile(0.25)
+        Q3 = dataframe[label_key].quantile(0.75)
+        IQR = Q3 - Q1
+
+        dataframe = dataframe.query(
+            f"(@Q1 - 1.5 * @IQR) <= {label_key} <= (@Q3 + 1.5 * @IQR)"
+        )
+        
+        if regression:
+            Y_classes, bins = pandas.cut(dataframe[label_key], bins=25, retbins=True)
+            print(bins, file=sys.stdout)
+            le = LabelEncoder()
+            Y_classes = le.fit_transform(Y_classes)
+            print(
+                f"Before undersampling: {sorted(Counter(Y_classes).items())}",
+                file=sys.stdout,
+            )
+            undersample = OneSidedSelection(n_neighbors=1, n_seeds_S=10)
+
+            dataframe["idx"] = dataframe.index
+            if type(CNN_stack) == np.ndarray:
+
+                new_data, Y_classes = undersample.fit_resample(
+                    dataframe.drop(["CNN"], axis=1), Y_classes
+                )
+                dataframe = new_data.merge(
+                    dataframe[["idx", "CNN"]], left_on="idx", right_on="idx"
+                )
+            else:
+                dataframe, Y_classes = undersample.fit_resample(dataframe, Y_classes)
+
+            dataframe = dataframe.drop(["idx"], axis=1)
+
+            print(
+                f"After undersampling: {sorted(Counter(Y_classes).items())}",
+                file=sys.stdout,
+            )
+        else:
+            print(
+                f"Before undersampling: {sorted(Counter(dataframe[label_key]).items())}",
+                file=sys.stdout,
+            )
+            undersample = RandomUnderSampler(sampling_strategy="not minority")
+            X, Y = undersample.fit_resample(
+                dataframe.drop([label_key], axis=1), dataframe[label_key]
+            )
+            dataframe = pandas.concat([Y, X], axis=1)
+            print(f"After undersampling: {sorted(Counter(Y).items())}", file=sys.stdout)
+
+    print(dataframe, file=sys.stdout)
     CNN_dataset = None
     if type(CNN_stack) == np.ndarray:
         CNN_dataset = np.array([np.array(v) for v in dataframe["CNN"].values])
         dataframe = dataframe.drop(columns=["CNN"])
 
     dataset = dataframe.values
-    print(f"Size of dataset: {dataset.shape}", file=sys.stderr)
+    print(f"Size of dataset: {dataset.shape}", file=sys.stdout)
     X = dataset[:, 1:].astype(float)
     Y = dataset[:, 0]
 
     if regression:
         return X, CNN_dataset, Y
     else:
-        print(f"Before oversampling: {Counter(Y)}", file=sys.stdout)
-        oversample = RandomOverSampler(sampling_strategy="not majority")
-        X, Y = oversample.fit_resample(X, Y)
-        print(f"After oversampling: {Counter(Y)}", file=sys.stdout)
-
         encoder = LabelEncoder()
         encoder.fit(Y)
         encoded_Y = encoder.transform(Y)
         print(f"Classes: {encoder.classes_}", file=sys.stdout)
-
         return X, CNN_dataset, encoded_Y, encoder.classes_
 
 
@@ -314,11 +350,11 @@ def construct_confusion_matrix(classes, Y_te, y_pred, result_dir, k):
 
     print(cm_percentage, file=sys.stdout)
 
-    cm_csv = open(f"{result_dir}/confusion_matrix_{k+1}.csv", "w", newline="")
-    cm_writer = csv.writer(cm_csv)
-    cm_writer.writerow(np.insert(classes, 0, None, axis=0))
-    for i, row in enumerate(cm_counts):
-        cm_writer.writerow(np.insert(row, 0, classes[i], axis=0))
+    # cm_csv = open(f"{result_dir}/confusion_matrix_{k+1}.csv", "w", newline="")
+    # cm_writer = csv.writer(cm_csv)
+    # cm_writer.writerow(np.insert(classes, 0, None, axis=0))
+    # for i, row in enumerate(cm_counts):
+    #     cm_writer.writerow(np.insert(row, 0, classes[i], axis=0))
 
     sns.set(font_scale=0.5)
     sns.heatmap(cm_counts, linewidths=1, annot=True, fmt="g")

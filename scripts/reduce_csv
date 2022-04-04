@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+import argparse
+from csv import reader, writer
+
+
+def main(args):
+    write_obj = open(f"{args.input[:-4]}_reduce.csv", "w")
+    with open(args.input, "r") as read_obj:
+        csv_reader = reader(read_obj)
+        csv_writer = writer(write_obj)
+        for idx, row in enumerate(csv_reader):
+            if idx == 0:
+                label_idx = row.index(args.label)
+                lat_idx = row.index("lat")
+                lon_idx = row.index("lon")
+                csv_writer.writerow(["Name", row[lat_idx], row[lon_idx]])
+            elif idx % 10 == 0:
+                csv_writer.writerow([row[label_idx], row[lat_idx], row[lon_idx]])
+
+    write_obj.close()
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--input",
+        type=str,
+        help="CSV file to reduce",
+    )
+    parser.add_argument(
+        "--label",
+        type=str,
+        help="Label column",
+    )
+
+    args = parser.parse_args()
+
+    main(args)

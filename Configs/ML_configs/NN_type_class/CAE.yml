@@ -1,31 +1,19 @@
 ---
 configuration:
-  train_data: [./data/thk_tr_data/aggr.csv, ./data/thk_tr_data/CAE_norm.csv]
-  test_data: [./data/thk_te_data/aggr.csv, ./data/thk_te_data/CAE_norm.csv]
-  verbosity: 0
+  train_data: [./data/roughness/train/rms.csv, ./data/roughness/train/rms_spk.csv, ./data/roughness/train/CAE.csv]
+  test_data: [./data/roughness/test/rms.csv, ./data/roughness/test/rms_spk.csv, ./data/roughness/test/CAE.csv]
+  verbosity: 2
   epochs: 10000
   K-fold: 10
-  # hidden_size: 100
-  min_num_points: 10
+  hidden_size: 50
+  min_num_points: 1
   masks: [1, 2, 3]
 
 labels:
   label: mask
-  1: [1, 2]
-  2: [3, 3]
+  1: [1, 1]
+  2: [2, 2]
+  3: [3, 3]
 
 drop_features:
-  # - hh
-  # - hv
-  # - ratio
-  # - c5
-  # - c7
-  # - c9
-  # - std_hh5
-  # - std_hh7
-  # - std_hh9
-  # - std_hv5
-  # - std_hv7
-  # - std_hv9
-  # - theta
 ...

@@ -11,6 +11,7 @@ setup(
     packages=["sea_ice_SAR"],
     include_package_data=True,
     scripts="""
+        ./scripts/reduce_csv
         ./scripts/crosspol_ratio
         ./scripts/edge_detection
         ./scripts/normalize
@@ -24,5 +25,6 @@ setup(
         ./scripts/test_regression
         ./scripts/test_classification
         ./scripts/boxplot
+        ./scripts/predict
     """.split(),
 )

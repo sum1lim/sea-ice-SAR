@@ -29,9 +29,10 @@ def main(args):
         K,
         _,
         min_num_points,
-        _,
         masks,
         CNN_layers,
+        value_range,
+        _,
     ) = config_parser(args.ml_config)
     _, cfg_filename, _ = decompose_filepath(args.ml_config)
 
@@ -43,9 +44,11 @@ def main(args):
         test_data,
         args.ml_config,
         regression=True,
-        min_num_points=min_num_points,
         masks=masks,
+        resampling=True,
         CNN_layers=CNN_layers,
+        min_num_points=min_num_points,
+        value_range=value_range,
     )
 
     if type(CNN_stacks) == np.ndarray:

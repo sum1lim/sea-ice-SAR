@@ -1,0 +1,26 @@
+---
+configuration:
+  train_data: [
+    ./data/thickness/train/thk.csv, 
+    ./data/thickness/train/thk_spk.csv,
+    ./data/thickness/train/HH7_spk.csv,
+    ./data/thickness/train/IA7.csv,
+    ./data/thickness/train/HV7_spk.csv,
+  ]
+  test_data: [
+    ./data/thickness/test/thk.csv, 
+    ./data/thickness/test/thk_spk.csv,
+    ./data/thickness/test/HH7_spk.csv,
+    ./data/thickness/test/IA7.csv,
+    ./data/thickness/test/HV7_spk.csv,
+  ]
+  CNN_layers: [HH7_spk, IA7, HV7_spk]
+  verbosity: 2
+  epochs: 10000
+  K-fold: 10
+  hidden_size: 200
+  min_num_points: 1
+  smote: False
+  
+drop_features:
+...

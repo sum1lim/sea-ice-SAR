@@ -1,0 +1,13 @@
+---
+configuration:
+  train_data: [./results/NN_type_class/CNN/updated_tr_rms.csv, ./data/roughness/train/rms_spk.csv]
+  test_data: [./results/NN_type_class/CNN/updated_te_rms.csv, ./data/roughness/test/rms_spk.csv]
+  verbosity: 2
+  epochs: 10000
+  K-fold: 10
+  hidden_size: 15
+  min_num_points: 1
+  smote: False
+  
+drop_features:
+...
