@@ -56,8 +56,9 @@ def aggr_window(pixels, window_size=1):
 def organize_data(expert_data, SAR_data, window_size, mask_file):
     feature_li = ["label", "src_dir", "row", "col", "num_points", "mask"]
 
-    mask_raster = rasterio.open(mask_file)
-    mask_arr = mask_raster.read(1)
+    if mask_file:
+        mask_raster = rasterio.open(mask_file)
+        mask_arr = mask_raster.read(1)
 
     ds = gdal.Open(SAR_data["File"])
     raster = rasterio.open(SAR_data["File"])
@@ -73,8 +74,10 @@ def organize_data(expert_data, SAR_data, window_size, mask_file):
             for idx, datum in enumerate(tqdm(expert_data)):
                 if "" in datum:
                     continue
-
-                mask_row, mask_col = get_pixel(gdal.Open(mask_file), datum[0], datum[1])
+                if mask_file:
+                    mask_row, mask_col = get_pixel(
+                        gdal.Open(mask_file), datum[0], datum[1]
+                    )
                 if len(datum) == 3:
                     row, col = get_pixel(ds, datum[0], datum[1])
                 elif len(datum) == 5:
@@ -83,24 +86,44 @@ def organize_data(expert_data, SAR_data, window_size, mask_file):
 
                 try:
                     if (row, col) not in pixels.keys():
-                        try:
-                            pixels[(row, col)] = [
-                                [float(datum[2])],  # label
-                                SAR_data["File"],
-                                row,
-                                col,
-                                1,
-                                int(mask_arr[mask_row, mask_col]),
-                            ] + window(band_arr, row, col, window_size)
-                        except IndexError:
-                            pixels[(row, col)] = [
-                                [float(datum[2])],  # label
-                                SAR_data["File"],
-                                row,
-                                col,
-                                1,
-                                int(mask_arr[mask_row, mask_col]),
-                            ] + [None for _ in range(window_size**2)]
+                        if mask_file:
+                            try:
+                                pixels[(row, col)] = [
+                                    [float(datum[2])],  # label
+                                    SAR_data["File"],
+                                    row,
+                                    col,
+                                    1,
+                                    int(mask_arr[mask_row, mask_col]),
+                                ] + window(band_arr, row, col, window_size)
+                            except IndexError:
+                                pixels[(row, col)] = [
+                                    [float(datum[2])],  # label
+                                    SAR_data["File"],
+                                    row,
+                                    col,
+                                    1,
+                                    int(mask_arr[mask_row, mask_col]),
+                                ] + [None for _ in range(window_size**2)]
+                        else:
+                            try:
+                                pixels[(row, col)] = [
+                                    [float(datum[2])],  # label
+                                    SAR_data["File"],
+                                    row,
+                                    col,
+                                    1,
+                                    0,
+                                ] + window(band_arr, row, col, window_size)
+                            except IndexError:
+                                pixels[(row, col)] = [
+                                    [float(datum[2])],  # label
+                                    SAR_data["File"],
+                                    row,
+                                    col,
+                                    1,
+                                    0,
+                                ] + [None for _ in range(window_size**2)]
                     else:
                         pixels[(row, col)][4] += 1  # num_points
                         pixels[(row, col)][0].append(float(datum[2]))  # label

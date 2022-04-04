@@ -17,7 +17,10 @@ def create_dataset(config_dict, data_split_type):
         lat_idx = file_info["lat"] - 1
         lon_idx = file_info["lon"] - 1
         label_idx = file_info["label"] - 1
-        mask_file = file_info["Mask"]
+        if "Mask" in file_info.keys():
+            mask_file = file_info["Mask"]
+        else:
+            mask_file = None
         try:
             pix_row = file_info["row"] - 1
             pix_col = file_info["col"] - 1
