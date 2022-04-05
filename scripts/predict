@@ -19,7 +19,6 @@ def main(args):
     train_data, test_data, _, _, _, _, _, _, _, CNN_layers, _, _ = config_parser(
         args.ml_config
     )
-    _, cfg_filename, _ = decompose_filepath(args.ml_config)
 
     if type(train_data) != list:
         train_data = [train_data]
@@ -53,7 +52,7 @@ def main(args):
     if type(CNN_stacks_te) == np.ndarray:
         X_te = {"conv": CNN_stacks_te, "cat": X_te}
 
-    checkpoint_path = f"{args.result_dir}/{cfg_filename}/ckpt_{args.checkpoint}"
+    checkpoint_path = f"{args.result_dir}/ckpt_{args.checkpoint}"
     model = load_model(checkpoint_path)
     model.summary()
 
@@ -70,19 +69,15 @@ def main(args):
     output_te_df = te_df.join(predicted_te)
 
     if train_filename.startswith("updated_tr_"):
-        output_tr_df.to_csv(
-            f"{args.result_dir}/{cfg_filename}/{train_filename}.csv", index=False
-        )
-        output_te_df.to_csv(
-            f"{args.result_dir}/{cfg_filename}/{test_filename}.csv", index=False
-        )
+        output_tr_df.to_csv(f"{args.result_dir}/{train_filename}.csv", index=False)
+        output_te_df.to_csv(f"{args.result_dir}/{test_filename}.csv", index=False)
     else:
         output_tr_df.to_csv(
-            f"{args.result_dir}/{cfg_filename}/updated_tr_{train_filename}.csv",
+            f"{args.result_dir}/updated_tr_{train_filename}.csv",
             index=False,
         )
         output_te_df.to_csv(
-            f"{args.result_dir}/{cfg_filename}/updated_te_{test_filename}.csv",
+            f"{args.result_dir}/updated_te_{test_filename}.csv",
             index=False,
         )
 
