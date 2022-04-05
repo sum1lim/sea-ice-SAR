@@ -9,15 +9,15 @@ data = []
 for row in range(100):
     for col in range(100):
         a, b = x, y
-        
+
         a = a - 50 + row
-        b = b - 50 + col 
-        
+        b = b - 50 + col
+
         data.append([a, b, 0, 0, 0])
 
-df = pd.DataFrame(data, columns = ["row", "col", "label","lat", "lon"])
+df = pd.DataFrame(data, columns=["row", "col", "label", "lat", "lon"])
 
-if not os.path.exists('temp'):
-    os.makedirs('temp')
+if not os.path.exists("temp"):
+    os.makedirs("temp")
 
 df.to_csv("./temp/base.csv", index=False)

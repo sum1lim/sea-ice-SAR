@@ -246,7 +246,7 @@ def process_data(
         dataframe = dataframe.query(
             f"(@Q1 - 1.5 * @IQR) <= {label_key} <= (@Q3 + 1.5 * @IQR)"
         )
-        
+
         if regression:
             Y_classes, bins = pandas.cut(dataframe[label_key], bins=25, retbins=True)
             print(bins, file=sys.stdout)
@@ -300,7 +300,7 @@ def process_data(
     Y = dataset[:, 0]
 
     if regression:
-        return X, CNN_dataset, Y
+        return X, CNN_dataset, np.log1p(Y)
     else:
         encoder = LabelEncoder()
         encoder.fit(Y)

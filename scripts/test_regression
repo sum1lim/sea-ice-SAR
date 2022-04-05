@@ -34,9 +34,8 @@ def main(args):
         value_range,
         _,
     ) = config_parser(args.ml_config)
-    _, cfg_filename, _ = decompose_filepath(args.ml_config)
 
-    log_file = open(f"{args.result_dir}/{cfg_filename}/test.log", "w")
+    log_file = open(f"{args.result_dir}/test.log", "w")
     sys.stdout = log_file
 
     # Modify test dataset
@@ -50,6 +49,7 @@ def main(args):
         min_num_points=min_num_points,
         value_range=value_range,
     )
+    Y_te = np.expm1(Y_te)
 
     if type(CNN_stacks) == np.ndarray:
         X_te = {"conv": CNN_stacks, "cat": X_te}
@@ -64,11 +64,12 @@ def main(args):
             file=sys.stdout,
         )
         # Call checkpoint
-        checkpoint_path = f"{args.result_dir}/{cfg_filename}/ckpt_{k+1}"
+        checkpoint_path = f"{args.result_dir}/ckpt_{k+1}"
         trained_model = load_model(checkpoint_path)
 
         # Predict the test dataset
         y_pred = trained_model.predict(X_te, verbose=verbosity).flatten()
+        y_pred = np.expm1(y_pred)
 
         absolute_errors = abs(Y_te - y_pred)
         mean_absolute_error = sum(abs(Y_te - y_pred)) / len(Y_te)
@@ -84,9 +85,7 @@ def main(args):
         print(f"RMSE: {rmse}", file=sys.stdout)
         print(f"R2 Score: {r2}", file=sys.stdout)
         print(f"Pearson's r: {corr_coefficient}", file=sys.stdout)
-        regression_plots(
-            Y_te, y_pred, absolute_errors, f"{args.result_dir}/{cfg_filename}", k
-        )
+        regression_plots(Y_te, y_pred, absolute_errors, f"{args.result_dir}", k)
 
     print(f"\nMimimum MAE: {min(error_li)}", file=sys.stdout)
     print(f"Average MAE: {sum(error_li)/K}", file=sys.stdout)

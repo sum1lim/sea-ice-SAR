@@ -50,9 +50,9 @@ def NN(
     else:
         cat_layer_size = input_layer_size
 
-    hidden_layer_size = calculate_hidden_layer_size(
-        cat_layer_size, output_layer_size, hidden_layer_size
-    )
+    # hidden_layer_size = calculate_hidden_layer_size(
+    #     cat_layer_size, output_layer_size, hidden_layer_size
+    # )
 
     conv_input = Input(shape=(size_2d, size_2d, num_layers, 1), name="conv")
     cat_input = Input(shape=(input_layer_size), name="cat")
