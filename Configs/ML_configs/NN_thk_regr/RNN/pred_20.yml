@@ -1,0 +1,28 @@
+---
+configuration:
+  train_data: [
+    ./results/NN_rms_regr/RNN/recursion_19/updated_tr_rms.csv, 
+    ./data/roughness/train/rms_spk.csv, 
+    ./data/roughness/train/CAE_spk.csv,
+    ./data/roughness/train/HH7.csv,
+    ./data/roughness/train/IA7.csv,
+    ./data/roughness/train/HV7.csv,
+  ]
+  test_data: [
+    ./results/NN_rms_regr/RNN/recursion_19/updated_te_rms.csv, 
+    ./data/roughness/test/rms_spk.csv, 
+    ./data/roughness/test/CAE_spk.csv,
+    ./data/roughness/test/HH7.csv,
+    ./data/roughness/test/IA7.csv,
+    ./data/roughness/test/HV7.csv,
+  ]
+  CNN_layers: [HH7, IA7, HV7]
+  verbosity: 2
+  epochs: 10000
+  K-fold: 1
+  hidden_size: 200
+  min_num_points: 1
+  smote: False 
+
+drop_features:
+...

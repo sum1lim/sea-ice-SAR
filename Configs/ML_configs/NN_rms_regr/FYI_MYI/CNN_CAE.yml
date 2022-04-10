@@ -19,7 +19,7 @@ configuration:
   CNN_layers: [HH7, IA7, HV7]
   verbosity: 2
   epochs: 10000
-  K-fold: 10
+  K-fold: 1
   hidden_size: 200
   min_num_points: 1
   smote: False
