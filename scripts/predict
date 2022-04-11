@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 import argparse
 import tensorflow as tf
 import pandas as pd
@@ -75,9 +76,13 @@ def main(args):
     output_te_df = te_df.join(predicted_te)
 
     if train_filename.startswith("updated_tr_"):
+        os.remove(f"{args.output_dir}/{train_filename}.csv")
+        os.remove(f"{args.output_dir}/{test_filename}.csv")
         output_tr_df.to_csv(f"{args.output_dir}/{train_filename}.csv", index=False)
         output_te_df.to_csv(f"{args.output_dir}/{test_filename}.csv", index=False)
     else:
+        os.remove(f"{args.output_dir}/updated_tr_{train_filename}.csv")
+        os.remove(f"{args.output_dir}/updated_te_{test_filename}.csv")
         output_tr_df.to_csv(
             f"{args.output_dir}/updated_tr_{train_filename}.csv",
             index=False,
