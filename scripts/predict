@@ -65,6 +65,12 @@ def main(args):
 
     tr_df = pd.read_csv(train_data[0])
     te_df = pd.read_csv(test_data[0])
+
+    for label in args.classes:
+        if label in tr_df.columns:
+            tr_df = tr_df.drop(label, axis=1)
+            te_df = te_df.drop(label, axis=1)
+
     output_tr_df = tr_df.join(predicted_tr)
     output_te_df = te_df.join(predicted_te)
 
