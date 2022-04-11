@@ -75,15 +75,15 @@ def main(args):
     output_te_df = te_df.join(predicted_te)
 
     if train_filename.startswith("updated_tr_"):
-        output_tr_df.to_csv(f"{args.result_dir}/{train_filename}.csv", index=False)
-        output_te_df.to_csv(f"{args.result_dir}/{test_filename}.csv", index=False)
+        output_tr_df.to_csv(f"{args.output_dir}/{train_filename}.csv", index=False)
+        output_te_df.to_csv(f"{args.output_dir}/{test_filename}.csv", index=False)
     else:
         output_tr_df.to_csv(
-            f"{args.result_dir}/updated_tr_{train_filename}.csv",
+            f"{args.output_dir}/updated_tr_{train_filename}.csv",
             index=False,
         )
         output_te_df.to_csv(
-            f"{args.result_dir}/updated_te_{test_filename}.csv",
+            f"{args.output_dir}/updated_te_{test_filename}.csv",
             index=False,
         )
 
@@ -95,6 +95,11 @@ if __name__ == "__main__":
         "--result-dir",
         type=str,
         help="Directory path with train results including checkpoint files",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        help="Directory path to output CSV files",
     )
     parser.add_argument(
         "--ml-config",
