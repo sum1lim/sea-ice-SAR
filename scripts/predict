@@ -76,21 +76,19 @@ def main(args):
     output_te_df = te_df.join(predicted_te)
 
     if train_filename.startswith("updated_tr_"):
-        os.remove(f"{args.output_dir}/{train_filename}.csv")
-        os.remove(f"{args.output_dir}/{test_filename}.csv")
-        output_tr_df.to_csv(f"{args.output_dir}/{train_filename}.csv", index=False)
-        output_te_df.to_csv(f"{args.output_dir}/{test_filename}.csv", index=False)
+        output_tr_path = f"{args.output_dir}/{train_filename}.csv"
+        output_te_path = f"{args.output_dir}/{test_filename}.csv"
     else:
-        os.remove(f"{args.output_dir}/updated_tr_{train_filename}.csv")
-        os.remove(f"{args.output_dir}/updated_te_{test_filename}.csv")
-        output_tr_df.to_csv(
-            f"{args.output_dir}/updated_tr_{train_filename}.csv",
-            index=False,
-        )
-        output_te_df.to_csv(
-            f"{args.output_dir}/updated_te_{test_filename}.csv",
-            index=False,
-        )
+        output_tr_path = f"{args.output_dir}/updated_tr_{train_filename}.csv"
+        output_te_path = f"{args.output_dir}/updated_te_{test_filename}.csv"
+
+    if os.path.exists(output_tr_path):
+        os.remove(output_tr_path)
+    if os.path.exists(output_te_path):
+        os.remove(output_te_path)
+
+    output_tr_df.to_csv(output_tr_path, index=False)
+    output_te_df.to_csv(output_te_path, index=False)
 
 
 if __name__ == "__main__":
