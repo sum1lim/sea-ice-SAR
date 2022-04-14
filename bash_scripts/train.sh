@@ -2,8 +2,8 @@
 
 for file in CNN CNN_spk CAE CAE_spk backscatter; do
     echo "************************* NN_type_class/$file *************************" 
-    NN_classification --ml-config ./Configs/ML_configs/NN_type_class/"$file".yml --result-dir ./results/NN_type_class
-    test_classification --ml-config ./Configs/ML_configs/NN_type_class/"$file".yml --result-dir ./results/NN_type_class
+    NN_classification --ml-config ./Configs/ML_configs/NN_type_class/"$file".yml --result-dir ./results/NN_type_class/"$file"
+    test_classification --ml-config ./Configs/ML_configs/NN_type_class/"$file".yml --result-dir ./results/NN_type_class/"$file"
 done
 boxplot --result-dir ./results/NN_type_class/ --model-type classification --methods CNN CNN_spk CAE CAE_spk backscatter
 
