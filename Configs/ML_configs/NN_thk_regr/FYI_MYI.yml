@@ -3,18 +3,20 @@ configuration:
   train_data: [
     ./data/thickness/train/thk.csv, 
     ./data/thickness/train/thk_spk.csv,
-    ./data/thickness/train/HH7_spk.csv,
+    ./data/thickness/train/CAE_spk.csv,
+    ./data/thickness/train/HH7.csv,
     ./data/thickness/train/IA7.csv,
-    ./data/thickness/train/HV7_spk.csv,
+    ./data/thickness/train/HV7.csv,
   ]
   test_data: [
     ./data/thickness/test/thk.csv, 
     ./data/thickness/test/thk_spk.csv,
-    ./data/thickness/test/HH7_spk.csv,
+    ./data/thickness/test/CAE_spk.csv,
+    ./data/thickness/test/HH7.csv,
     ./data/thickness/test/IA7.csv,
-    ./data/thickness/test/HV7_spk.csv,
+    ./data/thickness/test/HV7.csv,
   ]
-  CNN_layers: [HH7_spk, IA7, HV7_spk]
+  CNN_layers: [HH7, IA7, HV7]
   verbosity: 2
   epochs: 10000
   K-fold: 10

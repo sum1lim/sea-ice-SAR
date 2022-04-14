@@ -1,7 +1,7 @@
 ---
 configuration:
   train_data: [
-    ./data/roughness/train/rms.csv, 
+    ./results/NN_type_class/CNN/updated_tr_rms.csv, 
     ./data/roughness/train/rms_spk.csv,
     ./data/roughness/train/CAE_spk.csv,
     ./data/roughness/train/HH7.csv,
@@ -9,7 +9,7 @@ configuration:
     ./data/roughness/train/HV7.csv,
   ]
   test_data: [
-    ./data/roughness/test/rms.csv, 
+    ./results/NN_type_class/CNN/updated_te_rms.csv, 
     ./data/roughness/test/rms_spk.csv,
     ./data/roughness/test/CAE_spk.csv,
     ./data/roughness/test/HH7.csv,
@@ -19,7 +19,7 @@ configuration:
   CNN_layers: [HH7, IA7, HV7]
   verbosity: 2
   epochs: 10000
-  K-fold: 1
+  K-fold: 10
   hidden_size: 200
   min_num_points: 1
   smote: False
