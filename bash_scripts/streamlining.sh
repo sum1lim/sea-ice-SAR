@@ -20,5 +20,5 @@ for i in {1..100}; do
 done
 
 output_image --input ./tmp/type/updated_tr_dataset.csv --label FYI DFYI MYI --center 9243 9060
-output_image --input ./tmp/rms/updated_tr_dataset.csv --label rms_1 --center 9243 9060
-output_image --input ./tmp/thk/updated_tr_dataset.csv --label thk_1 --center 9243 9060
+output_image --input ./tmp/rms/updated_tr_dataset.csv --label rms_22 --center 9243 9060
+output_image --input ./tmp/thk/updated_tr_dataset.csv --label thk_33 --center 9243 9060
