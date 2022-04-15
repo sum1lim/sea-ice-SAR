@@ -1,0 +1,23 @@
+---
+configuration:
+  smote: False
+  aggregate: True
+  window_size: 1
+  
+train_data: 
+  ./tmp/base.csv:
+    SAR_data: 
+      File: ./data/SAR/20150418_135335.tif
+      Bands:
+        1: HH
+        2: HV
+        3: IA
+    lat: 4
+    lon: 5
+    label: 3
+    row: 1
+    col: 2
+
+output_dir:
+  train_data: ./tmp/dataset.csv
+...

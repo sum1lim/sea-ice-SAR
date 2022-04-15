@@ -1,0 +1,28 @@
+---
+configuration:
+  train_data: [
+    ./tmp/type/updated_tr_thk.csv, 
+    ./tmp/dataset_spk.csv,
+    ./tmp/CAE_spk.csv,
+    ./tmp/HH7.csv,
+    ./tmp/IA7.csv,
+    ./tmp/HV7.csv,
+  ]
+  test_data: [
+    ./tmp/type/updated_te_thk.csv, 
+    ./tmp/dataset_spk.csv,
+    ./tmp/CAE_spk.csv,
+    ./tmp/HH7.csv,
+    ./tmp/IA7.csv,
+    ./tmp/HV7.csv,
+  ]
+  CNN_layers: [HH7, IA7, HV7]
+  verbosity: 2
+  epochs: 10000
+  K-fold: 1
+  hidden_size: 200
+  min_num_points: 1
+  smote: False
+  
+drop_features:
+...

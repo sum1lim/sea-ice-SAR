@@ -83,7 +83,8 @@ def main(args):
         print("ERROR: Configuration file not provided", file=sys.stderr)
 
     create_dataset(config_dict, "train_data")
-    create_dataset(config_dict, "test_data")
+    if "test_data" in config_dict.keys():
+        create_dataset(config_dict, "test_data")
 
 
 if __name__ == "__main__":

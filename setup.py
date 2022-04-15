@@ -26,5 +26,7 @@ setup(
         ./scripts/test_classification
         ./scripts/boxplot
         ./scripts/predict
+        ./scripts/pixel_select
+        ./scripts/output_image
     """.split(),
 )

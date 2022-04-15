@@ -1,0 +1,21 @@
+---
+configuration:
+  smote: False
+  aggregate: True
+  window_size: 7
+  
+train_data: 
+  ./tmp/base.csv:
+    SAR_data: 
+      File: ./data/SAR/20150418_135335_canny.tif
+      Bands:
+        4: HH
+    lat: 4
+    lon: 5
+    label: 3
+    row: 1
+    col: 2
+
+output_dir:
+  train_data: ./tmp/HH7_canny.csv
+...
