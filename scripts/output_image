@@ -8,22 +8,30 @@ from skimage import data, io
 
 def main(args):
     df = pd.read_csv(args.input, header=0)
+    if len(args.label) == 1:
+        df[args.label] = np.expm1(df[args.label])
 
-    output_img = [[0 for _ in range(100)] for _ in range(100)]
+    img = []
+    for label in args.label:
+        layer = [[0 for _ in range(100)] for _ in range(100)]
 
-    for idx, row in df.iterrows():
-        y = row[args.row] - args.center[0] + 50
-        x = row[args.col] - args.center[1] + 50
-        if x > 0 and y > 0 and x < 99 and y < 99:
-            output_img[y][x] = row[args.label]
+        for _, row in df.iterrows():
+            y = row["row"] - args.center[0] + 50
+            x = row["col"] - args.center[1] + 50
+            if x > 0 and y > 0 and x < 99 and y < 99:
+                layer[y][x] = row[label]
 
-    print(output_img)
+        layer = np.array(layer)
 
-    output_img = np.array(output_img)
-    print(output_img)
-    output_img = (output_img - output_img.min()) / (output_img.max() - output_img.min())
+        io.imshow(layer)
+        plt.show()
 
-    io.imshow(output_img)
+        img.append(layer)
+
+    img = np.array(img)
+    img = img.swapaxes(0, 1)
+    img = img.swapaxes(1, 2)
+    io.imshow(img)
     plt.show()
 
 
@@ -36,19 +44,10 @@ if __name__ == "__main__":
         help="Input CSV",
     )
     parser.add_argument(
-        "--row",
-        type=str,
-        help="Name of the Y column",
-    )
-    parser.add_argument(
-        "--col",
-        type=str,
-        help="Name of the X column",
-    )
-    parser.add_argument(
         "--label",
+        nargs="+",
         type=str,
-        help="Name of the label column",
+        help="Name(s) of the label column",
     )
     parser.add_argument(
         "--center",

@@ -18,3 +18,7 @@ for i in {1..100}; do
     echo "************************* RNN_rms_$i *************************" 
     predict --ml-config ./Configs/streamlining_configs/ML/rms/pred.yml --result-dir ./results/NN_rms_regr/RNN/recursion_"$i" --checkpoint 1 --classes rms_"$i" --output-dir ./tmp/rms
 done
+
+output_image --input ./tmp/type/updated_tr_dataset.csv --label FYI DFYI MYI --center 9243 9060
+output_image --input ./tmp/rms/updated_tr_dataset.csv --label rms_1 --center 9243 9060
+output_image --input ./tmp/thk/updated_tr_dataset.csv --label thk_1 --center 9243 9060

@@ -1,16 +1,16 @@
 ---
 configuration:
   train_data: [
-    ./tmp/rms/updated_tr_rms.csv, 
-    ./tmp/rms_spk.csv, 
+    ./tmp/rms/updated_tr_dataset.csv, 
+    ./tmp/dataset_spk.csv, 
     ./tmp/CAE_spk.csv,
     ./tmp/HH7.csv,
     ./tmp/IA7.csv,
     ./tmp/HV7.csv,
   ]
   test_data: [
-    ./tmp/rms/updated_te_rms.csv, 
-    ./tmp/rms_spk.csv, 
+    ./tmp/rms/updated_te_dataset.csv, 
+    ./tmp/dataset_spk.csv, 
     ./tmp/CAE_spk.csv,
     ./tmp/HH7.csv,
     ./tmp/IA7.csv,
