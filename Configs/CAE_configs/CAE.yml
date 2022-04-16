@@ -1,8 +1,8 @@
 ---
 train_dir: [./data/thickness/train, ./data/roughness/train]
 test_dir: [./data/thickness/test, ./data/roughness/test]
-filenames: [HH7_canny, IA7, HV7_canny]
-new_features: [HH7_canny, IA7, HV7_canny]
+filenames: [HH7, IA7, HV7]
+new_features: [HH7, IA7, HV7]
 epochs: 1000
 output_filename: CAE
 min_num_points: 1
