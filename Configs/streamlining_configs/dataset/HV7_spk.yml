@@ -7,7 +7,7 @@ configuration:
 train_data: 
   ./tmp/base.csv:
     SAR_data: 
-      File: ./data/SAR/20150418_135335_canny.tif
+      File: ./data/SAR/20150418_135335_Spk.tif
       Bands:
         5: HV
     lat: 4
@@ -17,5 +17,5 @@ train_data:
     col: 2
 
 output_dir:
-  train_data: ./tmp/HV7_canny.csv
+  train_data: ./tmp/HV7_Spk.csv
 ...

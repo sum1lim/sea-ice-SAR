@@ -1,8 +1,8 @@
 ---
 train_dir: [./tmp]
 test_dir: [./tmp]
-filenames: [HH7_canny, IA7, HV7_canny]
-new_features: [HH7_canny, IA7, HV7_canny]
+filenames: [HH7_Spk, IA7, HV7_Spk]
+new_features: [HH7_Spk, IA7, HV7_Spk]
 epochs: 1000
 output_filename: CAE_spk
 min_num_points: 1

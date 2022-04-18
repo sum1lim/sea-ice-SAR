@@ -3,6 +3,7 @@ configuration:
   train_data: [
     ./tmp/dataset.csv, 
     ./tmp/dataset_Spk.csv,
+    ./tmp/CAE_Spk.csv,
     ./tmp/HH7.csv,
     ./tmp/IA7.csv,
     ./tmp/HV7.csv,
@@ -10,6 +11,7 @@ configuration:
   test_data: [
     ./tmp/dataset.csv, 
     ./tmp/dataset_Spk.csv,
+    ./tmp/CAE_Spk.csv,
     ./tmp/HH7.csv,
     ./tmp/IA7.csv,
     ./tmp/HV7.csv,
