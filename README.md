@@ -31,26 +31,6 @@ pip install -r requirements.txt
 ```
 
 ## Commands
-#### crosspol_ratio
-The command takes two images, HH and HV, and calcualtes HH/HV ratio. The output `tif` image is located in the same directory of the inputs.
-```
-crosspol_ratio --hh ./data/SAR/2015/2015_hh.tif --hv ./data/SAR/2015/2015_hv.tif
-```
-
-#### edge_dection
-The command takes an input image and generates Sobel/Canny edge detection. The output `tif` image is located in the same directory of the inputs.
-```
-# For Sobel edge detection
-edge_detection --input ./data/SAR/2015/2015_hh.tif --method SOBEL
-# For Canny edge detection
-edge_detection --input ./data/SAR/2015/2015_hh.tif --method canny
-```
-
-#### normalize
-A Min-Max normalization on input images. Images for training data provide the minimum and maximum values, and output `tif` images have values in the range of 0 to 1. All inputs should be defined in a configuration file.
-```
-normalize --config ./Configs/normalize.yml
-```
 
 #### create_dataset
 Creates training and test datasets based on the configurations provided.
@@ -59,18 +39,6 @@ Creates training and test datasets based on the configurations provided.
 create_dataset --config ./Configs/Dataset_configs/*
 # To run specific configuration
 create_dataset --config ./Configs/Dataset_configs/roughness_aggr.yml
-```
-
-#### GLCM
-Calcuates GLCM products on the input dataset. Configurations to create the dataset should be provided to locate the images that data columns are sourced from. 
-```
-GLCM --input ./data/thk_te_data/aggr.csv --config ./Configs/Dataset_configs/thickness_aggr.yml --columns hh hv
-```
-
-#### normalize_csv
-A Min-Max normalization on a dataset. The dataset that provides the minimum and maximum values is required.
-```
-normalize_csv --input ./data/thk_te_data/aggr_GLCM.csv --std-data ./data/thk_tr_data/aggr_GLCM.csv
 ```
 
 #### CAE
