@@ -49,7 +49,6 @@ CAE --config ./Configs/CAE_configs/*
 # To run specific configuration
 CAE --config ./Configs/CAE_configs/rms.yml
 ```
-![alt text](https://github.com/sum1lim/sea-ice-SAR/blob/master/images/layer_stacks.png)
 ![alt text](https://github.com/sum1lim/sea-ice-SAR/blob/master/images/CAE.png)
 
 #### NN_regression / NN_classification
