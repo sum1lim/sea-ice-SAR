@@ -1,7 +1,7 @@
 # Deep Learning for Sea Ice Roughness/Thickness Prediction
 Please find the [paper](https://docs.google.com/document/d/e/2PACX-1vT3N8OK0cjIm21M4RgjIf4m52Wd-oUh8m3F8wyCZIC8Sugg1X3fv37H7uICBepNQ1auSP7xMSZSVySE/pub) for further details.
 
-**Author**: [Sangwon Lim](https://github.com/sum1lim) and [Omar Kawach](https://github.com/omarkawach/omarkawach)
+**Authors**: [Sangwon Lim](https://github.com/sum1lim) and [Omar Kawach](https://github.com/omarkawach/omarkawach)
 
 ## Getting Started
 
