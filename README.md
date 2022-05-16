@@ -59,6 +59,7 @@ NN_regression --ml-config ./Configs/ML_configs/NN_rms_regr/FYI/CAE.yml --result-
 NN_classification --ml-config ./Configs/ML_configs/NN_type_class/CAE.yml --result-dir ./results/NN_type_class
 ```
 ![alt text](https://github.com/sum1lim/sea-ice-SAR/blob/master/images/NN.png)
+![alt text](https://github.com/sum1lim/sea-ice-SAR/blob/master/images/CNN.png)
 
 #### test_regression / test_classification
 Testing processes for regression and classification models.
